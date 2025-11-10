@@ -1,0 +1,462 @@
+/* ===============================
+   1. Base Layout & Typography
+   =============================== */
+
+/* Header Container */
+.site-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #000;
+}
+
+.logo-container {
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 60px;
+  width: auto;
+}
+
+/* Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+/* Background Color and Overall Font Setting */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #4b4b4a;
+  color: #f5f5f5;
+}
+
+/* ===============================
+   2. Page Title
+   =============================== */
+.section-header {
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #dddbd6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding-bottom: 0.2rem;
+}
+
+.section-header h3,
+.result-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #463930;
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* ===============================
+  3. How it Works Section
+   =============================== */
+
+.how-it-works {
+  background: #dddbd6;
+  padding: 10px 20px;
+  color: #f5f5f5;
+}
+
+/* How it Works Container */
+.how-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Headings */
+.how-it-works h2 {
+  font-size: 2.6rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #4b4b4a;
+  letter-spacing: 0.5px;
+}
+
+.how-it-works .intro {
+  font-size: 1.2rem;
+  color: #4b4b4a;
+  margin-bottom: 30px;
+}
+
+/* Steps Layout */
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Individual Step */ 
+.step {
+  padding: 40px 30px;
+  width: 200px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/*  Step Hover*/ 
+.step:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Step Icon */
+.step-icon {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  color: #4b4b4a;
+}
+
+/* Step Title */
+.step h3 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #4b4b4a;
+}
+
+/* Step Text */
+.step p {
+  font-size: 1rem;
+  color: #4b4b4a;
+  line-height: 1.6;
+}
+
+/* ===============================
+   4. PAGE NAV SECTION
+   =============================== */
+/*Hides page that is not active*/
+.calculator-section {
+  display: none;
+}
+
+/*Shows page that is active*/
+.calculator-section.active {
+  display: block;
+}
+
+/*Nav Container*/
+.page-nav {
+  display: flex;
+  gap: 24px;
+  padding: 16px 32px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+}
+
+/*Nav Button Formating*/
+.nav-button {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 10px 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+/*Nav Button Hover*/
+.nav-button:hover {
+  color: #E1B12C; /* burnt orange accent */
+}
+/*Nav Button Hover - underlining/moving */
+.nav-button::after {
+  content: '';
+  position: relative;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #E1B12C;
+  transition: width 0.3s ease;
+}
+
+/*Nav Button Hover - transition*/
+.nav-button:hover::after {
+  width: 100%;
+}
+
+/*Nav Current Page Coloring*/
+.nav-button.active {
+  color: #E1B12C;
+  font-weight: 600;
+}
+
+/* Mobile friendly design */
+.page-nav { 
+    flex-direction: row;
+    align-items: center;
+    gap: 36px;
+    padding: 12px 16px;
+  }
+
+
+/* ===============================
+   5.1 KITCHEN CALCULATOR SECTION
+   =============================== */
+/* Calculator Title Format */
+.calculator-container h2 {
+  text-align: center;
+  font-size: 2.5rem; 
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #dddbd6; 
+}
+
+/* KITCHEN - Makes the calculator and Estimate Summary side-by-side */
+.calculator-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 98%;
+  position: relative;
+}
+
+/* Product Price Calculator Title layout */
+.calculator-intro { 
+  text-align: center;
+  font-size: 1rem;
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  color: #dddbd6;
+}
+
+/*Required for proper sizing of calculator section*/
+.calculator-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1rem;
+}
+/* ===============================
+   5.2 KITCHEN Reset ButtonsStyle
+   =============================== */
+
+/* Quick Reset Options Container */
+.calculator-controls {
+  margin-bottom: 20px;
+  padding: 10px;
+  background: #dddbd6;
+  border-radius: 6px;
+}
+
+/* Quick Reset Options Title formating */
+.calculator-controls h3 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #4b4b4a;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 10px;
+}
+
+/* Quick Reset Options Button positioning within container */
+.reset-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* space between buttons */
+  flex-wrap: wrap; /* optional: allows wrapping on smaller screens */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Quick Reset Options Button formating i.e. color/font */
+.calculator-controls button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #000;
+}
+
+/* Quick Reset Options Button hover action */
+.calculator-controls button:hover {
+  background-color: #c3b6ab;
+}
+
+/* ===============================
+   5.3 KITCHEN Form Container
+   =============================== */
+/* Keeps the container centered and moving correctly */
+.calculator-form-wrapper {
+  flex: 2;
+  min-width: 0;
+}
+
+/* Form section containers */
+.calculator-form-wrapper .section {
+  margin-bottom: 50px;
+  padding: 30px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+/* Form section container Titles */
+.section h3 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #463930;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 10px;
+}
+
+/* Form Question Titles */
+.calculator-form-wrapper label {
+  font-weight: 500;
+  color: #463930;
+  display: block;
+  margin-top: 20px;
+}
+/* Form Input formating */
+.calculator-form-wrapper input,
+.calculator-form-wrapper select {
+  width: 98%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #463930;
+}
+
+/* Form input sizing */
+.field-group {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form Placeholder Styling */
+input::placeholder {
+  color: #a0a0a0;
+  font-style: italic;
+}
+
+/* Form Section - error warning*/
+.section-error {
+  color: #c0392b;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* ===============================
+  5.4 KITCHEN Estimate Summary Section
+   ============================== */
+
+/* Estimate Summary container - set to be sticky */
+.sticky-summary {
+  position: sticky;
+  top: 70px; /* Adjust to match the top padding of .calculator-wrapper */
+  z-index: 100;
+  width: 360px;
+  flex: 1;
+  align-self: flex-start;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Estimate Summary - Title formating*/
+.result-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Estimate Summary - "Select your discount level below" format*/
+.dealer-intro {
+  font-size: 1rem;
+  color: #463930;
+  margin-bottom: 0.5rem;
+}
+
+/* Estimate Summary - Sale Group format*/
+.dealer-row label {
+  font-weight: 500;
+  color: #463930;
+  min-width: 100px;
+}
+
+/* Estimate Summary - Dealer type toggle format*/
+#dealer-type {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #463930;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  appearance: none;
+}
+
+/* Estimate Summary - border around price breakdown*/
+.result-card {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Estimate Summary - Total Price line formating*/
+.total-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1A2B3C;
+  margin-bottom: 1rem;
+}
+
+/* Estimate Summary - price breakdown line formating*/
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+/*Estimate Summary - Error Messages*/
+.warning-message {
+  color: #c0392b;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+

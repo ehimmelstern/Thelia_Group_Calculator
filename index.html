@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <title>Calculator</title>
+  <link rel="stylesheet" href="styles.css" >
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="logo-container">
+    <img src="assets/thelia-logo.png" alt="Thelia Group Logo" class="logo">
+  </div>
+</header>
+  
+<!-- Page Title -->
+<div class="section-header">
+  <h2 class="section-title">Price Estimator</h2>
+</div>
+
+<section class="how-it-works" id="how-it-works">
+  <div class="how-container">
+    <h2>How It Works</h2>
+    <p class="intro">Estimate your kitchen price in four simple steps.</p>
+    <div class="steps">
+       <div class="step">
+        <div class="step-icon">🎨</div>
+        <h3>Select Your Finish</h3>
+        <p>Input the price level (0 to 10) located in the pricelist for the finish you have chosen.</p>
+      </div>
+       <div class="step">
+        <div class="step-icon">🫳</div>
+        <h3>Select Your Handle Type</h3>
+        <p>Choose between handles or profiles.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">📏</div>
+        <h3>Provide Your Measurements</h3>
+        <p>Input the right dimensions in each section.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">💰</div>
+        <h3>Get Your Estimate</h3>
+        <p>Select your respective discount and the price will update automatically based on your input.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!------------------------------------ MENU NAVIGATION ------------------------------------->
+<nav class="page-nav">
+  <button class="nav-button" onclick="showCalculator('kitchen')">Kitchens</button>
+  <button class="nav-button" onclick="showCalculator('floor')">Floors</button>
+  <button class="nav-button" onclick="showCalculator('closet')">Closets</button>
+  <button class="nav-button" onclick="showCalculator('bathroom')">Bathrooms</button>
+  <button class="nav-button" onclick="showCalculator('door')">Doors</button>
+</nav>
+    
+  <!--------------------------------------- KITCHEN PAGE ------------------------------------>
+<main>
+
+  <section class="calculator-section" id="kitchen-calculator">
+   <div class="calculator-container">
+     <h2>Kitchen Price Calculator</h2>
+     <p class="calculator-intro"> 
+       Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details.
+     </p>
+     <div class="calculator-layout">
+       <!-- Left: Form -->
+       <div class="calculator-form-wrapper">
+         <!-- Master Reset Controls -->
+         <div class="calculator-controls">
+           <h3>Quick Reset Options</h3>
+           <div class="reset-buttons">
+             <button type="button" onclick="resetAllInputs()">Reset All Inputs</button>
+             <button type="button" onclick="resetFinishLevels()">Reset Finish Levels</button>
+             <button type="button" onclick="resetLinearInches()">Reset Linear Inches</button>
+           </div>
+         </div>
+         <!-- Form Sections -->
+         <form class="calculator-form">
+           <!-- Overall Settings -->
+           <div class="section overall-settings">
+             <h3>Overall Settings</h3>
+             <label for="overall-finish">Overall Price List Level:</label>
+             <select id="overall-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="0">Price List 0</option>
+               <option value="1">Price List 1</option>
+               <option value="2">Price List 2</option>
+               <option value="3">Price List 3</option>
+               <option value="4">Price List 4</option>
+               <option value="5">Price List 5</option>
+               <option value="6">Price List 6</option>
+               <option value="7">Price List 7</option>
+               <option value="8">Price List 8</option>
+               <option value="9">Price List 9</option>
+               <option value="10">Price List 10</option>
+             </select>
+             <label for="overall-style">Handles or Profiles?</label>
+             <select id="overall-style">
+               <option value="" disabled selected>Select an option</option>
+               <option value="handles">Handles</option>
+               <option value="profiles">Profiles</option>
+             </select>
+             <label for="internal-box-finish">Standard Internal Box Finish</label>
+             <select id="internal-box-finish">
+               <option value="Yes">Yes</option>
+               <option value="No">No</option>
+             </select>  
+           </div> 
+           <!-- Base Units -->
+           <div class="section">
+             <h3>Base Units</h3>
+             <label for="base-finish">Finish Level:</label>
+             <select id="base-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="0">Price List 0</option>
+               <option value="1">Price List 1</option>
+               <option value="2">Price List 2</option>
+               <option value="3">Price List 3</option>
+               <option value="4">Price List 4</option>
+               <option value="5">Price List 5</option>
+               <option value="6">Price List 6</option>
+               <option value="7">Price List 7</option>
+               <option value="8">Price List 8</option>
+               <option value="9">Price List 9</option>
+               <option value="10">Price List 10</option>
+             </select>
+             <label for="base-style">Handles or Profiles?</label>
+             <select id="base-style">
+               <option value="" disabled selected>Select an option</option>
+               <option value="handles">Handles</option>
+               <option value="profiles">Profiles</option>
+             </select>
+             <div class="field-group">
+               <label for="base-inches">Total Linear Inches:</label>
+               <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">Do not include island base cabinets in this section. See the Island section below instead.</p>
+               <input type="number" id="base-inches" placeholder="e.g. 36 in" > 
+             </div>
+             <div class="field-group">
+               <label for="base-uncovered">Uncovered Inches (i.e., Appliances):</label>
+               <input type="number" id="base-uncovered" placeholder="e.g. 24 in" >
+             </div>
+             <div class="base-corner-units-input">
+               <label for="base-corner-units">Number of Corner Units:</label>
+               <input type="number" id="base-corner-units" name="base-corner-units" min="0" placeholder="e.g. 2" >
+             </div>
+             <label for="base-le-mans">Include Le Mans Corner?</label>
+             <select id="base-le-mans">
+               <option value="no">No</option>
+               <option value="yes">Yes</option>
+             </select>
+           </div>
+           <div id="corner-error" class="error-message" style="display: none;"></div>
+           <!-- Wall Units -->
+           <div class="section">
+             <h3>Wall Units</h3>
+             <label for="wall-finish">Finish Level:</label>
+             <select id="wall-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="0">Price List 0</option>
+               <option value="1">Price List 1</option>
+               <option value="2">Price List 2</option>
+               <option value="3">Price List 3</option>
+               <option value="4">Price List 4</option>
+               <option value="5">Price List 5</option>
+               <option value="6">Price List 6</option>
+               <option value="7">Price List 7</option>
+               <option value="8">Price List 8</option>
+               <option value="9">Price List 9</option>
+               <option value="10">Price List 10</option>
+             </select>
+             <label for="wall-style">Handles or Profiles?</label>
+             <select id="wall-style">
+               <option value="" disabled selected>Select an option</option>
+               <option value="handles">Handles</option>
+               <option value="profiles">Profiles</option> 
+             </select>
+             <div class="field-group">
+               <label for="wall-inches">Total Linear Inches:</label>
+               <input type="number" id="wall-inches" placeholder="e.g. 10 in" >
+             </div>
+             <div class="field-group">
+               <label for="wall-uncovered">Uncovered Inches (e.g., Appliances):</label>
+               <input type="number" id="wall-uncovered" placeholder="e.g. 2 in" >
+             </div>
+           </div>
+           <!-- Columns -->
+           <div class="section">
+             <h3>Columns</h3>
+             <label for="column-finish">Finish Level:</label>
+             <select id="column-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="0">Price List 0</option>
+               <option value="1">Price List 1</option>
+               <option value="2">Price List 2</option>
+               <option value="3">Price List 3</option>
+               <option value="4">Price List 4</option>
+               <option value="5">Price List 5</option>
+               <option value="6">Price List 6</option>
+               <option value="7">Price List 7</option>
+               <option value="8">Price List 8</option>
+               <option value="9">Price List 9</option>
+               <option value="10">Price List 10</option>
+             </select>
+             <label for="column-style">Handles or Profiles?</label>
+             <select id="column-style">
+               <option value="" disabled selected>Select an option</option>
+               <option value="handles">Handles</option>
+               <option value="profiles">Profiles</option>
+             </select>
+             <div class="field-group">
+               <label for="column-inches">Linear Inches:</label>
+               <input type="number" id="column-inches" placeholder="e.g. 36 in" >
+             </div>
+             <div class="column-corner-units-input">
+               <label for="column-corner-units">Number of Corner Units:</label>
+               <input type="number" id="column-corner-units" name="column-corner-units" min="0" placeholder="e.g. 2" >
+             </div>
+             <div class="column-le-mans-input">
+               <label for="column-le-mans">Include Le Mans Corner?</label> 
+               <select id="column-le-mans">
+                 <option value="no">No</option>
+                 <option value="yes">Yes</option>
+               </select>
+             </div>
+           </div>
+           <!-- Appliance Panels -->
+           <div class="section">
+             <h3>Appliance Panels</h3>
+             <label for="appliance-finish">Finish Level:</label>
+             <select id="appliance-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="0">Price List 0</option>
+               <option value="1">Price List 1</option>
+               <option value="2">Price List 2</option>
+               <option value="3">Price List 3</option>
+               <option value="4">Price List 4</option>
+               <option value="5">Price List 5</option>
+               <option value="6">Price List 6</option>
+               <option value="7">Price List 7</option>
+               <option value="8">Price List 8</option>
+               <option value="9">Price List 9</option>
+               <option value="10">Price List 10</option>
+             </select>
+             <label for="appliance-style">Handles or Profiles?</label>
+             <select id="appliance-style">
+               <option value="" disabled selected>Select an option</option>
+               <option value="handles">Handles</option>
+               <option value="profiles">Profiles</option>
+             </select>
+             <div class="field-group">
+               <label for="fridge-panel">Fridge Panel Square Inches:</label>
+               <input type="number" id="fridge-panel" placeholder="e.g. 120 sqin" >
+               <label for="dishwasher-panels">Number of Dishwasher Panels Required:</label>
+               <input type="number" id="dishwasher-panels" placeholder="e.g. 2" >
+             </div>
+           </div>
+           <!-- Stack Cabinets -->
+           <div class="section">
+             <h3>Stack Cabinets</h3>
+             <label for="stack-finish">Finish Level:</label>
+             <select id="stack-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="0">Price List 0</option>
+               <option value="1">Price List 1</option>
+               <option value="2">Price List 2</option>
+               <option value="3">Price List 3</option>
+               <option value="4">Price List 4</option>
+               <option value="5">Price List 5</option>
+               <option value="6">Price List 6</option>
+               <option value="7">Price List 7</option>
+               <option value="8">Price List 8</option>
+               <option value="9">Price List 9</option>
+               <option value="10">Price List 10</option>
+             </select>
+             <label for="stack-style">Handles or Profiles?</label>
+             <select id="stack-style">
+               <option value="" disabled selected>Select an option</option>
+               <option value="handles">Handles</option>
+               <option value="profiles">Profiles</option>
+             </select>
+             <div class="field-group">
+               <label for="stack-inches">Linear Inches:</label>
+               <input type="number" id="stack-inches" placeholder="e.g. 36 in" >
+             </div>
+           </div>
+           <!-- Island -->
+           <div class="section">
+             <h3>Island</h3>
+             <label for="island-finish">Finish Level:</label>
+             <select id="island-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="0">Price List 0</option>
+               <option value="1">Price List 1</option>
+               <option value="2">Price List 2</option>
+               <option value="3">Price List 3</option>
+               <option value="4">Price List 4</option>
+               <option value="5">Price List 5</option>
+               <option value="6">Price List 6</option>
+               <option value="7">Price List 7</option>
+               <option value="8">Price List 8</option>
+               <option value="9">Price List 9</option>
+               <option value="10">Price List 10</option>
+             </select>
+             <label for="island-style">Handles or Profiles?</label>
+             <select id="island-style">
+               <option value="" disabled selected>Select an option</option>
+               <option value="handles">Handles</option>
+               <option value="profiles">Profiles</option>
+             </select>
+             <label for="island-configuration">Island Configuration?</label>
+             <select id="island-configuration">
+               <option value="">Select configuration</option>
+               <option value="1-sided">1-sided</option>
+               <option value="2-sided">2-sided</option>
+             </select>
+             <select id="back-panel-material" style="display: none;">
+               <option value="">Select back panel material</option>
+               <option value="0">Level 0</option>
+               <option value="1">Level 1</option>
+               <option value="2">Level 2</option>
+               <option value="3">Level 3</option>
+               <option value="4">Level 4</option>
+               <option value="5">Level 5</option>
+               <option value="6">Level 6</option>
+               <option value="7">Level 7</option>
+               <option value="8">Level 8</option>
+               <option value="9">Level 9</option>
+               <option value="10">Level 10</option>
+               <option value="Fenix">Fenix</option>
+               <option value="glass matte">Glass Matte</option>
+               <option value="granite">Granite</option>
+               <option value="Quartz">Quartz</option>
+               <option value="Laminate">Laminate</option>
+               <option value="Porcelain">Porcelain</option>
+               <option value="stainless">Stainless</option>
+             </select>
+             <div class="field-group">
+               <label for="island-inches">Total Linear Inches:</label>
+               <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">Make sure these base cabinets are not already accounted for in your "base" section.</p>
+               <input type="number" id="island-inches" placeholder="e.g. 60 in" >
+             </div>
+           </div>
+           <!-- Countertop & Backsplash -->
+           <div class="section">
+             <h3>Countertop & Backsplash </h3>
+             <div id="countertop-explanation" style="color: black; margin-top: 20px; font-size: 0.95rem;">
+    Default countertop thickness set to 2cm. For a more detailed quote contact Thelia Group.
+             </div>
+             <div class="countertop">
+               <label for="countertop-material">Countertop Material:</label>
+               <select id="countertop-material" name="countertop-material"> 
+                 <option value="none" selected>Not Applicable</option>
+                 <option value="fenix">Fenix</option>
+                 <option value="glass">Glass Matte</option>
+                 <option value="granite">Granite</option>
+                 <option value="quartz">Quartz</option>
+                 <option value="laminate">Laminate</option>
+                 <option value="porcelain">Porcelain</option>
+                 <option value="stainless">Stainless Steel</option>
+               </select>
+             </div>
+             <div class="field-group">
+               <label for="countertop-sqin">Countertop Square Inches:</label>
+               <input type="number" id="countertop-sqin" placeholder="e.g. 12 sqin" >
+             </div>
+             <label for="waterfall-material">Waterfall Material</label>
+             <select id="waterfall-material">
+               <option value="Same as Base">Same as Base Cabinets</option>
+               <option value="fenix">Fenix</option>
+               <option value="granite">Granite</option>
+               <option value="quartz">Quartz</option>
+               <option value="laminate">Laminate</option>
+               <option value="porcelain">Porcelain</option>
+               <option value="stainless">Stainless</option>
+             </select>
+             <div class="field-group">
+               <label for="waterfall-sqin">Waterfall Square Inches (if applicable):</label>
+               <input type="number" id="waterfall-sqin" placeholder="e.g. 60 sqin" >
+             </div>
+             <div class="backsplash">
+               <label for="backsplash-material">Backsplash Material:</label>
+               <select id="backsplash-material" name="backsplash-material">
+                 <option value="none" selected>Not Applicable</option>
+                 <option value="fenix">Fenix</option>
+                 <option value="glass">Glass Matte</option>
+                 <option value="granite">Granite</option>
+                 <option value="quartz">Quartz</option>
+                 <option value="laminate">Laminate</option>
+                 <option value="porcelain">Porcelain</option>
+                 <option value="stainless">Stainless Steel</option>
+               </select>
+             </div>
+             <div class="field-group">
+               <label for="backsplash-sqin">Backsplash Square Inches (if applicable):</label>
+               <input type="number" id="backsplash-sqin" placeholder="e.g. 100 sqin" >
+             </div>
+           </div>
+           <!-- Shelves -->
+           <div class="section">
+             <h3>Shelves</h3>
+             <label for="shelf-finish">Finish Level:</label>
+             <select id="shelf-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="0">Price List 0</option>
+               <option value="1">Price List 1</option>
+               <option value="2">Price List 2</option>
+               <option value="3">Price List 3</option>
+               <option value="4">Price List 4</option>
+               <option value="5">Price List 5</option>
+               <option value="6">Price List 6</option>
+               <option value="7">Price List 7</option>
+               <option value="8">Price List 8</option>
+               <option value="9">Price List 9</option>
+               <option value="10">Price List 10</option>
+             </select>
+             <div class="field-group">
+               <label for="shelf-inches">Total Shelves Linear Inches:</label>
+               <input type="number" id="shelf-inches" placeholder="e.g. 24 in" >
+             </div> 
+           </div>
+           <!-- Lighting -->
+           <div class="section">
+             <h3>Lighting</h3> 
+             <div class="field-group">
+               <label for="lighting-inches">Linear Inches of Lighting:</label>
+               <input type="number" id="lighting-inches" placeholder="e.g. 20 in" >
+               <div id="transformer-estimate" style="margin-top: 25px; font-weight: 600; color:#333;">
+          Automatic calculation - Estimated number of transformers required: <span id="transformer-count" style="font-weight: 1000;">0</span>
+               </div>
+             </div>
+           </div>
+           <!-- Profiles & Toe Kicks -->
+           <div class="section">
+             <h3>Profiles & Toe Kicks</h3>
+             <div class="field-group">
+               <div id="profile-estimate" style="margin-top: 25px; font-weight: 600; color: #333;">
+            Automatic calculation – Estimated linear inches of profile required: <span id="profile-inches" style="font-weight: 1000;">0</span>
+               </div>
+               <div id="toe-kick-estimate" style="margin-top: 25px; font-weight: 600; color: #333;">
+            Automatic calculation – Estimated linear inches of toe kicks required: <span id="toe-kick-inches" style="font-weight: 1000;">0</span>
+               </div>
+             </div>
+           </div>
+         </form>
+       </div>
+       <!-- Right: Sticky Price Breakdown -->
+       <!-- Result Section --> 
+       <aside class="sticky-summary" id="sticky-result">
+         <div class = "section header">
+           <h3 class="result-title">Estimate Summary</h3> 
+         </div>
+         <!--Dealer Type Toggle -->
+         <div class="dealer-section">
+           <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+           <div class="dealer-row">
+             <label for="dealer-type">SALE GROUP:</label>
+             <select id="dealer-type">
+               <option value="retail">Suggested Retail</option>
+               <option value="advanced">Level 1 - Advanced Dealer</option>
+               <option value="preferred">Level 2 - Preferred Dealer</option>
+               <option value="elite">Level 3 -  Elite Dealer</option>
+               <option value="builder">Builder</option>
+               <option value="designer">Designer</option>
+               <option value="none">No Discount</option>
+             </select>
+           </div>
+           <div id="calculator-warning" class="warning-message"></div>
+           <div class="result-card">
+             <div class="total-line">
+               <span>Total Price</span>
+               <span id="price-result" class="total-price">$0.00</span>
+             </div>
+             <div id="price-breakdown" class="breakdown-list">
+               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Corner Accessories</span><span id="corner-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Appliance Panels</span><span id="appliance-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Countertop & Backsplash</span><span id="surface-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Shelves</span><span id="shelves-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Lighting</span><span id="lighting-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Profiles + Toe Kicks</span><span id="profiles-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="custom-duties-amount">$0.00</span></div>
+             </div>
+           </div> 
+           <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+           </div>
+         </div>
+       </aside>
+     </div>
+   </div>
+  </section>
+
+
+    <!-------------------------------CLOSE OF KITCHEN CONTAINER----------------------------------->
+
+  <!-------------------------------START OF FLOOR CONTAINER--------------------------------------->
+
+  <section class="calculator-section" id="floor-calculator">
+    <div class="calculator-container">
+     <h2>Floor Price Calculator</h2>
+     <p class="calculator-intro">
+       Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details.
+     </p>
+     <div class="calculator-layout">
+       <!-- Left: Form -->
+       <div class="calculator-form-wrapper">
+         <!-- Master Reset Controls -->
+         <div class="calculator-controls">
+           <h3>Quick Reset Options</h3>
+           <div class="reset-buttons">
+             <button type="button" onclick="resetAllInputs()">Reset All Inputs</button>
+             <button type="button" onclick="resetFinishLevels()">Reset Finish Levels</button>
+             <button type="button" onclick="resetLinearInches()">Reset Linear Inches</button>
+           </div>
+         </div>
+         <!-- Form Sections -->
+         <form class="calculator-form">
+           <!-- Overall Settings -->
+           <div class="section overall-settings">
+             <h3>Make Your Selection</h3>
+             <label for="overall-finish">TBD</label>
+             <select id="overall-finish">
+               <option value="" disabled selected>TBD</option>
+             </select>
+           </div> 
+           <!-- Base Units -->
+           <div class="section">
+             <h3>TBD</h3>
+             <label for="base-finish">TBD:</label>
+             <select id="base-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="TBD">TBD</option>
+             </select>
+           </div>
+         </form>
+       </div>
+       <!-- Right: Sticky Price Breakdown -->
+       <!-- Result Section --> 
+       <aside class="sticky-summary" id="sticky-result">
+         <div class = "section header">
+           <h3 class="result-title">Estimate Summary</h3> 
+         </div>
+         <!--Dealer Type Toggle -->
+         <div class="dealer-section">
+           <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+           <div class="dealer-row">
+             <label for="dealer-type">SALE GROUP:</label>
+             <select id="dealer-type">
+               <option value="retail">Suggested Retail</option>
+               <option value="advanced">Level 1 - Advanced Dealer</option>
+               <option value="preferred">Level 2 - Preferred Dealer</option>
+               <option value="elite">Level 3 -  Elite Dealer</option>
+               <option value="builder">Builder</option>
+               <option value="designer">Designer</option>
+               <option value="none">No Discount</option>
+             </select>
+           </div>
+           <div id="calculator-warning" class="warning-message"></div>
+           <div class="result-card">
+             <div class="total-line">
+               <span>Total Price</span>
+               <span id="price-result" class="total-price">$0.00</span>
+             </div>
+             <div id="price-breakdown" class="breakdown-list">
+               <div class="breakdown-row"><span>Drawers</span><span id="drawers-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Hanging</span><span id="hanging-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Accessories</span><span id="closet-accessories-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Shelves</span><span id="shelves-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Lighting</span><span id="lighting-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Mirrors & Doors</span><span id="mirror-and-doors-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="closet-custom-duties-amount">$0.00</span></div>
+             </div>
+           </div> 
+           <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+           </div>
+         </div>
+       </aside>
+     </div>
+   </div>
+
+  </section>
+
+  <!--CLOSE OF FLOOR CONTAINER-->
+  
+  
+  
+  <!-------------------------------START OF CLOSET CONTAINER--------------------------------------->
+
+  <section class="calculator-section" id="closet-calculator">
+    <div class="calculator-container">
+     <h2>Closet Price Calculator</h2>
+     <p class="calculator-intro" style="color: darkred; font-weight: bold;">
+       ⚠️ This is a work in progress, please come back later. ⚠️
+        <!--Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details. -->
+     </p>
+     <div class="calculator-layout">
+       <!-- Left: Form -->
+       <div class="calculator-form-wrapper">
+         <!-- Master Reset Controls -->
+         <div class="calculator-controls">
+           <h3>Quick Reset Options</h3>
+           <div class="reset-buttons">
+             <button type="button" onclick="resetAllInputs()">Reset All Inputs</button>
+             <button type="button" onclick="resetFinishLevels()">Reset Finish Levels</button>
+             <button type="button" onclick="resetLinearInches()">Reset Linear Inches</button>
+           </div>
+         </div>
+         <!-- Form Sections -->
+         <form class="calculator-form">
+           <!-- Overall Settings -->
+           <div class="section overall-settings">
+             <h3>Overall Settings</h3>
+             <label for="overall-finish">TBD</label>
+             <select id="overall-finish">
+               <option value="" disabled selected>TBD</option>
+             </select>
+           </div> 
+           <!-- Base Units -->
+           <div class="section">
+             <h3>TBD</h3>
+             <label for="base-finish">TBD:</label>
+             <select id="base-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="TBD">TBD</option>
+             </select>
+           </div>
+         </form>
+       </div>
+       <!-- Right: Sticky Price Breakdown -->
+       <!-- Result Section --> 
+       <aside class="sticky-summary" id="sticky-result">
+         <div class = "section header">
+           <h3 class="result-title">Estimate Summary</h3> 
+         </div>
+         <!--Dealer Type Toggle -->
+         <div class="dealer-section">
+           <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+           <div class="dealer-row">
+             <label for="dealer-type">SALE GROUP:</label>
+             <select id="dealer-type">
+               <option value="retail">Suggested Retail</option>
+               <option value="advanced">Level 1 - Advanced Dealer</option>
+               <option value="preferred">Level 2 - Preferred Dealer</option>
+               <option value="elite">Level 3 -  Elite Dealer</option>
+               <option value="builder">Builder</option>
+               <option value="designer">Designer</option>
+               <option value="none">No Discount</option>
+             </select>
+           </div>
+           <div id="calculator-warning" class="warning-message"></div>
+           <div class="result-card">
+             <div class="total-line">
+               <span>Total Price</span>
+               <span id="price-result" class="total-price">$0.00</span>
+             </div>
+             <div id="price-breakdown" class="breakdown-list">
+               <div class="breakdown-row"><span>Drawers</span><span id="drawers-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Hanging</span><span id="hanging-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Accessories</span><span id="closet-accessories-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Shelves</span><span id="shelves-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Lighting</span><span id="lighting-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Mirrors & Doors</span><span id="mirror-and-doors-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="closet-custom-duties-amount">$0.00</span></div>
+             </div>
+           </div> 
+           <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+           </div>
+         </div>
+       </aside>
+     </div>
+   </div>
+
+  </section>
+
+  <!--CLOSE OF CLOSET CONTAINER-->
+
+    <!-------------------------------START OF BATHROOM CONTAINER--------------------------------------->
+
+  <section class="calculator-section" id="bathroom-calculator">
+    <div class="calculator-container">
+     <h2>Bathroom Price Calculator</h2>
+     <p class="calculator-intro" style="color: darkred; font-weight: bold;">
+       ⚠️ This is a work in progress, please come back later. ⚠️
+        <!--Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details. -->
+     </p>
+     <div class="calculator-layout">
+       <!-- Left: Form -->
+       <div class="calculator-form-wrapper">
+         <!-- Master Reset Controls -->
+         <div class="calculator-controls">
+           <h3>Quick Reset Options</h3>
+           <div class="reset-buttons">
+             <button type="button" onclick="resetAllInputs()">Reset All Inputs</button>
+             <button type="button" onclick="resetFinishLevels()">Reset Finish Levels</button>
+             <button type="button" onclick="resetLinearInches()">Reset Linear Inches</button>
+           </div>
+         </div>
+         <!-- Form Sections -->
+         <form class="calculator-form">
+           <!-- Overall Settings -->
+           <div class="section overall-settings">
+             <h3>Overall Settings</h3>
+             <label for="overall-finish">TBD</label>
+             <select id="overall-finish">
+               <option value="" disabled selected>TBD</option>
+             </select>
+           </div> 
+           <!-- Base Units -->
+           <div class="section">
+             <h3>TBD</h3>
+             <label for="base-finish">TBD:</label>
+             <select id="base-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="TBD">TBD</option>
+             </select>
+           </div>
+         </form>
+       </div>
+       <!-- Right: Sticky Price Breakdown -->
+       <!-- Result Section --> 
+       <aside class="sticky-summary" id="sticky-result">
+         <div class = "section header">
+           <h3 class="result-title">Estimate Summary</h3> 
+         </div>
+         <!--Dealer Type Toggle -->
+         <div class="dealer-section">
+           <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+           <div class="dealer-row">
+             <label for="dealer-type">SALE GROUP:</label>
+             <select id="dealer-type">
+               <option value="retail">Suggested Retail</option>
+               <option value="advanced">Level 1 - Advanced Dealer</option>
+               <option value="preferred">Level 2 - Preferred Dealer</option>
+               <option value="elite">Level 3 -  Elite Dealer</option>
+               <option value="builder">Builder</option>
+               <option value="designer">Designer</option>
+               <option value="none">No Discount</option>
+             </select>
+           </div>
+           <div id="calculator-warning" class="warning-message"></div>
+           <div class="result-card">
+             <div class="total-line">
+               <span>Total Price</span>
+               <span id="price-result" class="total-price">$0.00</span>
+             </div>
+             <div id="price-breakdown" class="breakdown-list">
+               <div class="breakdown-row"><span>Drawers</span><span id="drawers-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Hanging</span><span id="hanging-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Accessories</span><span id="closet-accessories-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Shelves</span><span id="shelves-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Lighting</span><span id="lighting-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Mirrors & Doors</span><span id="mirror-and-doors-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="closet-custom-duties-amount">$0.00</span></div>
+             </div>
+           </div> 
+           <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+           </div>
+         </div>
+       </aside>
+     </div>
+   </div>
+
+  </section>
+
+  <!--CLOSE OF BATHROOM CONTAINER-->
+  
+    <!-------------------------------START OF DOOR CONTAINER--------------------------------------->
+
+  <section class="calculator-section" id="door-calculator">
+    <div class="calculator-container">
+     <h2>Door Price Calculator</h2>
+     <p class="calculator-intro" style="color: darkred; font-weight: bold;">
+       ⚠️ This is a work in progress, please come back later. ⚠️
+        <!--Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details. -->
+     </p>
+     <div class="calculator-layout">
+       <!-- Left: Form -->
+       <div class="calculator-form-wrapper">
+         <!-- Master Reset Controls -->
+         <div class="calculator-controls">
+           <h3>Quick Reset Options</h3>
+           <div class="reset-buttons">
+             <button type="button" onclick="resetAllInputs()">Reset All Inputs</button>
+             <button type="button" onclick="resetFinishLevels()">Reset Finish Levels</button>
+             <button type="button" onclick="resetLinearInches()">Reset Linear Inches</button>
+           </div>
+         </div>
+         <!-- Form Sections -->
+         <form class="calculator-form">
+           <!-- Overall Settings -->
+           <div class="section overall-settings">
+             <h3>Overall Settings</h3>
+             <label for="overall-finish">TBD</label>
+             <select id="overall-finish">
+               <option value="" disabled selected>TBD</option>
+             </select>
+           </div> 
+           <!-- Base Units -->
+           <div class="section">
+             <h3>TBD</h3>
+             <label for="base-finish">TBD:</label>
+             <select id="base-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="TBD">TBD</option>
+             </select>
+           </div>
+         </form>
+       </div>
+       <!-- Right: Sticky Price Breakdown -->
+       <!-- Result Section --> 
+       <aside class="sticky-summary" id="sticky-result">
+         <div class = "section header">
+           <h3 class="result-title">Estimate Summary</h3> 
+         </div>
+         <!--Dealer Type Toggle -->
+         <div class="dealer-section">
+           <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+           <div class="dealer-row">
+             <label for="dealer-type">SALE GROUP:</label>
+             <select id="dealer-type">
+               <option value="retail">Suggested Retail</option>
+               <option value="advanced">Level 1 - Advanced Dealer</option>
+               <option value="preferred">Level 2 - Preferred Dealer</option>
+               <option value="elite">Level 3 -  Elite Dealer</option>
+               <option value="builder">Builder</option>
+               <option value="designer">Designer</option>
+               <option value="none">No Discount</option>
+             </select>
+           </div>
+           <div id="calculator-warning" class="warning-message"></div>
+           <div class="result-card">
+             <div class="total-line">
+               <span>Total Price</span>
+               <span id="price-result" class="total-price">$0.00</span>
+             </div>
+             <div id="price-breakdown" class="breakdown-list">
+               <div class="breakdown-row"><span>Drawers</span><span id="drawers-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Hanging</span><span id="hanging-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Accessories</span><span id="closet-accessories-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Shelves</span><span id="shelves-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Lighting</span><span id="lighting-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Mirrors & Doors</span><span id="mirror-and-doors-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="closet-custom-duties-amount">$0.00</span></div>
+             </div>
+           </div> 
+           <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+           </div>
+         </div>
+       </aside>
+     </div>
+   </div>
+
+  </section>
+
+  <!--CLOSE OF DOOR CONTAINER-->
+  
+  
+</main>
+      
+      
+ 
+<script src="script.js"></script> <!-- ✅ Place this last -->    
+</body>
+</html>
+    
+
+
+
