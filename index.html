@@ -16,57 +16,136 @@
 </header>
   
 <!-- Page Title -->
-<div class="section-header">
+<!--<div class="section-header">
   <h2 class="section-title">Price Estimator</h2>
-</div>
+</div> -->
 
-<section class="how-it-works" id="how-it-works">
-  <div class="how-container">
-    <h2>How It Works</h2>
-    <p class="intro">Estimate your kitchen price in four simple steps.</p>
-    <div class="steps">
-       <div class="step">
-        <div class="step-icon">🎨</div>
-        <h3>Select Your Finish</h3>
-        <p>Input the price level (0 to 10) located in the pricelist for the finish you have chosen.</p>
-      </div>
-       <div class="step">
-        <div class="step-icon">🫳</div>
-        <h3>Select Your Handle Type</h3>
-        <p>Choose between handles or profiles.</p>
-      </div>
-      <div class="step">
-        <div class="step-icon">📏</div>
-        <h3>Provide Your Measurements</h3>
-        <p>Input the right dimensions in each section.</p>
-      </div>
-      <div class="step">
-        <div class="step-icon">💰</div>
-        <h3>Get Your Estimate</h3>
-        <p>Select your respective discount and the price will update automatically based on your input.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!------------------------------------ MENU NAVIGATION ------------------------------------->
+<!------------------------------------ MENU NAVIGATION ------------------------------------->
 <nav class="page-nav">
+  <button class="nav-button" onclick="showCalculator('discount')">Discount Calculator</button>
   <button class="nav-button" onclick="showCalculator('kitchen')">Kitchen</button>
   <button class="nav-button" onclick="showCalculator('floor')">Floor</button>
   <button class="nav-button" onclick="showCalculator('closet')">Closet</button>
   <button class="nav-button" onclick="showCalculator('bathroom')">Bathroom</button>
   <button class="nav-button" onclick="showCalculator('door')">Door</button>
 </nav>
-    
-  <!--------------------------------------- KITCHEN PAGE ------------------------------------>
-<main>
-
-  <section class="calculator-section" id="kitchen-calculator" style="display: block;">
-   <div class="calculator-container">
-     <h2>Kitchen Price Calculator</h2>
-     <p class="calculator-intro"> 
+  
+ <main>
+   <!----------------------------------------DISCOUNT CALCULATOR PAGE----------------------------->
+   
+   <section class="calculator-section" id="discount-calculator" style = "display: block;">
+     <div class = "section-header" id = "section-header">
+       <h2>Discount Calculator</h2>
+       <p class="calculator-intro"> This page is intended to convert the catalog price into your personal price and your potential resale price. Resell values are only a suggestion and can be adjusted based on your customer base.
+       </p>
+     </div>
+       <div class = "calculator-container">
+         <p class = "calculator-bank-space"> </p>
+         <div class="calculator-layout">
+           <!-- Left: Form -->
+           <div class="calculator-form-wrapper">
+             <!-- Form Sections -->
+             <form class="calculator-form">
+               <!-- Patina? -->
+               <div class="section">
+                 <h3>General Information</h3>
+                 <label for="dealer-level">Dealer Level:</label>
+                 <select id="dealer-level">
+                   <option value="" disabled selected>Select Dealer Level</option>
+                   <option value="advanced">Advanced Partner</option>
+                   <option value="preferred">Preferred Partner</option>
+                   <option value="elite">Elite Partner</option>
+                 </select>
+                 <label for="brand">Brand:</label>
+                 <select id="brand">
+                   <option value="" disabled selected>Select Brand</option>
+                   <option value="barausse">Barausse</option>
+                   <option value="lagunasuperfici">Laguna Superfici</option>
+                   <option value="lecomfort">LeComfort</option>
+                   <option value="novacucina">Novacucina</option>
+                   <option value="puntotre">Puntotre</option>
+                   <option value="pianca">Pianca</option>
+                 </select> 
+                 <label for="euro-price">Enter Price:</label>
+                 <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">Static exchange rate valid through December 31, 2025 --> 1€ : $1.15. Please note, all catalog prices are in euros, except for Laguna Superfici which is in dollars.</p>
+                 <div style="display: flex; align-items: center; gap: 10px;">
+                   <span class="currency-symbol">€</span>
+                   <input type="number" id="euro-price" placeholder="€" step="0.01">
+                   <span>OR</span>
+                   <span class="currency-symbol">$</span>
+                   <input type="number" id="dollar-price" placeholder="$" step="0.01">
+                 </div>
+               </div>
+             </form>
+           </div>
+           <!-- Right: Sticky Price Breakdown -->
+           <!-- Result Section --> 
+           <aside class="sticky-summary" id="sticky-result">
+             <div class = "section header">
+               <h3 class="result-title">Price</h3> 
+             </div>
+             <!--Dealer Type Toggle -->
+             <div class="dealer-section">
+               <p class="discount-level"><strong> Discount on the Dollar: x </strong></p>
+               <div class="result-card">
+                 <div class="total-line">
+                   <span>Your Price</span>
+                   <span id="discount-total" class="total-price">$0.00</span>
+                 </div>
+                 <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="catalog-custom-duties-total">+$0.00</span></div>
+                 <p class="duties-statement"><strong> Average Resell Price Including Estimated Custom Duties: </strong></p>
+                 <div id="resell-price-breakdown" class="breakdown-list">
+                   <div class="breakdown-row"><span>Builder</span><span id="builder-MSRP">$0.00</span></div>
+                  <div class="breakdown-row"><span>Designer</span><span id="designer-MSRP">$0.00</span></div>
+                   <div class="breakdown-row"><span>Retail</span><span id="retail-MSRP">$0.00</span></div>
+                 </div>
+               </div> 
+             </div>
+           </aside>
+         </div>
+       </div>
+   </section>
+   <!--------------------------------------- KITCHEN PAGE ------------------------------------>
+   
+   <section class="calculator-section" id="kitchen-calculator" style="display: none;">
+    <div class = "section-header" id = "section-header">
+      <h2>Kitchen Price Calculator</h2>
+      <p class="calculator-intro"> 
        Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details.
-     </p>
+      </p>
+    </div>
+    
+    <section class="how-it-works" id="how-it-works">
+      <div class="how-container">
+      <h2>How It Works</h2>
+      <p class="intro">Estimate your kitchen price in four simple steps.</p>
+      <div class="steps">
+         <div class="step">
+          <div class="step-icon">🎨</div>
+          <h3>Select Your Finish</h3>
+          <p>Input the price level (0 to 10) located in the pricelist for the finish you have chosen.</p>
+        </div>
+         <div class="step">
+          <div class="step-icon">🫳</div>
+          <h3>Select Your Handle Type</h3>
+          <p>Choose between handles or profiles.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">📏</div>
+          <h3>Provide Your Measurements</h3>
+          <p>Input the right dimensions in each section.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">💰</div>
+          <h3>Get Your Estimate</h3>
+          <p>Select your respective discount and the price will update automatically based on your input.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+    
+    <div class="calculator-container">
+     <p class="calculator-blank-space"> </p> <!-- adds a blank space between how to section and reset buttons -->
      <div class="calculator-layout">
        <!-- Left: Form -->
        <div class="calculator-form-wrapper">
@@ -494,216 +573,245 @@
      </div>
    </div>
   </section>
-
-
-    <!-------------------------------CLOSE OF KITCHEN CONTAINER----------------------------------->
-
-  <!-------------------------------START OF FLOOR CONTAINER--------------------------------------->
-
-  <section class="calculator-section" id="floor-calculator" style = "display: none;"> 
-    <div class="calculator-container">
-     <h2>Floor Price Calculator</h2>
-     <p class="calculator-intro">
-       Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details.
-     </p>
-     <div class="calculator-layout">
-       <!-- Left: Form -->
-       <div class="calculator-form-wrapper">
-         <!-- Master Reset Controls -->
-         <div class="calculator-controls">
-           <h3>Quick Reset Options</h3>
-           <div class="reset-buttons">
-             <button onclick="resetAllInputs('floor-calculator', 'floor-price-result')">Reset All Inputs</button>
-             <button onclick="resetFinishLevels('floor-calculator', 'floor-price-result')">Reset Finish Levels</button>
-             <button onclick="resetLinearInches('floor-calculator', 'floor-price-result')">Reset Square Feet</button>
-           </div>
-         </div>
-         <!-- Form Sections -->
-         <form class="calculator-form">
-           <!-- Patina? -->
-           <div class="section">
-             <h3>Flooring Details</h3>
-             <label for="floor-sqft">Floor Square Footage:</label>
-             <input type="number" id="floor-sqft" placeholder="e.g. 120 sqft" >
-              <!-- Wood Grade Selection -->
-             <label for="floor-wood-grade">Wood Grade:</label>
-             <select id="floor-wood-grade">
-               <option value="" disabled selected>Select Wood Grade</option>
-               <option value="prima">Prima (Small Marking)</option>
-               <option value="select">Select (Medium Marking)</option>	
-               <option value="natura">Natura (Large Marking)</option>
-               <option value="patina">Patina</option>	
-             </select>
-             <!-- Finish Selection -->
-             <div id = "standard-finish-wrapper" style = "display: none;">
-               <label for="standard-floor-finish">Flooring Finish:</label>
-               <select id="standard-floor-finish">
-                 <option value="" disabled selected>Select Finish</option>
-                 <option value="adriatico">Adriatico</option>	
-                 <option value="alpino">Alpino</option>	
-                 <option value="ambra">Ambra</option>	
-                 <option value="beige">Beige</option>	
-                 <option value="biancone">Biancone</option>	
-                 <option value="biondo">Biondo</option>	
-                 <option value="brunito">Brunito</option>	
-                 <option value="cadmio">Cadmio</option>	
-                 <option value="canaletto">Canaletto</option>	
-                 <option value="canneto">Canneto</option>	
-                 <option value="carboncino">Carboncino</option>	
-                 <option value="castello">Castello</option>	
-                 <option value="cenere">Cenere</option>	
-                 <option value="cognac">Cognac</option>	
-                 <option value="colle">Colle</option>	
-                 <option value="cortina">Cortina</option>	
-                 <option value="crudo">Crudo</option>	
-                 <option value="dolomia">Dolomia</option>	
-                 <option value="dorato">Dorato</option>	
-                 <option value="ducale">Ducale</option>	
-                 <option value="floren">Floren</option>	
-                 <option value="fosco">Fosco</option>	
-                 <option value="fume">Fume</option>	
-                 <option value="fumo_di_londra">Fumo Di Londra</option>	
-                 <option value="ginepro">Ginepro</option>	
-                 <option value="glace">Glace</option>	
-                 <option value="gorizia">Gorizia</option>	
-                 <option value="grafite">Grafite</option>	
-                 <option value="grigiolondra">Grigiolondra</option>	
-                 <option value="grigioperla">Grigioperla</option>	
-                 <option value="ionio">Ionio</option>	
-                 <option value="istria">Istria</option>	
-                 <option value="mosto">Mosto</option>	
-                 <option value="muschio">Muschio</option>	
-                 <option value="ombra_grigia">Ombra Grigia</option>	
-                 <option value="palon">Palon</option>	
-                 <option value="reno">Reno</option>	
-                 <option value="sabula">Sabula</option>	
-                 <option value="sand">Sand</option>	
-                 <option value="selva">Selva</option>	
-                 <option value="seta">Seta</option>	
-                 <option value="tabaco">Tabaco</option>	
-                 <option value="tannico">Tannico</option>	
-                 <option value="terra_bruciata">Terra Bruciata</option>	
-                 <option value="terra_di_siena">Terra Di Siena</option>	
-                 <option value="therra">Therra</option>	
-                 <option value="tirreno">Tirreno</option>	
-                 <option value="tortora">Tortora</option>	
-                 <option value="vittorio">Vittorio</option>
-               </select>
-             </div>
-             <div id = "patina-finish-wrapper" style = "display: none;">
-               <label for="patina-floor-finish">Flooring Finish:</label>
-               <select id="patina-floor-finish">
-                 <option value="" disabled selected>Select Finish</option>
-                 <option value="cadoro">Cadoro</option>	
-                 <option value="caigo">Caigo</option>	
-                 <option value="campielo">Campielo</option>	
-                 <option value="campo">Campo</option>	
-                 <option value="canal">Canal</option>	
-                 <option value="corso">Corso</option>	
-                 <option value="fondaco">Fondaco</option>	
-                 <option value="loggia">Loggia</option>	
-                 <option value="molino">Molino</option>	
-                 <option value="riva">Riva</option>
-               </select>
-             </div>
-            
-             <!-- Size Selection -->
-             <label for="floor-board-width">Board Width:</label>
-             <select id="floor-board-width">
-               <option value="" disabled selected>Select Width</option>
-               <option value="minimal">Minimal: 5.3"</option>
-               <option value="slim">Slim: 5.9" (7/16" thick only)</option>	
-               <option value="large">Large: 5.9" (5/8" or 3/4" thick)</option>
-               <option value="extra_large">Extra Large: 7.9"</option>	
-               <option value="superior">Superior: 9.6"</option>
-               <option value="space">Space: 11.8"</option>	
-             </select>
-           </div>
-           <div class="section">
-             <h3>Customizations</h3>
-             <div class="toggle-group">
-               <label class="toggle-label" for="floor-custom-brush">Include Custom Brush:</label>
-               <label class="switch">
-                 <input type="checkbox" id="floor-custom-brush">
-                 <span class="slider round"></span>
-               </label>
-             </div>
-             <div class="toggle-group">
-               <label class="toggle-label" for="floor-saw-cut">Include Saw Cut:</label>
-               <label class="switch">
-                 <input type="checkbox" id="floor-saw-cut">
-                 <span class="slider round"></span>
-               </label>
-             </div>
-             <div class="toggle-group">
-               <label class="toggle-label" for="floor-crossed-saw-cut">Include Crossed Saw Cut:</label>
-               <label class="switch">
-                 <input type="checkbox" id="floor-crossed-saw-cut">
-                 <span class="slider round"></span>
-               </label>
-             </div>
-             <div class="toggle-group">
-               <label class="toggle-label" for="floor-aged-effect">Include Aged Effect:</label>
-               <label class="switch">
-                 <input type="checkbox" id="floor-aged-effect">
-                 <span class="slider round"></span>
-               </label>
-             </div>
-             <div class="toggle-group">
-               <label class="toggle-label" for="floor-handmade-planing">Include Handmade Planing:</label>
-               <label class="switch">
-                 <input type="checkbox" id="floor-handmade-planing">
-                 <span class="slider round"></span>
-               </label>
-             </div>
-
-           </div>
-
-         </form>
-       </div>
-       <!-- Right: Sticky Price Breakdown -->
-       <!-- Result Section --> 
-       <aside class="sticky-summary" id="sticky-result">
-         <div class = "section header">
-           <h3 class="result-title">Estimate Summary</h3> 
-         </div>
-         <!--Dealer Type Toggle -->
-         <div class="dealer-section">
-           <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
-           <div class="dealer-row">
-             <label for="dealer-type">SALE GROUP:</label>
-             <select id="floor-dealer-type">
-               <option value="retail">Suggested Retail</option>
-               <option value="advanced">Level 1 - Advanced Dealer</option>
-               <option value="preferred">Level 2 - Preferred Dealer</option>
-               <option value="elite">Level 3 -  Elite Dealer</option>
-               <option value="builder">Builder</option>
-               <option value="designer">Designer</option>
-               <option value="none">No Discount</option>
-             </select>
-           </div>
-           <div id="floor-error-message" class="floor-warning-message"></div>
-           <div class="result-card">
-             <div class="total-line">
-               <span>Total Price</span>
-               <span id="floor-grand-total" class="total-price">$0.00</span>
-             </div>
-             <div id="floor-price-breakdown" class="breakdown-list">
-               <div class="breakdown-row"><span>Floor</span><span id="floor-total">$0.00</span></div>
-              <div class="breakdown-row"><span>Customization Add On</span><span id="floor-custom-total">$0.00</span></div>
-               <div class="breakdown-row"><span>Recommended SqFt Buffer for Cuts</span><span id="floor-additional-buffer-total">$0.00</span></div>
-
-               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="floor-custom-duties-total">$0.00</span></div>
-             </div>
-           </div> 
-           <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
-           </div>
-         </div>
-       </aside>
+   
+   <!-------------------------------CLOSE OF KITCHEN CONTAINER----------------------------------->
+   
+   <!-------------------------------START OF FLOOR CONTAINER--------------------------------------->
+   
+   <section class="calculator-section" id="floor-calculator" style = "display: none;"> 
+     <div class = "section-header" id = "section-header">
+       <h2>Floor Price Calculator</h2>
+       <p class="calculator-intro">
+         Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details.
+       </p>
      </div>
-   </div>
+     
+     <section class="how-it-works" id="how-it-works">
+       <div class="how-container">
+         <h2>How It Works</h2>
+         <p class="intro">Estimate your kitchen price in four simple steps.</p>
+         <div class="steps">
+           <div class="step">
+             <div class="step-icon">📏</div>
+             <h3>Provide Your Measurement</h3>
+             <p>Input the square feet. Please note we've added a 15% buffer of extra material to account for cuts and install material. 
+             </p>
+           </div>
+           <div class="step">
+             <div class="step-icon">🎨 ↔️</div>
+             <h3>Select Your Finish and Board Width</h3>
+             <p>Select the wood grade, finish, and board size you have chosen. Options can be found in the price list. </p>
+           </div>
+           <div class="step">
+             <div class="step-icon">🖌️</div>
+             <h3>Add On Customizations</h3>
+             <p>Add on additional board customizations.</p>
+           </div>
+           <div class="step">
+             <div class="step-icon">💰</div>
+             <h3>Get Your Estimate</h3>
+             <p>Select your respective discount and the price will update automatically based on your input.</p>
+           </div>
+         </div>
+       </div>
+     </section>
+     
+     <div class="calculator-container">
+       <p class="calculator-blank-space"> </p>
+       <div class="calculator-layout">
+         <!-- Left: Form -->
+         <div class="calculator-form-wrapper">
+           <!-- Master Reset Controls -->
+           <div class="calculator-controls">
+             <h3>Quick Reset Options</h3>
+             <div class="reset-buttons">
+               <button onclick="resetAllInputs('floor-calculator', 'floor-grand-total')">Reset All Inputs</button>
+               <button onclick="resetFinishLevels('floor-calculator', 'floor-grand-total')">Reset Finish Levels</button>
+               <button onclick="resetLinearInches('floor-calculator', 'floor-grand-total')">Reset Square Feet</button>
+             </div>
+           </div>
+           <!-- Form Sections -->
+           <form class="calculator-form">
+             <!-- Patina? -->
+             <div class="section">
+               <h3>Flooring Details</h3>
+               <label for="floor-sqft">Floor Square Footage:</label>
+               <input type="number" id="floor-sqft" placeholder="e.g. 120 sqft" >
+                <!-- Wood Grade Selection -->
+               <label for="floor-wood-grade">Wood Grade:</label>
+               <select id="floor-wood-grade">
+                 <option value="" disabled selected>Select Wood Grade</option>
+                 <option value="prima">Prima (Small Marking)</option>
+                 <option value="select">Select (Medium Marking)</option>	
+                 <option value="natura">Natura (Large Marking)</option>
+                 <option value="patina">Patina</option>	
+               </select>
+               <!-- Finish Selection -->
+               <div id = "standard-finish-wrapper" style = "display: none;">
+                 <label for="standard-floor-finish">Flooring Finish:</label>
+                 <select id="standard-floor-finish">
+                   <option value="" disabled selected>Select Finish</option>
+                   <option value="adriatico">Adriatico</option>	
+                   <option value="alpino">Alpino</option>	
+                   <option value="ambra">Ambra</option>	
+                   <option value="beige">Beige</option>	
+                   <option value="biancone">Biancone</option>	
+                   <option value="biondo">Biondo</option>	
+                   <option value="brunito">Brunito</option>	
+                   <option value="cadmio">Cadmio</option>	
+                   <option value="canaletto">Canaletto</option>	
+                   <option value="canneto">Canneto</option>	
+                   <option value="carboncino">Carboncino</option>	
+                   <option value="castello">Castello</option>	
+                   <option value="cenere">Cenere</option>	
+                   <option value="cognac">Cognac</option>	
+                   <option value="colle">Colle</option>	
+                   <option value="cortina">Cortina</option>	
+                   <option value="crudo">Crudo</option>	
+                   <option value="dolomia">Dolomia</option>	
+                   <option value="dorato">Dorato</option>	
+                   <option value="ducale">Ducale</option>	
+                   <option value="floren">Floren</option>	
+                   <option value="fosco">Fosco</option>	
+                   <option value="fume">Fume</option>	
+                   <option value="fumo_di_londra">Fumo Di Londra</option>	
+                   <option value="ginepro">Ginepro</option>	
+                   <option value="glace">Glace</option>	
+                   <option value="gorizia">Gorizia</option>	
+                   <option value="grafite">Grafite</option>	
+                   <option value="grigiolondra">Grigiolondra</option>	
+                   <option value="grigioperla">Grigioperla</option>	
+                   <option value="ionio">Ionio</option>	
+                   <option value="istria">Istria</option>	
+                   <option value="mosto">Mosto</option>	
+                   <option value="muschio">Muschio</option>	
+                   <option value="ombra_grigia">Ombra Grigia</option>	
+                   <option value="palon">Palon</option>	
+                   <option value="reno">Reno</option>	
+                   <option value="sabula">Sabula</option>	
+                   <option value="sand">Sand</option>	
+                   <option value="selva">Selva</option>	
+                   <option value="seta">Seta</option>	
+                   <option value="tabaco">Tabaco</option>	
+                   <option value="tannico">Tannico</option>	
+                   <option value="terra_bruciata">Terra Bruciata</option>	
+                   <option value="terra_di_siena">Terra Di Siena</option>	
+                   <option value="therra">Therra</option>	
+                   <option value="tirreno">Tirreno</option>	
+                   <option value="tortora">Tortora</option>	
+                   <option value="vittorio">Vittorio</option>
+                 </select>
+               </div>
+               <div id = "patina-finish-wrapper" style = "display: none;">
+                 <label for="patina-floor-finish">Flooring Finish:</label>
+                 <select id="patina-floor-finish">
+                   <option value="" disabled selected>Select Finish</option>
+                   <option value="cadoro">Cadoro</option>	
+                   <option value="caigo">Caigo</option>	
+                   <option value="campielo">Campielo</option>	
+                   <option value="campo">Campo</option>	
+                   <option value="canal">Canal</option>	
+                   <option value="corso">Corso</option>	
+                   <option value="fondaco">Fondaco</option>	
+                   <option value="loggia">Loggia</option>	
+                   <option value="molino">Molino</option>	
+                   <option value="riva">Riva</option>
+                 </select>
+               </div>
 
-  </section>
+               <!-- Size Selection -->
+               <label for="floor-board-width">Board Width:</label>
+               <select id="floor-board-width">
+                 <option value="" disabled selected>Select Width</option>
+                 <option value="minimal">Minimal: 5.3"</option>
+                 <option value="slim">Slim: 5.9" (7/16" thick only)</option>	
+                 <option value="large">Large: 5.9" (5/8" or 3/4" thick)</option>
+                 <option value="extra_large">Extra Large: 7.9"</option>	
+                 <option value="superior">Superior: 9.6"</option>
+                 <option value="space">Space: 11.8"</option>	
+               </select>
+             </div>
+             <div class="section">
+               <h3>Customizations</h3>
+               <div class="toggle-group">
+                 <label class="toggle-label" for="floor-custom-brush">Include Custom Brush:</label>
+                 <label class="switch">
+                   <input type="checkbox" id="floor-custom-brush">
+                   <span class="slider round"></span>
+                 </label>
+               </div>
+               <div class="toggle-group">
+                 <label class="toggle-label" for="floor-saw-cut">Include Saw Cut:</label>
+                 <label class="switch">
+                   <input type="checkbox" id="floor-saw-cut">
+                   <span class="slider round"></span>
+                 </label>
+               </div>
+               <div class="toggle-group">
+                 <label class="toggle-label" for="floor-crossed-saw-cut">Include Crossed Saw Cut:</label>
+                 <label class="switch">
+                   <input type="checkbox" id="floor-crossed-saw-cut">
+                   <span class="slider round"></span>
+                 </label>
+               </div>
+               <div class="toggle-group">
+                 <label class="toggle-label" for="floor-aged-effect">Include Aged Effect:</label>
+                 <label class="switch">
+                   <input type="checkbox" id="floor-aged-effect">
+                   <span class="slider round"></span>
+                 </label>
+               </div>
+               <div class="toggle-group">
+                 <label class="toggle-label" for="floor-handmade-planing">Include Handmade Planing:</label>
+                 <label class="switch">
+                   <input type="checkbox" id="floor-handmade-planing">
+                   <span class="slider round"></span>
+                 </label>
+               </div>
+             </div>
+           </form>
+         </div>
+         <!-- Right: Sticky Price Breakdown -->
+         <!-- Result Section --> 
+         <aside class="sticky-summary" id="sticky-result">
+           <div class = "section header">
+             <h3 class="result-title">Estimate Summary</h3>
+           </div>
+           <!--Dealer Type Toggle -->
+           <div class="dealer-section">
+             <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+             <div class="dealer-row">
+               <label for="dealer-type">SALE GROUP:</label>
+               <select id="floor-dealer-type">
+                 <option value="retail">Suggested Retail</option>
+                 <option value="advanced">Level 1 - Advanced Dealer</option>
+                 <option value="preferred">Level 2 - Preferred Dealer</option>
+                 <option value="elite">Level 3 -  Elite Dealer</option>
+                 <option value="builder">Builder</option>
+                 <option value="designer">Designer</option>
+                 <option value="none">No Discount</option>
+               </select>
+             </div>
+             <div id="floor-error-message" class="floor-warning-message"></div>
+             <div class="result-card">
+               <div class="total-line">
+                 <span>Total Price</span>
+                 <span id="floor-grand-total" class="total-price">$0.00</span>
+               </div>
+               <div id="floor-price-breakdown" class="breakdown-list">
+                 <div class="breakdown-row"><span>Floor</span><span id="floor-total">$0.00</span></div>
+                 <div class="breakdown-row"><span>Customization Add On</span><span id="floor-custom-total">$0.00</span></div>
+                 <div class="breakdown-row"><span>Recommended SqFt Buffer for Cuts</span><span id="floor-additional-buffer-total">$0.00</span></div>
+                 <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="floor-custom-duties-total">$0.00</span></div>
+               </div>
+             </div> 
+             <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+             </div>
+           </div>
+         </aside>
+       </div>
+     </div>
+   </section>
 
 
   <!--CLOSE OF FLOOR CONTAINER-->
@@ -719,7 +827,84 @@
        ⚠️ This is a work in progress, please come back later. ⚠️
         <!--Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details. -->
      </p>
-    </div>
+     <div class="calculator-layout">
+       <!-- Left: Form -->
+       <div class="calculator-form-wrapper">
+         <!-- Master Reset Controls -->
+         <div class="calculator-controls">
+           <h3>Quick Reset Options</h3>
+           <div class="reset-buttons">
+             <button type="button" onclick="resetAllInputs()">Reset All Inputs</button>
+             <button type="button" onclick="resetFinishLevels()">Reset Finish Levels</button>
+             <button type="button" onclick="resetLinearInches()">Reset Linear Inches</button>
+           </div>
+         </div>
+         <!-- Form Sections -->
+         <form class="calculator-form">
+           <!-- Overall Settings -->
+           <div class="section overall-settings">
+             <h3>Overall Settings</h3>
+             <label for="overall-finish">TBD</label>
+             <select id="overall-finish">
+               <option value="" disabled selected>TBD</option>
+             </select>
+           </div> 
+           <!-- Base Units -->
+           <div class="section">
+             <h3>TBD</h3>
+             <label for="base-finish">TBD:</label>
+             <select id="base-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="TBD">TBD</option>
+             </select>
+           </div>
+         </form>
+       </div>
+       <!-- Right: Sticky Price Breakdown -->
+       <!-- Result Section --> 
+       <aside class="sticky-summary" id="sticky-result">
+         <div class = "section header">
+           <h3 class="result-title">Estimate Summary</h3> 
+         </div>
+         <!--Dealer Type Toggle -->
+         <div class="dealer-section">
+           <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+           <div class="dealer-row">
+             <label for="dealer-type">SALE GROUP:</label>
+             <select id="dealer-type">
+               <option value="retail">Suggested Retail</option>
+               <option value="advanced">Level 1 - Advanced Dealer</option>
+               <option value="preferred">Level 2 - Preferred Dealer</option>
+               <option value="elite">Level 3 -  Elite Dealer</option>
+               <option value="builder">Builder</option>
+               <option value="designer">Designer</option>
+               <option value="none">No Discount</option>
+             </select>
+           </div>
+       <!--    <div id="calculator-warning" class="warning-message"></div> -->
+           <div class="result-card">
+             <div class="total-line">
+               <span>Total Price</span>
+               <span id="price-result" class="total-price">$0.00</span>
+             </div>
+             <div id="price-breakdown" class="breakdown-list">
+               <div class="breakdown-row"><span>Drawers</span><span id="drawers-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Hanging</span><span id="hanging-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Accessories</span><span id="closet-accessories-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Shelves</span><span id="shelves-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Lighting</span><span id="lighting-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Mirrors & Doors</span><span id="mirror-and-doors-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="closet-custom-duties-amount">$0.00</span></div>
+             </div>
+           </div> 
+           <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+           </div>
+         </div>
+       </aside>
+     </div>
+   </div>
+
   </section>
 
   <!--CLOSE OF CLOSET CONTAINER-->
@@ -733,7 +918,84 @@
        ⚠️ This is a work in progress, please come back later. ⚠️
         <!--Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details. -->
      </p>
-    </div>
+     <div class="calculator-layout">
+       <!-- Left: Form -->
+       <div class="calculator-form-wrapper">
+         <!-- Master Reset Controls -->
+         <div class="calculator-controls">
+           <h3>Quick Reset Options</h3>
+           <div class="reset-buttons">
+             <button type="button" onclick="resetAllInputs()">Reset All Inputs</button>
+             <button type="button" onclick="resetFinishLevels()">Reset Finish Levels</button>
+             <button type="button" onclick="resetLinearInches()">Reset Linear Inches</button>
+           </div>
+         </div>
+         <!-- Form Sections -->
+         <form class="calculator-form">
+           <!-- Overall Settings -->
+           <div class="section overall-settings">
+             <h3>Overall Settings</h3>
+             <label for="overall-finish">TBD</label>
+             <select id="overall-finish">
+               <option value="" disabled selected>TBD</option>
+             </select>
+           </div> 
+           <!-- Base Units -->
+           <div class="section">
+             <h3>TBD</h3>
+             <label for="base-finish">TBD:</label>
+             <select id="base-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="TBD">TBD</option>
+             </select>
+           </div>
+         </form>
+       </div>
+       <!-- Right: Sticky Price Breakdown -->
+       <!-- Result Section --> 
+       <aside class="sticky-summary" id="sticky-result">
+         <div class = "section header">
+           <h3 class="result-title">Estimate Summary</h3> 
+         </div>
+         <!--Dealer Type Toggle -->
+         <div class="dealer-section">
+           <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+           <div class="dealer-row">
+             <label for="dealer-type">SALE GROUP:</label>
+             <select id="dealer-type">
+               <option value="retail">Suggested Retail</option>
+               <option value="advanced">Level 1 - Advanced Dealer</option>
+               <option value="preferred">Level 2 - Preferred Dealer</option>
+               <option value="elite">Level 3 -  Elite Dealer</option>
+               <option value="builder">Builder</option>
+               <option value="designer">Designer</option>
+               <option value="none">No Discount</option>
+             </select>
+           </div>
+        <!--   <div id="calculator-warning" class="warning-message"></div> -->
+           <div class="result-card">
+             <div class="total-line">
+               <span>Total Price</span>
+               <span id="price-result" class="total-price">$0.00</span>
+             </div>
+             <div id="price-breakdown" class="breakdown-list">
+               <div class="breakdown-row"><span>Drawers</span><span id="drawers-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Hanging</span><span id="hanging-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Accessories</span><span id="closet-accessories-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Shelves</span><span id="shelves-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Lighting</span><span id="lighting-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Mirrors & Doors</span><span id="mirror-and-doors-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="closet-custom-duties-amount">$0.00</span></div>
+             </div>
+           </div> 
+           <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+           </div>
+         </div>
+       </aside>
+     </div>
+   </div>
+
   </section>
 
   <!--CLOSE OF BATHROOM CONTAINER-->
@@ -747,7 +1009,84 @@
        ⚠️ This is a work in progress, please come back later. ⚠️
         <!--Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details. -->
      </p>
+     <div class="calculator-layout">
+       <!-- Left: Form -->
+       <div class="calculator-form-wrapper">
+         <!-- Master Reset Controls -->
+         <div class="calculator-controls">
+           <h3>Quick Reset Options</h3>
+           <div class="reset-buttons">
+             <button type="button" onclick="resetAllInputs()">Reset All Inputs</button>
+             <button type="button" onclick="resetFinishLevels()">Reset Finish Levels</button>
+             <button type="button" onclick="resetLinearInches()">Reset Linear Inches</button>
+           </div>
+         </div>
+         <!-- Form Sections -->
+         <form class="calculator-form">
+           <!-- Overall Settings -->
+           <div class="section overall-settings">
+             <h3>Overall Settings</h3>
+             <label for="overall-finish">TBD</label>
+             <select id="overall-finish">
+               <option value="" disabled selected>TBD</option>
+             </select>
+           </div> 
+           <!-- Base Units -->
+           <div class="section">
+             <h3>TBD</h3>
+             <label for="base-finish">TBD:</label>
+             <select id="base-finish">
+               <option value="" disabled selected>Select Price List</option>
+               <option value="TBD">TBD</option>
+             </select>
+           </div>
+         </form>
+       </div>
+       <!-- Right: Sticky Price Breakdown -->
+       <!-- Result Section --> 
+       <aside class="sticky-summary" id="sticky-result">
+         <div class = "section header">
+           <h3 class="result-title">Estimate Summary</h3> 
+         </div>
+         <!--Dealer Type Toggle -->
+         <div class="dealer-section">
+           <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+           <div class="dealer-row">
+             <label for="dealer-type">SALE GROUP:</label>
+             <select id="dealer-type">
+               <option value="retail">Suggested Retail</option>
+               <option value="advanced">Level 1 - Advanced Dealer</option>
+               <option value="preferred">Level 2 - Preferred Dealer</option>
+               <option value="elite">Level 3 -  Elite Dealer</option>
+               <option value="builder">Builder</option>
+               <option value="designer">Designer</option>
+               <option value="none">No Discount</option>
+             </select>
+           </div>
+    <!--       <div id="calculator-warning" class="warning-message"></div> -->
+           <div class="result-card">
+             <div class="total-line">
+               <span>Total Price</span>
+               <span id="price-result" class="total-price">$0.00</span>
+             </div>
+             <div id="price-breakdown" class="breakdown-list">
+               <div class="breakdown-row"><span>Drawers</span><span id="drawers-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Hanging</span><span id="hanging-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Accessories</span><span id="closet-accessories-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Shelves</span><span id="shelves-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Lighting</span><span id="lighting-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Mirrors & Doors</span><span id="mirror-and-doors-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="closet-custom-duties-amount">$0.00</span></div>
+             </div>
+           </div> 
+           <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+           </div>
+         </div>
+       </aside>
+     </div>
    </div>
+
   </section>
 
   <!--CLOSE OF DOOR CONTAINER-->
