@@ -605,7 +605,7 @@ function calculateTotalPrice() {
     elite: 0.75,
     builder: 1.61,
     designer: 1.84,
-    retail: 2.3,
+    retail: 2, 
     none: 1 //converts euros to dollars.
   };
   
@@ -803,27 +803,28 @@ function calculateFloorPrice() {
 
   const requiredFields = [floorWoodGrade, floorFinish, floorWidth];
   const allSelected = requiredFields.every(val => val && val !== '');
-
-  if (!allSelected) {
-    document.getElementById('floor-grand-total').textContent = '$0.00';
-    showFloorError("Missing information: Please fill out every field.");
+  
+  if (allSelected) {
+    const hasPricing =
+    floorPricing[floorWidth] &&
+    floorPricing[floorWidth][floorWoodGrade] &&
+    floorPricing[floorWidth][floorWoodGrade][floorFinish] !== undefined;
+    
+    if (!hasPricing) {
+      resetFloorBreakdownValues();
+      showFloorError("Pricing is not available for the selected combination. Please revise your input.");
+      return;
+    } else{ 
+      clearFloorError();
+    }
+  } else {
+    clearFloorError();
+    resetFloorBreakdownValues();
     return;
   }
   
   const comboKey = `${floorWidth}|${floorWoodGrade}|${floorFinish}`;
-  const hasPricing =
-    floorPricing[floorWidth] &&
-    floorPricing[floorWidth][floorWoodGrade] &&
-    floorPricing[floorWidth][floorWoodGrade][floorFinish] !== undefined;
-
-  if (!hasPricing) {
-    document.getElementById('floor-grand-total').textContent = '$0.00';
-    showFloorError("Pricing is not available for the selected combination. Please revise your input.");
-    return;
-  }
   
-
-
   // ✅ Valid combo
   const unitPrice = floorPricing[floorWidth][floorWoodGrade][floorFinish];
   let floorOnlyPrice = unitPrice * (isNaN(floorSqFt) ? 0 : floorSqFt);
@@ -885,10 +886,6 @@ function calculateFloorPrice() {
   const floorGrandTotal = dealerFloorOnlyPrice + dealerFloorCustomizationTotal + dealerAdditionalBuffer + floorCustomDuties;
   document.getElementById('floor-grand-total').textContent = `$${floorGrandTotal.toFixed(2)}`;
 
-  
-  console.log(dealerType, 'floorOnlyPrice', floorOnlyPrice, 'floorCustomizationTotal: ' , floorCustomizationTotal, 'additionalBuffer: ', additionalBuffer, 'floorCustomDuties: ', floorCustomDuties, 'floorGrandTotal: ', floorGrandTotal);
-console.log(dealerType, 'dealerFloorOnlyPrice: ', dealerFloorOnlyPrice, 'dealerFloorCustomizationTotal: ', dealerFloorCustomizationTotal, 'dealerAdditionalBuffer: ', dealerAdditionalBuffer, 'floorCustomDuties: ', floorCustomDuties, 'floorGrandTotal: ', floorGrandTotal);
-
 }
 
 
@@ -900,3 +897,168 @@ document.querySelectorAll('#floor-calculator select, #floor-calculator input').f
 
 // ✅ Bind dealer-type separately (outside #floor-calculator)
 document.getElementById('floor-dealer-type').addEventListener('change', calculateFloorPrice);
+
+//resets all values to 0 - used after error is triggered
+function resetFloorBreakdownValues() {
+  const ids = [
+    'floor-total',
+    'floor-custom-total',
+    'floor-additional-buffer-total',
+    'floor-custom-duties-total',
+    'floor-grand-total'
+  ];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '$0.00';
+  });
+}
+
+
+//----------------------------------------------------DISCOUNT CALCULATOR C0DE-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Euro <> Dollar conversion
+const euroField = document.getElementById('euro-price');
+const dollarField = document.getElementById('dollar-price');
+const dollarConversionRate = 1.15;
+let activeField = null;
+
+// Track which field is being edited
+euroField.addEventListener('focus', () => activeField = 'euro');
+dollarField.addEventListener('focus', () => activeField = 'dollar');
+
+// Euro → Dollar
+euroField.addEventListener('input', function () {
+  if (activeField !== 'euro') return;
+
+  const euroValue = parseFloat(this.value);
+  if (!isNaN(euroValue)) {
+    dollarField.value = (euroValue * dollarConversionRate).toFixed(2);
+  } else {
+    dollarField.value = '';
+  }
+});
+
+// Dollar → Euro
+dollarField.addEventListener('input', function () {
+  if (activeField !== 'dollar') return;
+
+  const dollarValue = parseFloat(this.value);
+  if (!isNaN(dollarValue)) {
+    euroField.value = (dollarValue / dollarConversionRate).toFixed(2);
+  } else {
+    euroField.value = '';
+  }
+});
+
+//Calculator Discount Logic
+const discountMatrix = {
+  advanced: {
+    novacucina: 0.18,
+    puntotre: 0.32,
+    pianca: 0.27,
+    barausse: 0.30,
+    lecomfort: 0.27,
+    lagunasuperfici: 0.30,
+  },
+  preferred: {
+    novacucina: 0.27,
+    puntotre: 0.35,
+    pianca: 0.32,
+    barausse: 0.35,
+    lecomfort: 0.32,
+    lagunasuperfici: 0.30,
+  },
+  elite: {
+    novacucina: 0.35,
+    puntotre: 0.37,
+    pianca: 0.36,
+    barausse: 0.37,
+    lecomfort: 0.36,
+    lagunasuperfici: 0.30,
+  }
+};
+
+//Calculate Retail Price
+const retailMultipliers = {
+  novacucina: 2.00,
+  puntotre: 1.60,
+  pianca: 1.60,
+  barausse: 1.00,
+  lecomfort: 2.00,
+  lagunasuperfici: 1.00,
+};
+
+//Calculate Designer Price
+const designerMultipliers = {
+  novacucina: 1.60,
+  puntotre: 1.28,
+  pianca: 1.28,
+  barausse: 0.88,
+  lecomfort: 1.40,
+  lagunasuperfici: 0.88,
+};
+
+//Calculate Designer Price
+const builderMultipliers = {
+  novacucina: 1.40,
+  puntotre: 1.12,
+  pianca: 1.12,
+  barausse: 0.85,
+  lecomfort: 1.20,
+  lagunasuperfici: 0.85,
+};
+
+
+
+function calculateDiscountedPrice() {
+  const dealerLevel = document.getElementById('dealer-level').value;
+  const brand = document.getElementById('brand').value;
+  const euroInput = parseFloat(document.getElementById('euro-price').value);
+  const dollarInput = parseFloat(document.getElementById('dollar-price').value);
+
+  // Validate inputs
+  if (!dealerLevel || !brand) return;
+
+  const discountRate = discountMatrix[dealerLevel]?.[brand] ?? 0;
+  const discountLabel = `${Math.round(discountRate * 100)}%`;
+
+  // Determine base price
+  let basePrice;
+  basePrice = isNaN(euroInput) ? 0 : euroInput * 1.15;
+
+  // Calculate discounted price
+  const discountedPrice = basePrice * (1 - discountRate);
+
+  // ✅ Calculate Estimated Duties
+  const estimatedDuties = dollarInput * customDutiesRate; 
+  
+  // ✅ Calculate Retail MSRP
+  const retailMultiplier = retailMultipliers[brand] ?? 1;
+  const retailMSRP = basePrice * retailMultiplier + estimatedDuties;
+  
+    // ✅ Calculate Designer MSRP
+  const designerMultiplier = designerMultipliers[brand] ?? 1;
+  const designerMSRP = basePrice * designerMultiplier + estimatedDuties;
+  
+      // ✅ Calculate Builder MSRP
+  const builderMultiplier = builderMultipliers[brand] ?? 1;
+  const builderMSRP = basePrice * builderMultiplier + estimatedDuties;
+  
+
+  
+
+  // ✅ Update UI
+  document.querySelector('.discount-level strong').textContent = `Discount: ${discountLabel}`;
+  document.getElementById('discount-total').textContent = `$${discountedPrice.toFixed(2)}`;
+  document.getElementById('retail-MSRP').textContent = `$${retailMSRP.toFixed(2)}`;
+  document.getElementById('designer-MSRP').textContent = `$${designerMSRP.toFixed(2)}`;
+  document.getElementById('builder-MSRP').textContent = `$${builderMSRP.toFixed(2)}`;
+    document.getElementById('catalog-custom-duties-total').textContent = `+$${estimatedDuties.toFixed(2)}`;
+}
+
+['dealer-level', 'brand', 'euro-price', 'dollar-price'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calculateDiscountedPrice);
+  document.getElementById(id).addEventListener('change', calculateDiscountedPrice);
+});
+  
+
+
