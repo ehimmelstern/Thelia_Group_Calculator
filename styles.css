@@ -33,8 +33,9 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-	background-color: #4b4b4a;
+ background-color: #4b4b4a;
   color: #f5f5f5;
+}
 
 /* ===============================
    2. Page Title
@@ -77,7 +78,6 @@ body {
 
 /* How it Works Container */
 .how-container {
-  max-width: 1100px;
   margin: 0 auto;
   text-align: center;
 }
@@ -214,17 +214,34 @@ body {
   }
 
 
-/* ===============================
-   5.1 KITCHEN CALCULATOR SECTION
-   =============================== */
-/* Calculator Title Format */
-.calculator-container h2 {
+/* ==================================
+SECTION TITLE FORMAT
+==========================*/
+/* Title Format */
+.section-header h2 {
   text-align: center;
   font-size: 2.5rem; 
   font-weight: 700;
   margin-bottom: 1rem;
   color: #dddbd6; 
 }
+
+/* ==================================
+5. Discount Calculator
+==========================*/
+.currency-symbol {
+  color: #000000;
+  font-weight: 400;
+}
+
+.discount-level strong,
+.duties-statement strong {
+  color: #000;
+}
+
+/* ===============================
+   5.1 KITCHEN CALCULATOR SECTION
+   =============================== */
 
 /* KITCHEN - Makes the calculator and Estimate Summary side-by-side */
 .calculator-layout {
@@ -238,7 +255,7 @@ body {
 }
 
 /* Product Price Calculator Title layout */
-.calculator-intro { 
+.calculator-blank-space { 
   text-align: center;
   font-size: 1rem;
   max-width: 700px;
@@ -336,6 +353,11 @@ body {
   display: block;
   margin-top: 20px;
 }
+
+.calculator-form-wrapper span {
+  color: #000;
+}
+
 /* Form Input formating */
 .calculator-form-wrapper input,
 .calculator-form-wrapper select {
@@ -469,6 +491,16 @@ input::placeholder {
   margin-top: 1rem;
 }
 
+/*#floor-error-message {
+  background-color: #fff8dc;
+  border: 1px solid #b30000;
+  padding: 8px;
+  font-weight: bold;
+  color: #b30000;
+  display: none;
+
+}*/
+
 /*TOGGLE FORMATTIMG*/
 /* Container styling */
 .toggle-group {
@@ -547,6 +579,9 @@ input::placeholder {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
   appearance: none;
 }
+
+
+
 
 
 
