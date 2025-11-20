@@ -329,8 +329,8 @@
                <option value="profiles">Profiles</option>
              </select>
              <div class="field-group">
-               <label for="fridge-panel">Fridge Panel Square Inches:</label>
-               <input type="number" id="fridge-panel" placeholder="e.g. 120 sqin" >
+               <label for="fridge-panel">Fridge Panel Square Feet:</label>
+               <input type="number" id="fridge-panel" placeholder="e.g. 120 sqft" >
                <label for="dishwasher-panels">Number of Dishwasher Panels Required:</label>
                <input type="number" id="dishwasher-panels" placeholder="e.g. 2" >
              </div>
@@ -441,8 +441,8 @@
                </select>
              </div>
              <div class="field-group">
-               <label for="countertop-sqin">Countertop Square Inches:</label>
-               <input type="number" id="countertop-sqin" placeholder="e.g. 12 sqin" >
+               <label for="countertop-sqin">Countertop Square Feet:</label>
+               <input type="number" id="countertop-sqin" placeholder="e.g. 12 sqft" >
              </div>
              <label for="waterfall-material">Waterfall Material</label>
              <select id="waterfall-material">
@@ -455,8 +455,8 @@
                <option value="stainless">Stainless</option>
              </select>
              <div class="field-group">
-               <label for="waterfall-sqin">Waterfall Square Inches (if applicable):</label>
-               <input type="number" id="waterfall-sqin" placeholder="e.g. 60 sqin" >
+               <label for="waterfall-sqin">Waterfall Square Feet (if applicable):</label>
+               <input type="number" id="waterfall-sqin" placeholder="e.g. 60 sqft" >
              </div>
              <div class="backsplash">
                <label for="backsplash-material">Backsplash Material:</label>
@@ -472,8 +472,8 @@
                </select>
              </div>
              <div class="field-group">
-               <label for="backsplash-sqin">Backsplash Square Inches (if applicable):</label>
-               <input type="number" id="backsplash-sqin" placeholder="e.g. 100 sqin" >
+               <label for="backsplash-sqin">Backsplash Square Feet (if applicable):</label>
+               <input type="number" id="backsplash-sqin" placeholder="e.g. 100 sqft" >
              </div>
            </div>
            <!-- Shelves -->
@@ -536,31 +536,28 @@
            <div class="dealer-row">
              <label for="dealer-type">SALE GROUP:</label>
              <select id="dealer-type">
-               <option value="retail">Suggested Retail</option>
                <option value="advanced">Level 1 - Advanced Dealer</option>
                <option value="preferred">Level 2 - Preferred Dealer</option>
                <option value="elite">Level 3 -  Elite Dealer</option>
                <option value="builder">Builder</option>
                <option value="designer">Designer</option>
-               <option value="none">No Discount</option>
+               <option value="retail">Suggested Retail</option>
+            <!--   <option value="none">No Discount</option> -->
              </select>
-           </div>       
-           
+           </div>  
+           <p class="range-explanation">The range below is representative of variations in price which occur based on the level of customization required.</p>           
            <div id="kitchen-calculator-warning" class="warning-message"></div>
            <div class="result-card">
              <div class="total-line">
                <span>Total Price</span>
-               <span id="kitchen-price-result" class="total-price">$0.00</span>
+               <span id="kitchen-price-result" class="total-price">$0.0K - $0.0K</span>
              </div>
              <div id="price-breakdown" class="breakdown-list">
-               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.00</span></div>
-               <div class="breakdown-row"><span>Corner Accessories</span><span id="corner-total">$0.00</span></div>
-               <div class="breakdown-row"><span>Appliance Panels</span><span id="appliance-total">$0.00</span></div>
+               <div class="breakdown-row"><span>Cabinets</span><span id="cabinet-total">$0.0K - $0.0K</span></div>
                <div class="breakdown-row"><span>Countertop & Backsplash</span><span id="surface-total">$0.00</span></div>
                <div class="breakdown-row"><span>Shelves</span><span id="shelves-total">$0.00</span></div>
                <div class="breakdown-row"><span>Lighting</span><span id="lighting-total">$0.00</span></div>
-               <div class="breakdown-row"><span>Profiles + Toe Kicks</span><span id="profiles-total">$0.00</span></div>
-               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="custom-duties-amount">$0.00</span></div>
+               <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="custom-duties-amount">$0.00 - $0.00</span></div>
              </div>
            </div> 
            <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
@@ -591,7 +588,7 @@
            <div class="step">
              <div class="step-icon">📏</div>
              <h3>Provide Your Measurement</h3>
-             <p>Input the square feet. Please note we've added a 15% buffer of extra material to account for cuts and install material. 
+             <p>Input the square feet. You have the option to add additional square feet to take into account wasted material during installation.  
              </p>
            </div>
            <div class="step">
@@ -634,6 +631,9 @@
                <h3>Flooring Details</h3>
                <label for="floor-sqft">Floor Square Footage:</label>
                <input type="number" id="floor-sqft" placeholder="e.g. 120 sqft" >
+               <label for="floor-extra-sqft"> Extra Square Footage for Cuts (%):</label>
+               <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">We recommend adding 15% to project square footage to account for waste during installation process.</p>
+               <input type="number" id="floor-extra-sqft" placeholder="e.g. 15%" >
                 <!-- Wood Grade Selection -->
                <label for="floor-wood-grade">Wood Grade:</label>
                <select id="floor-wood-grade">
@@ -798,7 +798,7 @@
                <div id="floor-price-breakdown" class="breakdown-list">
                  <div class="breakdown-row"><span>Floor</span><span id="floor-total">$0.00</span></div>
                  <div class="breakdown-row"><span>Customization Add On</span><span id="floor-custom-total">$0.00</span></div>
-                 <div class="breakdown-row"><span>Recommended SqFt Buffer for Cuts</span><span id="floor-additional-buffer-total">$0.00</span></div>
+                 <div class="breakdown-row"><span>Additional SqFt Buffer for Cuts</span><span id="floor-additional-buffer-total">$0.00</span></div>
                  <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="floor-custom-duties-total">$0.00</span></div>
                </div>
              </div> 
