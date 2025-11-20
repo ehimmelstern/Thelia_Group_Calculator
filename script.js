@@ -83,6 +83,15 @@ const CalculatorUtils = (() => {
   };
 })();
 
+// ----------------------- FORMAT PRICE RESULTS ---------------------------
+
+function formatShortCurrency(value) {
+  if (value >= 1000) {
+    const short = Math.ceil(value / 100) / 10; // round up to 1 decimal place
+    return `${short.toFixed(1)}K`;
+  }
+  return value.toFixed(2);
+}
 
 //---------------------------------------------------------KITCHEN CODE-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -219,64 +228,66 @@ function resetLinearInches(scopeId, priceId) {
 //CALCULATOR LOGIC
 // Pricing data for Handles
 const pricingHandles = {
-  base: [12.903, 13.493, 14.205, 15.611, 18.985, 21.396, 22.763, 27.775, 29.168, 33.236, 43.882],
-  baseCorner: [295.500, 313.000, 337.000, 387.500, 500.000, 610.000, 790.000, 900.500, 973.000, 1099.000, 1486.500],
-  islandBase: [12.903, 13.493, 14.205, 15.611, 18.985, 21.396, 22.763, 27.775, 29.168, 33.236, 43.882],
-  columns: [27.393, 28.878, 30.895, 35.693, 40.009, 50.259, 57.356, 65.031, 70.594, 79.594, 107.236],
-  columnCorner: [666.500, 734.500, 828.500, 1088.000, 1449.500, 1738.500, 2071.500, 2406.000, 2599.000, 2936.000, 3970.500],
+  base: [15.93, 16.51, 17.34, 18.83, 22.23, 25.18, 29.66, 32.55, 34.98, 38.79, 51.56],
+  islandBase: [15.93, 16.51, 17.34, 18.83, 22.23, 25.18, 29.66, 32.55, 34.98, 38.79, 51.56],
+  baseCorner: [402.42, 421.43, 444.89, 495.15, 606.35, 699.64, 853.09, 953.72, 1030.56, 1164.11, 1574.20],
+  dishwasher: [108.45, 123.36, 139.29, 203.22, 259.79, 340.67, 408.47, 498.54, 538.78, 608.83, 823.28], // price per unit
+  columns: [20.57, 21.71, 23.31, 26.72, 33.31, 37.78, 43.57, 56.21, 60.97, 68.32, 91.62],
+  columnCorner: [534.35, 587.16, 662.67, 866.07, 1149.73, 1375.84, 1607.46, 2151.10, 2529.34, 2847.02, 3865.85],
   stack: [7.753, 8.188, 8.656, 9.705, 12.688, 14.404, 17.533, 19.392, 20.961, 23.680, 31.957],
   wall: [10.378, 11.055, 11.894, 14.030, 17.796, 21.054, 24.650, 28.464, 30.770, 34.762, 46.954],
-  leMansBase: [926.000, 925.500, 925.500, 926.000, 926.500, 907.000, 906.500, 906.500, 979.000, 1106.000, 1495.500],
-  leMansColumn: [1770.500, 1769.000, 1769.500, 1770.500, 1768.000, 1770.000, 1768.500, 1767.500, 1909.000, 2156.500, 2916.000], 
+  leMansBase: [568.20, 568.45, 571.75, 567.03, 582.68, 573.95, 581.62, 555.55, 541.51, 523.30, 624.72],
+  leMansColumn: [1159.81, 1832.01, 1838.00, 1852.93, 1878.44, 1896.66, 1905.71, 1679.07, 1607.83, 1826.32, 2454.32], 
   };
 
 // Pricing data for Profiles
 const pricingProfiles = {
-  base: [13.200, 13.793, 14.488, 15.855, 19.206, 21.569, 25.119, 27.957, 29.344, 33.094, 44.044],
-  baseCorner: [309.500, 326.000, 350.000, 401.500, 514.000, 624.000, 803.500, 914.500, 988.000, 1116.000, 1509.500],
-  islandBase: [13.200, 13.793, 14.488, 15.855, 19.206, 21.569, 25.119, 27.957, 29.344, 33.094, 44.044],
-  columns: [27.609, 29.095, 31.111, 35.099, 44.362, 49.690, 57.572, 65.187, 70.883, 79.770, 107.534],
-  columnCorner: [671.500, 739.500, 833.500, 1093.000, 1454.500, 1743.500, 2076.000, 2411.000, 2604.500, 2942.000, 3978.500],
+  base: [16.37, 16.96, 17.79, 19.27, 22.70, 25.62, 30.11, 33.01, 35.47, 39.33, 52.25],
+  islandBase: [16.37, 16.96, 17.79, 19.27, 22.70, 25.62, 30.11, 33.01, 35.47, 39.33, 52.25],
+  baseCorner: [415.76, 435.11, 458.35, 509.05, 620.58, 712.87, 866.88, 967.85, 1045.68, 1181.23, 1597.32],
+  dishwasher: [239.85, 257.12, 272.51, 327.61, 397.22, 476.85, 566.80, 655.55, 708.45, 800.50, 1082.25], // price per unit
+  columns: [21.62, 22.79, 24.42, 27.89, 34.61, 39.15, 45.09, 57.81, 62.69, 70.27, 94.25],
+  columnCorner: [538.40, 591.35, 666.86, 870.26, 1153.99, 1380.03, 1611.58, 2346.61, 2534.72, 2853.09, 3873.60],
   stack: [8.003, 8.438, 8.906, 9.955, 12.938, 14.654, 17.783, 19.642, 21.211, 23.930, 32.207],
   wall: [11.200, 11.805, 12.748, 14.869, 18.683, 21.909, 25.513, 29.351, 31.714, 35.834, 48.494],
-  leMansBase: [925.500, 926.500, 926.500, 925.500, 927.000, 906.500, 906.500, 906.500, 979.000, 1106.000, 1495.500],
-  leMansColumn: [1770.500, 1769.000, 1769.500, 1770.500, 1768.000, 1770.000, 1769.000, 1768.000, 1909.000, 2157.000, 2917.500],
+  leMansBase: [568.74, 568.78, 572.31, 567.01, 582.58, 574.60, 581.72, 555.44, 540.65, 520.94, 617.86],
+  leMansColumn: [1828.26, 1832.82, 1838.81, 1853.74, 1879.17, 1897.47, 1906.42, 1488.89, 1607.95, 1826.74, 2455.40],
   };
 
 // Shared pricing
 const shelfPrices = [10.000, 10.000, 10.000, 12.500, 12.500, 15.000, 15.000, 15.000, 17.500, 17.500, 17.500];
-const dishwasherPanels = [4.766, 5.418, 6.048, 8.878, 11.418, 15.748, 18.917, 22.376, 24.191, 27.335, 36.939];
-const fridgePanels = [0.156, 0.196, 0.240, 0.407, 0.563, 0.765, 0.950, 1.204, 1.278, 1.535, 2.276];
+//nst dishwasherPanels = [4.766, 5.418, 6.048, 8.878, 11.418, 15.748, 18.917, 22.376, 24.191, 27.335, 36.939];
+const fridgePanels = [22.4, 28.2, 34.6, 58.6, 81, 110.2, 136.8, 173.4, 184, 221, 327.8];
 
-//Countertop and Backsplash pricing
+//Countertop and Backslash pricing
 const countertopPrices = {
-  fenix: 0.38,
-  glass: 3.61,
-  granite: 1.26,
-  quartz: 1.71,
-  laminate: 0.28,
-  porcelain: 1.77,
-  stainless: 0.69,
+  fenix: 55,
+  glass: 520,
+  granite: 181,
+  quartz: 246,
+  laminate: 41,
+  porcelain: 255,
+  stainless: 100,
   none: 0
 };
 
 const waterfallPrices = {
-  fenix: 0.19,
-  granite: 1.6,
-  quartz: 1.46,
-  laminate: 0.22,
-  porcelain: 1.54,
-  stainless: 1.27,
+  fenix: 28,
+  granite: 230,
+  quartz: 210,
+  laminate: 32,
+  porcelain: 222,
+  stainless: 183,
   none: 0
 };
 const backsplashPrices = {
-  fenix: 0.40,
-  glass: 2.23,
-  granite: 1.51,
-  quartz: 1.32,
-  laminate: 0.19,
-  porcelain: 1.45,
-  stainless: 0.63,
+  fenix: 58,
+  glass: 321,
+  granite: 217,
+  quartz: 190,
+  laminate: 28,
+  porcelain: 209,
+  stainless: 90,
   none: 0
 };
 
@@ -287,8 +298,10 @@ const transformerPrice = 140.00;
 const STR_BaseRate = 3.24;
 const STR_WallRate = 5.64;
 const STR_ColumnRate = 8.33;
+const dollarConversion = 1.15;
 const customDutiesRate = 0.10; // number to be applied pre-discount. 
-
+const bufferLOW = 1.15;
+const bufferHIGH = 1.3;
 
 
 // Helper to get pricing array
@@ -342,6 +355,7 @@ function calculateTotalPrice() {
   const wallPricing = getPricing(wallStyle);
   const columnPricing = getPricing(columnStyle);
   const stackPricing = getPricing(stackStyle);
+  const dishwasherPricing = getPricing(applianceStyle);
   
   // Get Level
   const baseLevel = parseInt(getDropdownValue('base-finish'));
@@ -355,7 +369,6 @@ function calculateTotalPrice() {
   const backsplashMaterial = document.getElementById('backsplash-material').value;
   const waterfallMaterial = getDropdownValue('waterfall-material');
 
-  
 
   // Get User Input for Linear Inches
   const baseInches = parseFloat(getDropdownValue('base-inches')) || 0;
@@ -368,7 +381,7 @@ function calculateTotalPrice() {
   const countertopSqIn = parseFloat(getDropdownValue('countertop-sqin')) || 0;
   const waterfallSqIn = parseFloat(getDropdownValue('waterfall-sqin')) || 0;
   const backsplashSqIn = parseFloat(getDropdownValue('backsplash-sqin')) || 0;
-
+  const dishwasherCount = parseInt(getDropdownValue('dishwasher-panels')) || 0;
 
   
   // Base Units Calculations 
@@ -376,7 +389,7 @@ function calculateTotalPrice() {
   const baseLeMans = getDropdownValue('base-le-mans') === 'yes';
   const baseCornerUnits = parseInt(document.getElementById('base-corner-units').value) || 0;
   const baseCornerUnitsPrice = !isNaN(baseCornerUnits) ? basePricing.baseCorner[baseLevel] * baseCornerUnits : 0; //corner unit pricing
-  const baseNetInches = Math.max(0, baseInches - baseUncovered - (baseCornerUnits * 20.67)); //adjusted net inches exl. island base cabinets
+  const baseNetInches = Math.max(0, baseInches - baseUncovered - (baseCornerUnits * 72.45)); //adjusted net inches exl. island base cabinets
   const basePrice = !isNaN(baseLevel) ? (basePricing.base[baseLevel] * baseNetInches) : 0; 
   
     //island logic
@@ -442,11 +455,8 @@ function calculateTotalPrice() {
   
   const backsplashTotal = backsplashSqIn > 0 ? backsplashSqIn * backsplashPrices[backsplashMaterial] : 0;
   const surfaceTotal = countertopTotal + waterfallTotal + backsplashTotal;
-
   
-  // Appliance Panels  
-  const dishwasherCount = parseInt(getDropdownValue('dishwasher-panels')) || 0;
-  const dishwasherTotal = !isNaN(applianceLevel) ? dishwasherCount * dishwasherPanels[applianceLevel] * 20.67: 0;
+  const dishwasherTotal = !isNaN(dishwasherCount) ? dishwasherPricing.dishwasher[applianceLevel]*dishwasherCount : 0;
 
   const fridgeSqIn = parseFloat(getDropdownValue('fridge-panel')) || 0;
   const fridgeTotal = !isNaN(applianceLevel) ? fridgeSqIn * fridgePanels[applianceLevel] : 0;
@@ -493,6 +503,8 @@ function calculateTotalPrice() {
   // Base Units
   if (baseInches > 0 && baseStyle) {
     cabinetTotal += basePrice + baseCornerUnitsPrice;
+ //   console.log('basePrice: ', basePrice);
+//    console.log('baseCornerUnitsPrice: ', baseCornerUnitsPrice);
   } else if (baseInches > 0 && !baseStyle) {
     CalculatorUtils.showSectionError('base-style', 'Please select "Handles or Profiles" for Base Units.');
     hasError = true;
@@ -543,10 +555,11 @@ function calculateTotalPrice() {
   }
 
   //Corner Accessory Total
-    let cornerAccessoriesTotal = 0;
   
     if (baseInches > 0 && baseStyle && baseLeMans && baseCornerUnits > 0) {
-      cornerAccessoriesTotal += leMansBaseTotal;
+      cabinetTotal += leMansBaseTotal;
+     // cornerAccessoriesTotal += leMansBaseTotal;
+ //     console.log('LeMansBaseTotal: ', leMansBaseTotal);
     } else if (baseInches > 0 && baseLeMans && (!baseStyle || baseCornerUnits === 0)) {
       if (!baseStyle) {
         CalculatorUtils.showSectionError('base-style', 'Handles or Profiles required for Le Mans Base Corner.');
@@ -558,7 +571,8 @@ function calculateTotalPrice() {
     }
 
     if (columnInches > 0 && columnStyle && columnLeMans && columnCornerUnits > 0) {
-      cornerAccessoriesTotal += leMansColumnTotal;
+     cabinetTotal += leMansColumnTotal;
+ //     console.log('LeMansColumnTotal: ', leMansColumnTotal);
     } else if (columnInches > 0 && columnLeMans && (!columnStyle || columnCornerUnits === 0)) {
       if(!columnStyle) {
         CalculatorUtils.showSectionError('column-style', 'Handles or Profiles required for Le Mans Column Corner.');
@@ -570,17 +584,17 @@ function calculateTotalPrice() {
     }
 
   //Appliance Panel Total
-    let appliancePanelsTotal = 0;
-
     if (dishwasherCount > 0 && !isNaN(applianceLevel)) {
-      appliancePanelsTotal += dishwasherTotal;
+      cabinetTotal += dishwasherTotal;
+  //    console.log('DishwasherTotal: ', dishwasherTotal);
     } else if (dishwasherCount > 0 && !applianceLevel) {
       CalculatorUtils.showSectionError('appliance-finish', 'Finish level required for Dishwasher Panels.');
        hasError = true;
     }
 
     if (fridgeSqIn > 0 && !isNaN(applianceLevel)) {
-      appliancePanelsTotal += fridgeTotal;
+      cabinetTotal += fridgeTotal;
+ //     console.log('fridgeTotal: ', fridgeTotal);
     } else if (fridgeSqIn > 0 && !applianceLevel) {
       CalculatorUtils.showSectionError('appliance-finish', 'Finish level required for Fridge Panel.');
        hasError = true;
@@ -588,15 +602,35 @@ function calculateTotalPrice() {
 
   const lightingCombinedTotal = lightingTotal + transformerTotal;
   const profilesToeKicksTotal = profileTotal + toeKickTotal;
+  cabinetTotal += profilesToeKicksTotal;
+  console.log('profileToeKicksTotal: ', profilesToeKicksTotal);
+
 
   if (hasError) {
   CalculatorUtils.showGlobalWarning('Missing information: Please correct the missing selections to calculate your estimate.');
   document.getElementById('kitchen-price-result').textContent = '$0.00';
   return;
 }
-  let totalPricePreDuties = cabinetTotal + internalBoxTotal + cornerAccessoriesTotal + appliancePanelsTotal + shelfTotal + lightingCombinedTotal + profilesToeKicksTotal + surfaceTotal; // MASTER TOTAL
+  let totalEuroPricePreDuties = (cabinetTotal * bufferLOW) + internalBoxTotal + shelfTotal + lightingCombinedTotal + surfaceTotal; 
+  const estimatedDuties = totalEuroPricePreDuties * customDutiesRate * dollarConversion;
+
+  const cabinetTotalHIGH = cabinetTotal * bufferHIGH;
+  let totalEuroPricePreDutiesHIGH = cabinetTotalHIGH + internalBoxTotal + shelfTotal + lightingCombinedTotal + surfaceTotal;
+  const estimatedDutiesHIGH = totalEuroPricePreDutiesHIGH * customDutiesRate * dollarConversion;
+
+  //CONVERT ALL TO DOLLARS
+  const dollarCabinetTotal = cabinetTotal * bufferLOW * dollarConversion;
+  const dollarCabinetTotalHIGH = cabinetTotalHIGH * dollarConversion;
+  const dollarInternalBoxTotal = internalBoxTotal * dollarConversion;
+  const dollarShelfTotal = shelfTotal * dollarConversion;
+  const dollarLightingCombinedTotal = lightingCombinedTotal * dollarConversion;
+  const dollarSurfaceTotal = surfaceTotal * dollarConversion; 
   
-  const estimatedDuties = totalPricePreDuties * customDutiesRate;
+// MASTER TOTAL
+  
+  let totalDollarPricePreDuties = dollarCabinetTotal + dollarInternalBoxTotal + dollarShelfTotal + dollarLightingCombinedTotal + dollarSurfaceTotal; // LOW MASTER TOTAL IN DOLLARS
+  let totalDollarPricePreDutiesHIGH = dollarCabinetTotalHIGH + dollarInternalBoxTotal + dollarShelfTotal + dollarLightingCombinedTotal + dollarSurfaceTotal; // HIGH MASTER TOTAL IN DOLLARS
+  
 
   // Apply dealer type logic - considered Discount in Euros - if dollar conversion changes, will need to update it here!
   const dealerMultipliersNovacucina = {
@@ -606,7 +640,7 @@ function calculateTotalPrice() {
     builder: 1.61,
     designer: 1.84,
     retail: 2, 
-    none: 1 //converts euros to dollars.
+    none: 1 
   };
   
   function applyDealerAdjustmentKitchen(value, dealerType) {
@@ -617,38 +651,44 @@ function calculateTotalPrice() {
   const dealerType = document.getElementById('dealer-type').value;
 
 // Total price
-const adjustedTotal = applyDealerAdjustmentKitchen(totalPricePreDuties, dealerType);
-const adjustedTotalWithDuties = adjustedTotal + estimatedDuties;
-document.getElementById('kitchen-price-result').textContent = `$${adjustedTotalWithDuties.toFixed(2)}`; //displays total
+  const adjustedTotalLOW = applyDealerAdjustmentKitchen(totalDollarPricePreDuties, dealerType);
+  const adjustedTotalWithDutiesLOW = adjustedTotalLOW + estimatedDuties;
+  
+  const adjustedTotalHIGH = applyDealerAdjustmentKitchen(totalDollarPricePreDutiesHIGH, dealerType);
+  const adjustedTotalWithDutiesHIGH = adjustedTotalHIGH + estimatedDutiesHIGH; 
+  document.getElementById('kitchen-price-result').textContent = `$${formatShortCurrency(adjustedTotalWithDutiesLOW)} – $${formatShortCurrency(adjustedTotalWithDutiesHIGH)}`;
 
 // Breakdown
 const breakdownContainer = document.getElementById('price-breakdown');
 breakdownContainer.innerHTML = ''; // displays breakdown
 
 const groupedBreakdown = {
-  'Cabinets': cabinetTotal,
-  'Corner Accessories': cornerAccessoriesTotal,
-  'Appliance Panels': appliancePanelsTotal,
-  'Countertop & Backsplash': surfaceTotal,
-  'Shelves': shelfTotal,
-  'Lighting': lightingCombinedTotal,
-  'Profiles + Toe Kicks': profilesToeKicksTotal,
+  'Cabinets': dollarCabinetTotal,
+  'Countertop & Backsplash': dollarSurfaceTotal,
+  'Shelves': dollarShelfTotal,
+  'Lighting': dollarLightingCombinedTotal,
 };
-
+  
   Object.entries(groupedBreakdown).forEach(([label, value]) => {
     const adjustedValue = applyDealerAdjustmentKitchen(value, dealerType);
+    const adjustedValueHIGH = adjustedValue * bufferHIGH;
+    
     const row = document.createElement('div');
     row.className = 'breakdown-row';
-    row.innerHTML = `<span>${label}</span><span>$${adjustedValue.toFixed(2)}</span>`;
+    
+    if(label=== 'Cabinets'){
+      row.innerHTML = `<span>${label}</span><span>$${formatShortCurrency(adjustedValue)} – $${formatShortCurrency(adjustedValueHIGH)}</span>`;
+    } else {
+       row.innerHTML = `<span>${label}</span><span>$${formatShortCurrency(adjustedValue)}</span>`;
+    }
     breakdownContainer.appendChild(row);
   });
-
+  
   //Update Custom Duties Line independent of discount lelvel
   const dutiesRow = document.createElement('div');
   dutiesRow.className = 'breakdown-row';
-  dutiesRow.innerHTML = `<span>Estimated Custom Duties</span><span>$${estimatedDuties.toFixed(2)}</span>`;
+  dutiesRow.innerHTML = `<span>Estimated Custom Duties</span><span>$${formatShortCurrency(estimatedDuties)} –  $${formatShortCurrency(estimatedDutiesHIGH)}</span>`;
   breakdownContainer.appendChild(dutiesRow);
-  
 }
 
 //CALCULATE AUTOMATICALLY
@@ -835,6 +875,10 @@ function calculateFloorPrice() {
   const includeCrossedSawCut = document.getElementById('floor-crossed-saw-cut').checked;
   const includeAgedEffect = document.getElementById('floor-aged-effect').checked;
   const includeHandmadePlaning = document.getElementById('floor-handmade-planing').checked;
+
+  const extraFloorInput = document.getElementById('floor-extra-sqft').value;
+  const extraFloorPercent = isNaN(parseFloat(extraFloorInput)) ? 0 : parseFloat(extraFloorInput) / 100;
+
   
   let floorCustomizationTotal = 0;
   if (includeCustomBrush) {
@@ -853,11 +897,11 @@ function calculateFloorPrice() {
     floorCustomizationTotal += floorSqFt * handmadePlaningPrice;
   }
   //Add 15% buffer to sqft for cuts
-  const additionalBuffer = (floorCustomizationTotal + floorOnlyPrice) * 0.15;
+  const additionalBuffer = (floorCustomizationTotal + floorOnlyPrice) * extraFloorPercent;
   const floorTotalWithBuffer = floorOnlyPrice + floorCustomizationTotal + additionalBuffer; //add 15% buffer of material
   //Add 10% custom duties
   const floorCustomDuties = floorTotalWithBuffer * 0.1;
-  document.getElementById('floor-custom-duties-total').textContent = `$${floorCustomDuties.toFixed(2)}`;
+  document.getElementById('floor-custom-duties-total').textContent = `$${floorCustomDuties.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
   const dealerMultiplierLagunaSuperfici = {
     advanced: 0.7, 
@@ -875,16 +919,16 @@ function calculateFloorPrice() {
   const dealerType = document.getElementById('floor-dealer-type').value;
   
   const dealerFloorOnlyPrice = applyDealerAdjustmentFloor(floorOnlyPrice, dealerType);
-  document.getElementById('floor-total').textContent = `$${dealerFloorOnlyPrice.toFixed(2)}`;
+  document.getElementById('floor-total').textContent = `$${dealerFloorOnlyPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   
   const dealerFloorCustomizationTotal = applyDealerAdjustmentFloor(floorCustomizationTotal, dealerType);
-  document.getElementById('floor-custom-total').textContent = `$${dealerFloorCustomizationTotal.toFixed(2)}`;
+  document.getElementById('floor-custom-total').textContent = `$${dealerFloorCustomizationTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
   const dealerAdditionalBuffer = applyDealerAdjustmentFloor(additionalBuffer, dealerType);
-  document.getElementById('floor-additional-buffer-total').textContent = `$${dealerAdditionalBuffer.toFixed(2)}`;
+  document.getElementById('floor-additional-buffer-total').textContent = `$${dealerAdditionalBuffer.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     
   const floorGrandTotal = dealerFloorOnlyPrice + dealerFloorCustomizationTotal + dealerAdditionalBuffer + floorCustomDuties;
-  document.getElementById('floor-grand-total').textContent = `$${floorGrandTotal.toFixed(2)}`;
+  document.getElementById('floor-grand-total').textContent = `$${floorGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 }
 
@@ -1029,7 +1073,7 @@ function calculateDiscountedPrice() {
   const discountedPrice = basePrice * (1 - discountRate);
 
   // ✅ Calculate Estimated Duties
-  const estimatedDuties = dollarInput * customDutiesRate; 
+  const estimatedDuties = euroInput * customDutiesRate; 
   
   // ✅ Calculate Retail MSRP
   const retailMultiplier = retailMultipliers[brand] ?? 1;
@@ -1048,11 +1092,11 @@ function calculateDiscountedPrice() {
 
   // ✅ Update UI
   document.querySelector('.discount-level strong').textContent = `Discount: ${discountLabel}`;
-  document.getElementById('discount-total').textContent = `$${discountedPrice.toFixed(2)}`;
-  document.getElementById('retail-MSRP').textContent = `$${retailMSRP.toFixed(2)}`;
-  document.getElementById('designer-MSRP').textContent = `$${designerMSRP.toFixed(2)}`;
-  document.getElementById('builder-MSRP').textContent = `$${builderMSRP.toFixed(2)}`;
-    document.getElementById('catalog-custom-duties-total').textContent = `+$${estimatedDuties.toFixed(2)}`;
+  document.getElementById('discount-total').textContent = `$${discountedPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  document.getElementById('retail-MSRP').textContent = `$${retailMSRP.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  document.getElementById('designer-MSRP').textContent = `$${designerMSRP.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  document.getElementById('builder-MSRP').textContent = `$${builderMSRP.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    document.getElementById('catalog-custom-duties-total').textContent = `+$${estimatedDuties.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 ['dealer-level', 'brand', 'euro-price', 'dollar-price'].forEach(id => {
