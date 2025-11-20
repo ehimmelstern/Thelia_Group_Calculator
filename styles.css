@@ -445,6 +445,13 @@ input::placeholder {
   appearance: none;
 }
 
+/* Estimate Summary - Range Explanation */
+.range-explanation {
+  color: gray;
+  font-style: italic;
+  font-weight: normal;
+}
+
 /* Estimate Summary - border around price breakdown*/
 .result-card {
   margin-top: 2rem;
