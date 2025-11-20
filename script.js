@@ -479,8 +479,7 @@ function calculateTotalPrice() {
     toekickIslandInches = islandInches;
   }
   const toeKickInches = Math.ceil((baseInches + columnInches + toekickIslandInches) * 1.2);
-  const toeKickTotal = toeKickInches * toekickPrice;
-  document.getElementById('toe-kick-inches').textContent = toeKickInches; 
+  const toeKickTotal = toeKickInches * toekickPrice;  
   
   let profileInches = 0;
   if (baseStyle === 'profiles') {
@@ -494,7 +493,6 @@ function calculateTotalPrice() {
   }
   const profileTotalInches = Math.ceil(profileInches * 1.2);
   const profileTotal = profileTotalInches * profilePrice;
-  document.getElementById('profile-inches').textContent = profileInches;
 
   // GROUPED TOTALS
   //Cabinet Total
