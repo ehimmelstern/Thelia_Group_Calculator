@@ -498,15 +498,6 @@ input::placeholder {
   margin-top: 1rem;
 }
 
-/*#floor-error-message {
-  background-color: #fff8dc;
-  border: 1px solid #b30000;
-  padding: 8px;
-  font-weight: bold;
-  color: #b30000;
-  display: none;
-
-}*/
 
 /*TOGGLE FORMATTIMG*/
 /* Container styling */
@@ -586,3 +577,22 @@ input::placeholder {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
   appearance: none;
 }
+
+
+/*-----------------------------------------------------------------------
+7. DOOR CODE
+------------------------------------------------------------------------*/
+
+/* Door Estimate Summary - Dealer type dropdown formatting */
+#door-dealer-type {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #463930;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  appearance: none;
+}
+
