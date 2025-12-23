@@ -414,7 +414,7 @@
              </select>
              <div class="field-group">
                <label for="island-inches">Total Linear Inches:</label>
-               <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">Make sure these base cabinets are not already accounted for in your "base" section.</p>
+               <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">Provide the total length of the island. Double-sided islands will automatically be calculated.</p>
                <input type="number" id="island-inches" placeholder="e.g. 60 in" >
              </div>
            </div>
@@ -522,11 +522,12 @@
              <label for="dealer-type">SALE GROUP:</label>
              <select id="dealer-type">
                <option value="retail">Suggested Retail</option>
+               <option value="designer">Suggested Designer</option>
+               <option value="builder">Suggested Builder</option>
                <option value="advanced">Level 1 - Advanced Dealer</option>
                <option value="preferred">Level 2 - Preferred Dealer</option>
                <option value="elite">Level 3 -  Elite Dealer</option>
-               <option value="builder">Builder</option>
-               <option value="designer">Designer</option>
+               <option value="none">Catalog Price (Converted to $)</option>
              </select>
            </div>  
            <p class="range-explanation">The range below is representative of variations in price which occur based on the level of customization required.</p>           
@@ -765,11 +766,12 @@
                <label for="dealer-type">SALE GROUP:</label>
                <select id="floor-dealer-type">
                  <option value="retail">Suggested Retail</option>
+                 <option value="designer">Suggested Designer Price</option>
+                 <option value="builder">Suggested Builder Price</option>
                  <option value="advanced">Level 1 - Advanced Dealer</option>
                  <option value="preferred">Level 2 - Preferred Dealer</option>
                  <option value="elite">Level 3 -  Elite Dealer</option>
-                 <option value="builder">Builder</option>
-                 <option value="designer">Designer</option>
+                 <option value="none">Catalog Price (Converted to $)</option>
                </select>
              </div>
              <div id="floor-error-message" class="floor-warning-message"></div>
@@ -858,11 +860,11 @@
                <select id="door-height">
                  <option value="" disabled selected>Select a Height</option>
                  <option value="2100-height">7ft (2100mm)</option>
-                 <option value="2110-2390-height"> 7ft &lt; x &lt; 8ft (2110-2390mm)</option>
                  <option value="2400-height">8ft (2400mm)</option>
-                 <option value="2410-3000-height">8ft  &lt; x &le; 10ft (2410-3000mm)</option>
-                 <option value="3010-3400-height">10ft  &lt; x &le; 11ft (3010-3400mm)</option>
-                 <option value="3410-4000-height">11ft  &lt; x &le; 13ft (3410-4000mm)</option>
+                 <option value="2700-height">9ft (2700mm)</option>
+                 <option value ="3000-height">10ft (3000mm)</option>
+                 <option value="3400-height">11ft (3400mm)</option>
+                 <option value="3410-4000-height">12ft & 13ft (3700-4000mm)</option>
                </select>
                
                <label for="door-width">Door Width:</label>
@@ -897,6 +899,9 @@
                  <option value="" disabled selected>Select a Frame</option>
                  <option value="secret-frame">Basic Flush Frame: Secret</option>
                  <option value="secret-twin-frame">Upgraded Flush Frame: Secret Twin</option>
+                 <option value="tnp-frame">Wooden Frame: TNP/TN Plus Frame</option>
+                 <option value="fn-frame">Wooden Frame: FN Frame</option>
+                 <option value="era-frame">Wooden Frame: ERA Frame</option>
                </select>
                
                <label for="door-model">Door Model:</label>
@@ -914,12 +919,44 @@
                  <option value="QUADRO">QUADRO</option>	
                  <option value="TRATTO">TRATTO</option>	
                  <option value="LUCIO">LUCIO</option>	
+                 <option value="OTTAGONO">OTTAGONO</option>
                  <option value="COLONIALE">COLONIALE</option>	
-                 <option value="OTTAGONO">OTTAGONO</option>	
                  <option value="BIT">BIT</option>	
                  <option value="EAN">EAN</option>	
                  <option value="NODO">NODO</option>	
-                 <option value="GRAFFIATA">GRAFFIATA</option>	
+                 <option value="GRAFFIATA">GRAFFIATA</option>	               
+                 <option value="DOGEPU">DOGE PU</option>
+                 <option value="DOGEPP">DOGE PP</option>
+                 <option value="DOGEPPP">DOGE PPP</option>
+                 <option value="DOGEVU">DOGE VU</option>
+                 <option value="DOGEVP">DOGE VP</option>
+                 <option value="DOGEVPP">DOGE VPP</option>
+                 <option value="RIALTO-PU">RIALTO PU</option>
+                 <option value="RIALTO-PP">RIALTO PP</option>
+                 <option value="RIALTO-PPP">RIALTO PPP</option>
+                 <option value="VENEZIA">VENEZIA</option>	
+                 <option value="OPENG">OPEN G</option>
+                 <option value="ESPRIT">ESPRIT</option>
+                 <option value="PALLADIO">PALLADIO</option>
+                 <option value="GIOTTOG">GIOTTO G</option>
+                 <option value="RVU">RVU</option>
+                 <option value="RVUG">RVU G</option>	
+                 <option value="RLL">RLL</option>
+                 <option value="OPEN1PU">OPEN 01 PU</option>
+                 <option value="OPEN1PP">OPEN 01 PP</option>
+                 <option value="OPEN8PU">OPEN 08 PU</option>
+                 <option value="OPEN8PP">OPEN 08 PP</option>
+                 <option value="OPEN1VU">OPEN 01 VU</option>
+                 <option value="OPEN1VP">OPEN 01 VP</option>
+                 <option value="OPEN8VP">OPEN 08 VP</option>
+                 <option value="OPEN15PU">OPEN 15 PU</option>
+                 <option value="OPEN15PP">OPEN 15 PP</option>
+                 <option value="GIOTTO2PU">GIOTTO 02 PU</option>
+                 <option value="GIOTTO2PP">GIOTTO 02 PP</option>
+                 <option value="GIOTTO2VU">GIOTTO 02 VU</option>
+                 <option value="GIOTTO2VP">GIOTTO 02 VP</option>
+                 <option value="ONGA">ONGA</option>
+                 
                </select>
 
                <label for="door-finish">Finish:</label>
@@ -970,6 +1007,40 @@
                </select>
               
              </div>
+             
+             <div class="section">
+               <h3>Accessories</h3>
+               <label for="door-handle">Handle:</label>
+               <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">We’ve pre‑selected our most popular handle style. Explore the price list for more choices.</p>
+               <select id="door-handle">
+                 <option value="" disabled selected>Select a Handle Type</option>
+                 <option value="italia-door-handle">ITALIA (by Fimet)</option>
+                 <option value="robocinque-door-handle">ROBOCINQUE S (by Colombo)</option>
+                 <option value ="lama-door-handle">LAMA L (by Olivari)</option>
+                 <option value="lotus-door-handle">LOTUS Q (by Olivari)</option>
+               </select>
+               
+               <label for="door-handle-finish">Handle Finish:</label>
+               <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">We’ve pre‑selected our most popular finishes. Explore the price list for more choices.</p>
+               <select id="door-handle-finish">
+                 <option value="" disabled selected>Select a Handle Finish</option>
+                 <option value="polishedchrome-door-handle">Polished Chrome</option>
+                 <option value="satinchrome-door-handle">Satin Chrome</option>
+                 <option value="black-door-handle">Matt Black</option>
+               </select>
+               
+               <label for="door-lock">Lock Type:</label>
+               <select id="door-lock">
+                 <option value="" disabled selected>Select a Locking Variant</option>
+                 <option value="passage-lock">Passage Lock (no lock)</option>
+                 <option value="skeleton-key">Skeleton Key</option>	
+                 <option value="privacy-lock">Privacy Lock</option>	
+                 <option value="yalelock">Lock with Thumbturn</option>
+               </select>
+               
+               
+                           
+             </div>
            </form>
          </div>
          <!-- Right: Sticky Price Breakdown -->
@@ -985,11 +1056,12 @@
                <label for="dealer-type">SALE GROUP:</label>
                <select id="door-dealer-type">
                  <option value="retail">Suggested Retail</option>
+                 <option value="designer">Suggested Designer</option>
+                 <option value="builder">Suggested Builder</option>
                  <option value="advanced">Level 1 - Advanced Dealer</option>
                  <option value="preferred">Level 2 - Preferred Dealer</option>
                  <option value="elite">Level 3 -  Elite Dealer</option>
-                 <option value="builder">Builder</option>
-                 <option value="designer">Designer</option>
+                 <option value="none">Catalog Price (Converted to $)</option>
                </select>
              </div>
              <div id="door-error-message" class="door-warning-message"></div>
@@ -1000,7 +1072,7 @@
                </div>
                <div id="door-price-breakdown" class="breakdown-list">
                  <div class="breakdown-row"><span>Door</span><span id="door-total">$0.00</span></div>
-                 <div class="breakdown-row"><span>Upgrades</span><span id="door-upgrade-total">$0.00</span></div>
+                 <div class="breakdown-row"><span>Accessories & Upgrades</span><span id="door-upgrade-total">$0.00</span></div>
                  <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="door-custom-duties-total">$0.00</span></div>
                </div>
                <p class="dealer-intro"><strong>Price includes door with frame and hardware kit including magnetic passage lock and concealed hinges. </strong></p>
@@ -1017,12 +1089,14 @@
   <!--CLOSE OF DOOR CONTAINER-->
   
   
-</main> 
+</main>
+      
+      
+ 
 <script src="script.js"></script> <!-- ✅ Place this last -->    
 </body>
 </html>
     
-
 
 
 
