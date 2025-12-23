@@ -8705,8 +8705,7 @@ const lockTypePrice = [
 function resetDoorBreakdownValues() {
   const ids = [
     'door-total',
-    'door-custom-total',
-    'door-additional-buffer-total',
+    'door-upgrade-total',
     'door-custom-duties-total',
     'door-grand-total'
   ];
@@ -8734,6 +8733,11 @@ function resetAllDoorInputs(calculatorId, totalId) {
     'door-height',
     'door-width',
     'door-thickness', 
+    'door-hinge',
+    'door-handle',
+    'door-handle-finish',
+    'door-lock'
+    
   ];
   fields.forEach(id => {
     const el = document.getElementById(id);
@@ -8884,7 +8888,8 @@ function calculateDoorPrice() {
   }
   
   console.log(handlePrice, lockAddonPrice);
-
+  
+   
   // Apply dealer discount - THIS IS DISCOUNT ON THE EURO - WILL NEED TO BE CHANGED IF CONVERSION IS CHANGED.
   const barausseDealerMultipliers = {
     retail: 1.15,
@@ -8913,12 +8918,11 @@ function calculateDoorPrice() {
   //Add Hinge Upgrade Cost
   let hingeUpgrade = 0; 
   hingeUpgrade = hingeSurcharge[hinge]; 
- 
+  
   //Calculate Total Upgrade Cost
   const upgradeTotal = fillingSurcharge + hingeUpgrade + handlePrice + lockAddonPrice;
   doorGrandTotal += upgradeTotal;
   
-
   //Consider dealer discount
   let doorCustomDuties = doorGrandTotal * 0.75 * 0.15; // 15% ON 75% OF THE INVOICE
   let discountedDoorGrandTotal = (doorGrandTotal * (barausseDealerMultipliers[dealerType] ?? 1)) + doorCustomDuties;
@@ -8936,5 +8940,7 @@ function calculateDoorPrice() {
     `$${doorCustomDuties.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 }
+
+
 document.querySelectorAll('#door-frame, #door-thickness, #door-height, #door-finish, #door-dealer-type, #door-model, #filling, #door-hinge, #door-handle, #door-handle-finish, #privacy-lock, #door-lock')
   .forEach(el => el.addEventListener('change', calculateDoorPrice));
