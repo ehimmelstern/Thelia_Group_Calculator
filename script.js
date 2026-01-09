@@ -97,7 +97,7 @@ function formatShortCurrency(value) {
 //Euro <> Dollar conversion
 const euroField = document.getElementById('euro-price');
 const dollarField = document.getElementById('dollar-price');
-const dollarConversionRate = 1.15;
+const dollarConversionRate = 1.17;
 let activeField = null;
 
 // Track which field is being edited
@@ -131,9 +131,9 @@ dollarField.addEventListener('input', function () {
 //Calculator Discount Logic
 const discountMatrix = {
   advanced: {
-    novacucina: 0.18,
+    novacucina: 0.20,
     puntotre: 0.32,
-    pianca: 0.27,
+    pianca: 0.29,
     barausse: 0.30,
     lecomfort: 0.27,
     lagunasuperfici: 0.30,
@@ -141,7 +141,7 @@ const discountMatrix = {
   preferred: {
     novacucina: 0.27,
     puntotre: 0.35,
-    pianca: 0.32,
+    pianca: 0.34,
     barausse: 0.35,
     lecomfort: 0.32,
     lagunasuperfici: 0.30,
@@ -149,7 +149,7 @@ const discountMatrix = {
   elite: {
     novacucina: 0.35,
     puntotre: 0.37,
-    pianca: 0.36,
+    pianca: 0.38,
     barausse: 0.37,
     lecomfort: 0.36,
     lagunasuperfici: 0.30,
@@ -761,19 +761,20 @@ function calculateTotalPrice() {
   
   // Adjust Price based on SALE GROUP Level AND automatically converts to dollars. 
   const dealerMultipliersNovacucina = {
-    advanced: 0.94,
-    preferred: 0.84,
-    elite: 0.75,
-    builder: 1.61,
-    designer: 1.84,
-    retail: 2.3, 
+    advanced: 0.936,
+    preferred: 0.8541,
+    elite: 0.7605,
+    builder: 1.638,
+    designer: 1.872,
+    retail: 2.34, 
     none: 1 
   };
   
+  //DIFFERENT RESELL VALUE FOR COUNTERTOPS & LIGHTING
   const smallerMultipliersNovacucina = { //DIFFERENT RESELL VALUE FOR COUNTERTOPS & LIGHTING
-    advanced: 0.94,
-    preferred: 0.84,
-    elite: 0.75,
+    advanced: 0.936,
+    preferred: 0.8541,
+    elite: 0.7605,
     builder: 1.19,
     designer: 1.24,
     retail: 1.34, 
@@ -804,8 +805,12 @@ function calculateTotalPrice() {
   const grandTotalHIGH = adjustedCabinetHIGH + adjustedInternalBoxTotal + adjustedShelfTotal + adjustedLightingTotal + adjustedSurfaceTotal + dutiesPriceHIGH;
   const grandTotalLOW = adjustedCabinetLOW + adjustedInternalBoxTotal + adjustedShelfTotal + adjustedLightingTotal + adjustedSurfaceTotal + dutiesPriceLOW;
   
+  const kitchenDealerGroup = document.getElementById("dealer-type")?.value || "none";
+  const kitchenCurrencySymbol = kitchenDealerGroup === "none" ? "€" : "$";
+
+  
   //Display Grand Total Range
-  document.getElementById('kitchen-price-result').textContent = `$${formatShortCurrency(grandTotalLOW)} – $${formatShortCurrency(grandTotalHIGH)}`;
+  document.getElementById('kitchen-price-result').textContent = `${kitchenCurrencySymbol}${formatShortCurrency(grandTotalLOW)} – ${kitchenCurrencySymbol}${formatShortCurrency(grandTotalHIGH)}`;
   
   // Breakdown
   const breakdownContainer = document.getElementById('price-breakdown');
@@ -823,9 +828,9 @@ function calculateTotalPrice() {
     row.className = 'breakdown-row';
     
     if(label=== 'Cabinets'){
-      row.innerHTML = `<span>${label}</span><span>$${formatShortCurrency(values[0])} – $${formatShortCurrency(values[1])}</span>`;
+      row.innerHTML = `<span>${label}</span><span>${kitchenCurrencySymbol}${formatShortCurrency(values[0])} – ${kitchenCurrencySymbol}${formatShortCurrency(values[1])}</span>`;
     } else {
-       row.innerHTML = `<span>${label}</span><span>$${formatShortCurrency(values)}</span>`;
+       row.innerHTML = `<span>${label}</span><span>${kitchenCurrencySymbol}${formatShortCurrency(values)}</span>`;
     }
     breakdownContainer.appendChild(row);
   });
@@ -8699,8 +8704,6 @@ const lockTypePrice = [
 ]
       
       
-      
-      
 // Utility: reset totals and breakdown
 function resetDoorBreakdownValues() {
   const ids = [
@@ -8887,18 +8890,16 @@ function calculateDoorPrice() {
     lockAddonPrice = lockMatch.doorHandleFinish[selectedFinish] ?? 0;
   }
   
-  console.log(handlePrice, lockAddonPrice);
-  
    
   // Apply dealer discount - THIS IS DISCOUNT ON THE EURO - WILL NEED TO BE CHANGED IF CONVERSION IS CHANGED.
   const barausseDealerMultipliers = {
-    retail: 1.15,
-    advanced: 0.8,
-    preferred: 0.75,
-    elite: 0.72,
-    builder: 0.98,
-    designer: 1.01,
-    none: 1.15 //EQUIVALENT TO DOLLAR CONVERSION
+    retail: 1.17,
+    advanced: 0.819,
+    preferred: 0.7605,
+    elite: 0.7371,
+    builder: 0.9945,
+    designer: 1.0296,
+    none: 1.00 //EQUIVALENT TO DOLLAR CONVERSION
   };
  
   // 🔹 Secret-twin frame surcharge
@@ -8912,7 +8913,6 @@ function calculateDoorPrice() {
   let fillingSurcharge = 0;
   if (fillingChecked) {
     fillingSurcharge = doorFillingSurcharge[thickness]?.[height] ?? 0;
-    //doorGrandTotal += fillingSurcharge;
   }
   
   //Add Hinge Upgrade Cost
@@ -8923,19 +8923,23 @@ function calculateDoorPrice() {
   const upgradeTotal = fillingSurcharge + hingeUpgrade + handlePrice + lockAddonPrice;
   doorGrandTotal += upgradeTotal;
   
+
   //Consider dealer discount
-  let doorCustomDuties = doorGrandTotal * 0.75 * 0.15; // 15% ON 75% OF THE INVOICE
+  let doorCustomDuties = doorGrandTotal * 0.75 * 0.15 * dollarConversionRate; // 15% ON 75% OF THE INVOICE CONVERTED TO DOLLARS
   let discountedDoorGrandTotal = (doorGrandTotal * (barausseDealerMultipliers[dealerType] ?? 1)) + doorCustomDuties;
   let discountedBasePrice = basePrice * (barausseDealerMultipliers[dealerType] ?? 1);
   let discountedUpgradeSurcharge = upgradeTotal * (barausseDealerMultipliers[dealerType] ?? 1);
 
+  const doorDealerGroup = document.getElementById("door-dealer-type")?.value || "none";
+  const doorCurrencySymbol = doorDealerGroup === "none" ? "€" : "$";
+  
   // Update UI
    document.getElementById('door-grand-total').textContent =
-    `$${discountedDoorGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    `${doorCurrencySymbol}${discountedDoorGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   document.getElementById('door-total').textContent =
-    `$${discountedBasePrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    `${doorCurrencySymbol}${discountedBasePrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   document.getElementById('door-upgrade-total').textContent =
-    `$${discountedUpgradeSurcharge.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    `${doorCurrencySymbol}${discountedUpgradeSurcharge.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   document.getElementById('door-custom-duties-total').textContent =
     `$${doorCustomDuties.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
@@ -8944,3 +8948,9262 @@ function calculateDoorPrice() {
 
 document.querySelectorAll('#door-frame, #door-thickness, #door-height, #door-finish, #door-dealer-type, #door-model, #filling, #door-hinge, #door-handle, #door-handle-finish, #privacy-lock, #door-lock')
   .forEach(el => el.addEventListener('change', calculateDoorPrice));
+
+
+//----------------------------------------------------BATHROOM C0DE-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Add New Cabinet Template
+let cabinetCount = 1;
+
+//RESET ACTIONS
+function resetBathroomBreakdownValues() {
+  const ids = [
+    'bathroom-total',
+    'bathroom-upgrade-total',
+    'bathroom-custom-duties-total',
+    'bathroom-grand-total'
+  ];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '$0.00';
+  });
+}
+function resetBathroomErrorMessage() {
+  const errorBox = document.getElementById('bathroom-error-message');
+  if (errorBox) {
+    errorBox.textContent = "";
+    errorBox.style.display = "none";
+  }
+}
+function resetBathroomCountertop() {
+  // Reset all countertop dropdowns
+  const countertopFields = [
+    'bath-countertop-material',
+    'bath-countertop-pricelevel',
+    'bath-countertop-depth',
+    'bath-countertop-length',
+    'bath-countertop-thickness',
+    'bath-sink-type'
+  ];
+
+  countertopFields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+
+  // Reset sink number to default
+  const sinkNum = document.getElementById("sink-number");
+  if (sinkNum) sinkNum.value = "1";
+
+  // Hide dynamic fields (price level + sink type)
+  const priceLevelWrapper = document.getElementById("countertop-pricelevel-wrapper");
+  const sinkTypeWrapper = document.getElementById("countertop-sinktype-wrapper");
+
+  if (priceLevelWrapper) priceLevelWrapper.style.display = "none";
+  if (sinkTypeWrapper) sinkTypeWrapper.style.display = "none";
+
+  // Reset countertop totals in breakdown
+  document.getElementById("bathroom-countertop-total").textContent = "$0.00";
+
+  resetBathroomErrorMessage();
+
+  // Recalculate full bathroom price
+  calculateBathPrice();
+}
+function resetBathroomCabinets() {
+  const container = document.getElementById("cabinet-container");
+  container.innerHTML = "";
+
+  cabinetCount = 0;
+  addCabinet();
+
+  // reset cabinet totals only
+  document.getElementById("bathroom-total").textContent = "$0.00";
+  document.getElementById("bathroom-accessories-total").textContent = "$0.00";
+  document.getElementById("bathroom-custom-duties-total").textContent = "$0.00";
+  
+  calculateBathPrice();
+}
+function resetAllBathroomInputs() {
+  ['bathroom-model', 'bathroom-finish'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+
+  resetBathroomCabinets();
+  resetBathroomCountertop();
+
+  resetBathroomBreakdownValues();
+  resetBathroomErrorMessage();
+  
+  //reset handle
+  const handleSelect = document.getElementById("bath-handle-type");
+  if (handleSelect) handleSelect.value = "";
+  handleWrapper.style.display = "none";
+  
+  calculateBathPrice();
+}
+
+//CREATE NEW CABINET SECTION
+function addCabinet() {
+  cabinetCount++;
+
+  const template = document.querySelector("#cabinet-template .cabinet-block");
+  const clone = template.cloneNode(true);
+
+  clone.querySelector(".cabinet-number").textContent = cabinetCount;
+
+  clone.querySelector(".sink-unit").id = `sink${cabinetCount}-unit`;
+  clone.querySelector(".bath-height").id = `bathroom${cabinetCount}-height`;
+  clone.querySelector(".bath-length").id = `bathroom${cabinetCount}-length`;
+  clone.querySelector(".bath-depth").id = `bathroom${cabinetCount}-depth`;
+  clone.querySelector(".bath-side").id = `bathroom${cabinetCount}-side`;
+
+  clone.querySelectorAll("select").forEach(sel =>
+    sel.addEventListener("change", calculateBathPrice)
+  );
+  
+  // Dynamic logic: disable 45-degree side when finish = Polymeric
+  const finishSelect = document.getElementById("bathroom-finish");
+  const sideSelect = clone.querySelector(".bath-side");
+  
+  function updateSideOptions() {
+    const isPolymeric = finishSelect.value === "polymeric";
+    const option45 = sideSelect.querySelector('option[value="45degreeSide"]');
+    if (isPolymeric) {
+      option45.disabled = true;
+      // If user already selected it, reset the dropdown
+      if (sideSelect.value === "45degreeSide") {
+        sideSelect.value = "";
+        calculateBathPrice();
+      }
+    } else {
+      option45.disabled = false;
+    }
+
+  }
+  // Run once on cabinet creation
+  updateSideOptions();
+  
+  // Update dynamically when finish changes
+  finishSelect.addEventListener("change", updateSideOptions);
+  // Also recalc when side panel changes
+  sideSelect.addEventListener("change", calculateBathPrice);
+
+
+  document.getElementById("cabinet-container").appendChild(clone);
+}
+
+//dynamically creates a new cabinet section
+document.addEventListener("DOMContentLoaded", () => {
+  cabinetCount = 0;
+  addCabinet(); //creates Cabinet 1
+  /*document.getElementById("add-cabinet-btn").addEventListener("click", () => {
+    cabinetCount++;
+
+    const template = document.querySelector("#cabinet-template .cabinet-block");
+    const clone = template.cloneNode(true);
+
+    // Label the cabinet
+    clone.querySelector(".cabinet-number").textContent = cabinetCount;
+
+    // Assign unique IDs to each field
+    clone.querySelector(".sink-unit").id = `sink${cabinetCount}-unit`;
+    clone.querySelector(".bath-height").id = `bathroom${cabinetCount}-height`;
+    clone.querySelector(".bath-length").id = `bathroom${cabinetCount}-length`;
+    clone.querySelector(".bath-depth").id = `bathroom${cabinetCount}-depth`;
+
+    // Add event listeners for recalculation
+    clone.querySelectorAll("select").forEach(sel =>
+      sel.addEventListener("change", calculateBathPrice)
+    );
+
+    document.getElementById("cabinet-container").appendChild(clone);*/
+
+ //   calculateBathPrice(); //CHECK IF THIS SHOULD BE ADDED
+  });
+
+//When the user clicks add cabinet
+document.getElementById("add-cabinet-btn").addEventListener("click", () => {
+  addCabinet();
+  calculateBathPrice();
+});
+
+//Update Price based on Dealer Level
+document.getElementById("bathroom-dealer-type").addEventListener("change", calculateBathPrice);
+
+const bathPricing = [
+  {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 398,
+      "mattcolor": 434,
+      "silkcolor": 478
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 421,
+      "mattcolor": 460,
+      "silkcolor": 507
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 434,
+      "mattcolor": 472,
+      "silkcolor": 521
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 459,
+      "mattcolor": 499,
+      "silkcolor": 550
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 469,
+      "mattcolor": 512,
+      "silkcolor": 564
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 516,
+      "mattcolor": 563,
+      "silkcolor": 618
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 398,
+      "mattcolor": 434,
+      "silkcolor": 478
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 421,
+      "mattcolor": 460,
+      "silkcolor": 507
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 434,
+      "mattcolor": 472,
+      "silkcolor": 521
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 459,
+      "mattcolor": 499,
+      "silkcolor": 550
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 469,
+      "mattcolor": 512,
+      "silkcolor": 564
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 516,
+      "mattcolor": 563,
+      "silkcolor": 618
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 437,
+      "mattcolor": 478,
+      "silkcolor": 525
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 455,
+      "mattcolor": 496,
+      "silkcolor": 547
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 472,
+      "mattcolor": 516,
+      "silkcolor": 568
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 496,
+      "mattcolor": 542,
+      "silkcolor": 598
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 516,
+      "mattcolor": 563,
+      "silkcolor": 618
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 566,
+      "mattcolor": 616,
+      "silkcolor": 678
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 437,
+      "mattcolor": 478,
+      "silkcolor": 525
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 455,
+      "mattcolor": 496,
+      "silkcolor": 547
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 472,
+      "mattcolor": 516,
+      "silkcolor": 568
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 496,
+      "mattcolor": 542,
+      "silkcolor": 598
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 516,
+      "mattcolor": 563,
+      "silkcolor": 618
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 566,
+      "mattcolor": 616,
+      "silkcolor": 678
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 282,
+      "mattcolor": 308,
+      "silkcolor": 340
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 306,
+      "mattcolor": 333,
+      "silkcolor": 368
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 323,
+      "mattcolor": 353,
+      "silkcolor": 390
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 341,
+      "mattcolor": 373,
+      "silkcolor": 410
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 360,
+      "mattcolor": 393,
+      "silkcolor": 433
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 377,
+      "mattcolor": 411,
+      "silkcolor": 453
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 395,
+      "mattcolor": 430,
+      "silkcolor": 475
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 441,
+      "mattcolor": 480,
+      "silkcolor": 528
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 282,
+      "mattcolor": 308,
+      "silkcolor": 340
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 306,
+      "mattcolor": 333,
+      "silkcolor": 368
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 323,
+      "mattcolor": 353,
+      "silkcolor": 390
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 341,
+      "mattcolor": 373,
+      "silkcolor": 410
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 360,
+      "mattcolor": 393,
+      "silkcolor": 433
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 377,
+      "mattcolor": 411,
+      "silkcolor": 453
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 395,
+      "mattcolor": 430,
+      "silkcolor": 475
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 441,
+      "mattcolor": 480,
+      "silkcolor": 528
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 321,
+      "mattcolor": 349,
+      "silkcolor": 385
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 349,
+      "mattcolor": 381,
+      "silkcolor": 420
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 369,
+      "mattcolor": 403,
+      "silkcolor": 444
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 393,
+      "mattcolor": 428,
+      "silkcolor": 470
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 413,
+      "mattcolor": 452,
+      "silkcolor": 496
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 437,
+      "mattcolor": 478,
+      "silkcolor": 525
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 459,
+      "mattcolor": 499,
+      "silkcolor": 550
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 496,
+      "mattcolor": 542,
+      "silkcolor": 598
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 321,
+      "mattcolor": 349,
+      "silkcolor": 385
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 349,
+      "mattcolor": 381,
+      "silkcolor": 420
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 369,
+      "mattcolor": 403,
+      "silkcolor": 444
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 393,
+      "mattcolor": 428,
+      "silkcolor": 470
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 413,
+      "mattcolor": 452,
+      "silkcolor": 496
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 437,
+      "mattcolor": 478,
+      "silkcolor": 525
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 459,
+      "mattcolor": 499,
+      "silkcolor": 550
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 496,
+      "mattcolor": 542,
+      "silkcolor": 598
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 480,
+      "mattcolor": 524,
+      "silkcolor": 576
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 503,
+      "mattcolor": 549,
+      "silkcolor": 605
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 521,
+      "mattcolor": 570,
+      "silkcolor": 627
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 551,
+      "mattcolor": 601,
+      "silkcolor": 662
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 568,
+      "mattcolor": 620,
+      "silkcolor": 682
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 605,
+      "mattcolor": 659,
+      "silkcolor": 726
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 480,
+      "mattcolor": 524,
+      "silkcolor": 576
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 503,
+      "mattcolor": 549,
+      "silkcolor": 605
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 521,
+      "mattcolor": 570,
+      "silkcolor": 627
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 551,
+      "mattcolor": 601,
+      "silkcolor": 662
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 568,
+      "mattcolor": 620,
+      "silkcolor": 682
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 605,
+      "mattcolor": 659,
+      "silkcolor": 726
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 521,
+      "mattcolor": 570,
+      "silkcolor": 627
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 545,
+      "mattcolor": 593,
+      "silkcolor": 655
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 563,
+      "mattcolor": 614,
+      "silkcolor": 675
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 585,
+      "mattcolor": 640,
+      "silkcolor": 704
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 609,
+      "mattcolor": 665,
+      "silkcolor": 731
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 658,
+      "mattcolor": 718,
+      "silkcolor": 788
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 521,
+      "mattcolor": 570,
+      "silkcolor": 627
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 545,
+      "mattcolor": 593,
+      "silkcolor": 655
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 563,
+      "mattcolor": 614,
+      "silkcolor": 675
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 585,
+      "mattcolor": 640,
+      "silkcolor": 704
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 609,
+      "mattcolor": 665,
+      "silkcolor": 731
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 658,
+      "mattcolor": 718,
+      "silkcolor": 788
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 341,
+      "mattcolor": 373,
+      "silkcolor": 410
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 373,
+      "mattcolor": 407,
+      "silkcolor": 449
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 395,
+      "mattcolor": 430,
+      "silkcolor": 475
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 418,
+      "mattcolor": 455,
+      "silkcolor": 501
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 437,
+      "mattcolor": 478,
+      "silkcolor": 525
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 459,
+      "mattcolor": 499,
+      "silkcolor": 550
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 480,
+      "mattcolor": 524,
+      "silkcolor": 576
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 521,
+      "mattcolor": 570,
+      "silkcolor": 627
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 341,
+      "mattcolor": 373,
+      "silkcolor": 410
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 373,
+      "mattcolor": 407,
+      "silkcolor": 449
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 395,
+      "mattcolor": 430,
+      "silkcolor": 475
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 418,
+      "mattcolor": 455,
+      "silkcolor": 501
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 437,
+      "mattcolor": 478,
+      "silkcolor": 525
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 459,
+      "mattcolor": 499,
+      "silkcolor": 550
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 480,
+      "mattcolor": 524,
+      "silkcolor": 576
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 521,
+      "mattcolor": 570,
+      "silkcolor": 627
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 372,
+      "mattcolor": 406,
+      "silkcolor": 447
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 406,
+      "mattcolor": 443,
+      "silkcolor": 488
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 429,
+      "mattcolor": 468,
+      "silkcolor": 515
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 456,
+      "mattcolor": 498,
+      "silkcolor": 549
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 478,
+      "mattcolor": 521,
+      "silkcolor": 574
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 501,
+      "mattcolor": 547,
+      "silkcolor": 601
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 524,
+      "mattcolor": 573,
+      "silkcolor": 631
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 568,
+      "mattcolor": 620,
+      "silkcolor": 682
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 372,
+      "mattcolor": 406,
+      "silkcolor": 447
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 406,
+      "mattcolor": 443,
+      "silkcolor": 488
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 429,
+      "mattcolor": 468,
+      "silkcolor": 515
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 456,
+      "mattcolor": 498,
+      "silkcolor": 549
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 478,
+      "mattcolor": 521,
+      "silkcolor": 574
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 501,
+      "mattcolor": 547,
+      "silkcolor": 601
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 524,
+      "mattcolor": 573,
+      "silkcolor": 631
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 568,
+      "mattcolor": 620,
+      "silkcolor": 682
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 215,
+      "mattcolor": 234,
+      "silkcolor": 257
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 215,
+      "mattcolor": 234,
+      "silkcolor": 257
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 242,
+      "mattcolor": 264,
+      "silkcolor": 291
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 242,
+      "mattcolor": 264,
+      "silkcolor": 291
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 331,
+      "mattcolor": 361,
+      "silkcolor": 398
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 331,
+      "mattcolor": 361,
+      "silkcolor": 398
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 366,
+      "mattcolor": 399,
+      "silkcolor": 438
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 366,
+      "mattcolor": 399,
+      "silkcolor": 438
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 629,
+      "mattcolor": 687,
+      "silkcolor": 755
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 663,
+      "mattcolor": 723,
+      "silkcolor": 796
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 694,
+      "mattcolor": 756,
+      "silkcolor": 833
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 722,
+      "mattcolor": 788,
+      "silkcolor": 868
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 753,
+      "mattcolor": 821,
+      "silkcolor": 903
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 805,
+      "mattcolor": 877,
+      "silkcolor": 966
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 629,
+      "mattcolor": 687,
+      "silkcolor": 755
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 663,
+      "mattcolor": 723,
+      "silkcolor": 796
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 694,
+      "mattcolor": 756,
+      "silkcolor": 833
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 722,
+      "mattcolor": 788,
+      "silkcolor": 868
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 753,
+      "mattcolor": 821,
+      "silkcolor": 903
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 805,
+      "mattcolor": 877,
+      "silkcolor": 966
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 687,
+      "mattcolor": 748,
+      "silkcolor": 824
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 722,
+      "mattcolor": 788,
+      "silkcolor": 868
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 753,
+      "mattcolor": 821,
+      "silkcolor": 903
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 781,
+      "mattcolor": 853,
+      "silkcolor": 938
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 837,
+      "mattcolor": 911,
+      "silkcolor": 1004
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 917,
+      "mattcolor": 1000,
+      "silkcolor": 1101
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 687,
+      "mattcolor": 748,
+      "silkcolor": 824
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 722,
+      "mattcolor": 788,
+      "silkcolor": 868
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 753,
+      "mattcolor": 821,
+      "silkcolor": 903
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 781,
+      "mattcolor": 853,
+      "silkcolor": 938
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 837,
+      "mattcolor": 911,
+      "silkcolor": 1004
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 917,
+      "mattcolor": 1000,
+      "silkcolor": 1101
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 428,
+      "mattcolor": 467,
+      "silkcolor": 513
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 428,
+      "mattcolor": 467,
+      "silkcolor": 513
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 486,
+      "mattcolor": 529,
+      "silkcolor": 583
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 486,
+      "mattcolor": 529,
+      "silkcolor": 583
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 491,
+      "mattcolor": 537,
+      "silkcolor": 590
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 529,
+      "mattcolor": 578,
+      "silkcolor": 635
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 561,
+      "mattcolor": 613,
+      "silkcolor": 674
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 592,
+      "mattcolor": 647,
+      "silkcolor": 711
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 626,
+      "mattcolor": 682,
+      "silkcolor": 752
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 657,
+      "mattcolor": 716,
+      "silkcolor": 787
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 688,
+      "mattcolor": 751,
+      "silkcolor": 825
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 744,
+      "mattcolor": 811,
+      "silkcolor": 892
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 491,
+      "mattcolor": 537,
+      "silkcolor": 590
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 529,
+      "mattcolor": 578,
+      "silkcolor": 635
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 561,
+      "mattcolor": 613,
+      "silkcolor": 674
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 592,
+      "mattcolor": 647,
+      "silkcolor": 711
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 626,
+      "mattcolor": 682,
+      "silkcolor": 752
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 657,
+      "mattcolor": 716,
+      "silkcolor": 787
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 688,
+      "mattcolor": 751,
+      "silkcolor": 825
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 744,
+      "mattcolor": 811,
+      "silkcolor": 892
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 532,
+      "mattcolor": 581,
+      "silkcolor": 640
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 575,
+      "mattcolor": 627,
+      "silkcolor": 691
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 607,
+      "mattcolor": 662,
+      "silkcolor": 728
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 648,
+      "mattcolor": 707,
+      "silkcolor": 779
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 679,
+      "mattcolor": 741,
+      "silkcolor": 816
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 712,
+      "mattcolor": 778,
+      "silkcolor": 855
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 747,
+      "mattcolor": 814,
+      "silkcolor": 898
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 808,
+      "mattcolor": 881,
+      "silkcolor": 968
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 532,
+      "mattcolor": 581,
+      "silkcolor": 640
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 575,
+      "mattcolor": 627,
+      "silkcolor": 691
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 607,
+      "mattcolor": 662,
+      "silkcolor": 728
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 648,
+      "mattcolor": 707,
+      "silkcolor": 779
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 679,
+      "mattcolor": 741,
+      "silkcolor": 816
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 712,
+      "mattcolor": 778,
+      "silkcolor": 855
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 747,
+      "mattcolor": 814,
+      "silkcolor": 898
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 808,
+      "mattcolor": 881,
+      "silkcolor": 968
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 252,
+      "mattcolor": 275,
+      "silkcolor": 304
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 252,
+      "mattcolor": 275,
+      "silkcolor": 304
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 287,
+      "mattcolor": 313,
+      "silkcolor": 344
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 287,
+      "mattcolor": 313,
+      "silkcolor": 344
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 390,
+      "mattcolor": 418,
+      "silkcolor": 460
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 390,
+      "mattcolor": 418,
+      "silkcolor": 460
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 437,
+      "mattcolor": 463,
+      "silkcolor": 511
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 437,
+      "mattcolor": 463,
+      "silkcolor": 511
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 704,
+      "mattcolor": 768,
+      "silkcolor": 845
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 739,
+      "mattcolor": 808,
+      "silkcolor": 889
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 770,
+      "mattcolor": 841,
+      "silkcolor": 925
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 805,
+      "mattcolor": 877,
+      "silkcolor": 966
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 841,
+      "mattcolor": 916,
+      "silkcolor": 1008
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 900,
+      "mattcolor": 981,
+      "silkcolor": 1080
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 704,
+      "mattcolor": 768,
+      "silkcolor": 845
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 739,
+      "mattcolor": 808,
+      "silkcolor": 889
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 770,
+      "mattcolor": 841,
+      "silkcolor": 925
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 805,
+      "mattcolor": 877,
+      "silkcolor": 966
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 841,
+      "mattcolor": 916,
+      "silkcolor": 1008
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 900,
+      "mattcolor": 981,
+      "silkcolor": 1080
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 763,
+      "mattcolor": 833,
+      "silkcolor": 916
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 805,
+      "mattcolor": 877,
+      "silkcolor": 966
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 835,
+      "mattcolor": 910,
+      "silkcolor": 1003
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 876,
+      "mattcolor": 957,
+      "silkcolor": 1053
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 906,
+      "mattcolor": 988,
+      "silkcolor": 1087
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 976,
+      "mattcolor": 1064,
+      "silkcolor": 1172
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 763,
+      "mattcolor": 833,
+      "silkcolor": 916
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 805,
+      "mattcolor": 877,
+      "silkcolor": 966
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 835,
+      "mattcolor": 910,
+      "silkcolor": 1003
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 876,
+      "mattcolor": 957,
+      "silkcolor": 1053
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 906,
+      "mattcolor": 988,
+      "silkcolor": 1087
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "yes",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 976,
+      "mattcolor": 1064,
+      "silkcolor": 1172
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 550,
+      "mattcolor": 600,
+      "silkcolor": 661
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 599,
+      "mattcolor": 653,
+      "silkcolor": 720
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 633,
+      "mattcolor": 691,
+      "silkcolor": 761
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 669,
+      "mattcolor": 729,
+      "silkcolor": 803
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 704,
+      "mattcolor": 768,
+      "silkcolor": 845
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 738,
+      "mattcolor": 806,
+      "silkcolor": 887
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 773,
+      "mattcolor": 843,
+      "silkcolor": 928
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 35,
+      bathroomDepth: "bdepth35cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 838,
+      "mattcolor": 914,
+      "silkcolor": 1005
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 550,
+      "mattcolor": 600,
+      "silkcolor": 661
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 599,
+      "mattcolor": 653,
+      "silkcolor": 720
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 633,
+      "mattcolor": 691,
+      "silkcolor": 761
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 669,
+      "mattcolor": 729,
+      "silkcolor": 803
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 704,
+      "mattcolor": 768,
+      "silkcolor": 845
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 738,
+      "mattcolor": 806,
+      "silkcolor": 887
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 773,
+      "mattcolor": 843,
+      "silkcolor": 928
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 39.5,
+      bathroomDepth: "bdepth40cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 838,
+      "mattcolor": 914,
+      "silkcolor": 1005
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 592,
+      "mattcolor": 647,
+      "silkcolor": 711
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 645,
+      "mattcolor": 704,
+      "silkcolor": 777
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 681,
+      "mattcolor": 744,
+      "silkcolor": 817
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 719,
+      "mattcolor": 783,
+      "silkcolor": 860
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 754,
+      "mattcolor": 822,
+      "silkcolor": 906
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 792,
+      "mattcolor": 865,
+      "silkcolor": 951
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 834,
+      "mattcolor": 909,
+      "silkcolor": 1000
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 45.5,
+      bathroomDepth: "bdepth46cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 903,
+      "mattcolor": 987,
+      "silkcolor": 1086
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 35,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 592,
+      "mattcolor": 647,
+      "silkcolor": 711
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 50,
+      bathroomLength: "blength35cm",
+      bathroomFinishes: {"polymeric": 645,
+      "mattcolor": 704,
+      "silkcolor": 777
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 60,
+      bathroomLength: "blength60cm",
+      bathroomFinishes: {"polymeric": 681,
+      "mattcolor": 744,
+      "silkcolor": 817
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 70,
+      bathroomLength: "blength70cm",
+      bathroomFinishes: {"polymeric": 719,
+      "mattcolor": 783,
+      "silkcolor": 860
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 80,
+      bathroomLength: "blength80cm",
+      bathroomFinishes: {"polymeric": 754,
+      "mattcolor": 822,
+      "silkcolor": 906
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 90,
+      bathroomLength: "blength90cm",
+      bathroomFinishes: {"polymeric": 792,
+      "mattcolor": 865,
+      "silkcolor": 951
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 100,
+      bathroomLength: "blength100cm",
+      bathroomFinishes: {"polymeric": 834,
+      "mattcolor": 909,
+      "silkcolor": 1000
+    }},
+    {
+      bathroomModel: "vertigo",
+      bathroomActualHeight: 60,
+      bathroomHeight: "bheight60cm2dr",
+      sinkUnit: "no",
+      bathroomActualDepth: 51,
+      bathroomDepth: "bdepth51cm",
+      bathroomActualLength: 120,
+      bathroomLength: "blength120cm",
+      bathroomFinishes: {"polymeric": 903,
+      "mattcolor": 987,
+      "silkcolor": 1086
+                        }  
+    }
+];
+const sidePricing = [
+  {
+   bathSide: "cannettedSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 63,
+      "mattcolor": 117,
+      "silkcolor": 129
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 77,
+      "mattcolor": 128,
+      "silkcolor": 141
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 92,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 104,
+      "mattcolor": 177,
+      "silkcolor": 195
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 63,
+      "mattcolor": 117,
+      "silkcolor": 129
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 77,
+      "mattcolor": 128,
+      "silkcolor": 141
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 92,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 104,
+      "mattcolor": 177,
+      "silkcolor": 195
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 77,
+      "mattcolor": 126,
+      "silkcolor": 138
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 97,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 117,
+      "mattcolor": 189,
+      "silkcolor": 207
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 137,
+      "mattcolor": 228,
+      "silkcolor": 252
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 77,
+      "mattcolor": 126,
+      "silkcolor": 138
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 97,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 117,
+      "mattcolor": 189,
+      "silkcolor": 207
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 137,
+      "mattcolor": 228,
+      "silkcolor": 252
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 54,
+      "mattcolor": 83,
+      "silkcolor": 92
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 89,
+      "mattcolor": 118,
+      "silkcolor": 132
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 54,
+      "mattcolor": 83,
+      "silkcolor": 92
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 89,
+      "mattcolor": 118,
+      "silkcolor": 132
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 92,
+      "silkcolor": 101
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 118,
+      "mattcolor": 161,
+      "silkcolor": 177
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 92,
+      "silkcolor": 101
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 118,
+      "mattcolor": 161,
+      "silkcolor": 177
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 54,
+      "mattcolor": 83,
+      "silkcolor": 92
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 89,
+      "mattcolor": 118,
+      "silkcolor": 132
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 54,
+      "mattcolor": 83,
+      "silkcolor": 92
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 89,
+      "mattcolor": 118,
+      "silkcolor": 132
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 92,
+      "silkcolor": 101
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 118,
+      "mattcolor": 161,
+      "silkcolor": 177
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 24,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 92,
+      "silkcolor": 101
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 60,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": 118,
+      "mattcolor": 161,
+      "silkcolor": 177
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 37.4,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 28,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 137,
+      "silkcolor": 170
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 37.4,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 166,
+      "silkcolor": 214
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 37.4,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 194,
+      "silkcolor": 257
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 37.4,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 64,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 223,
+      "silkcolor": 300
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 41.9,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 28,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 156,
+      "silkcolor": 193
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 41.9,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 192,
+      "silkcolor": 244
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 41.9,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 228,
+      "silkcolor": 296
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 41.9,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 64,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 264,
+      "silkcolor": 348
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 47.9,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 28,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 156,
+      "silkcolor": 193
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 47.9,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 192,
+      "silkcolor": 244
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 47.9,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 228,
+      "silkcolor": 296
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 47.9,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 64,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 264,
+      "silkcolor": 348
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 53.4,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 28,
+      bathroomHeight: "bheight24cm1dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 156,
+      "silkcolor": 193
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 53.4,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm1dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 192,
+      "silkcolor": 244
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 53.4,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 228,
+      "silkcolor": 296
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 53.4,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 64,
+      bathroomHeight: "bheight48cm2dr",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 264,
+      "silkcolor": 348
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 77,
+      "mattcolor": 128,
+      "silkcolor": 141
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 77,
+      "mattcolor": 128,
+      "silkcolor": 141
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 97,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 97,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 37.4,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 166,
+      "silkcolor": 214
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 41.9,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 192,
+      "silkcolor": 244
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 47.9,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 192,
+      "silkcolor": 244
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 53.4,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm1do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 192,
+      "silkcolor": 244
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 77,
+      "mattcolor": 128,
+      "silkcolor": 141
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 77,
+      "mattcolor": 128,
+      "silkcolor": 141
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 97,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 97,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 67,
+      "mattcolor": 88,
+      "silkcolor": 99
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 36,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": 81,
+      "mattcolor": 109,
+      "silkcolor": 119
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 37.4,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 166,
+      "silkcolor": 214
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 41.9,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 192,
+      "silkcolor": 244
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 47.9,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 192,
+      "silkcolor": 244
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 53.4,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 40,
+      bathroomHeight: "bheight36cm2do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 192,
+      "silkcolor": 244
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 92,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 92,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 117,
+      "mattcolor": 189,
+      "silkcolor": 207
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 117,
+      "mattcolor": 189,
+      "silkcolor": 207
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 37.4,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 194,
+      "silkcolor": 257
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 41.9,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 228,
+      "silkcolor": 296
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 47.9,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 228,
+      "silkcolor": 296
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 53.4,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm1do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 228,
+      "silkcolor": 296
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 92,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 92,
+      "mattcolor": 149,
+      "silkcolor": 165
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 117,
+      "mattcolor": 189,
+      "silkcolor": 207
+    }},
+    {
+      bathSide: "cannettedSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 117,
+      "mattcolor": 189,
+      "silkcolor": 207
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "roundSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 35.2,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 39.7,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 78,
+      "mattcolor": 101,
+      "silkcolor": 111
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 45.7,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "straightSide",
+      bathroomActualDepth: 51.2,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 48,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": 101,
+      "mattcolor": 135,
+      "silkcolor": 149
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 37.4,
+      sideDepth: "bdepth35cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 194,
+      "silkcolor": 257
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 41.9,
+      sideDepth: "bdepth40cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 228,
+      "silkcolor": 296
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 47.9,
+      sideDepth: "bdepth46cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 228,
+      "silkcolor": 296
+    }},
+    {
+      bathSide: "45degreeSide",
+      bathroomActualDepth: 53.4,
+      sideDepth: "bdepth51cm",
+      sideActualHeight: 52,
+      bathroomHeight: "bheight48cm2do",
+      bathroomFinishes: {"polymeric": "—",
+      "mattcolor": 228,
+      "silkcolor": 296
+                        }
+    }
+];
+const bathGresPricing = [
+  {
+     bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 534,
+      "bath_price_2": 586,
+      "bath_price_3": 620
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 594,
+      "bath_price_2": 655,
+      "bath_price_3": 697
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 659,
+      "bath_price_2": 724,
+      "bath_price_3": 772
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 720,
+      "bath_price_2": 793,
+      "bath_price_3": 850
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 785,
+      "bath_price_2": 862,
+      "bath_price_3": 923
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 845,
+      "bath_price_2": 931,
+      "bath_price_3": 997
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 910,
+      "bath_price_2": 1006,
+      "bath_price_3": 1074
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 971,
+      "bath_price_2": 1074,
+      "bath_price_3": 1147
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1036,
+      "bath_price_2": 1144,
+      "bath_price_3": 1221
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1096,
+      "bath_price_2": 1212,
+      "bath_price_3": 1299
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1156,
+      "bath_price_2": 1283,
+      "bath_price_3": 1373
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1221,
+      "bath_price_2": 1351,
+      "bath_price_3": 1446
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1283,
+      "bath_price_2": 1421,
+      "bath_price_3": 1525
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1347,
+      "bath_price_2": 1489,
+      "bath_price_3": 1598
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1407,
+      "bath_price_2": 1562,
+      "bath_price_3": 1675
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1472,
+      "bath_price_2": 1633,
+      "bath_price_3": 1749
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1533,
+      "bath_price_2": 1701,
+      "bath_price_3": 1823
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1598,
+      "bath_price_2": 1771,
+      "bath_price_3": 1901
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 551,
+      "bath_price_2": 605,
+      "bath_price_3": 640
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 614,
+      "bath_price_2": 675,
+      "bath_price_3": 721
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 680,
+      "bath_price_2": 747,
+      "bath_price_3": 796
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 743,
+      "bath_price_2": 819,
+      "bath_price_3": 877
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 810,
+      "bath_price_2": 891,
+      "bath_price_3": 952
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 871,
+      "bath_price_2": 962,
+      "bath_price_3": 1029
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 940,
+      "bath_price_2": 1037,
+      "bath_price_3": 1110
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1003,
+      "bath_price_2": 1110,
+      "bath_price_3": 1185
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1069,
+      "bath_price_2": 1180,
+      "bath_price_3": 1260
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1131,
+      "bath_price_2": 1252,
+      "bath_price_3": 1341
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1194,
+      "bath_price_2": 1323,
+      "bath_price_3": 1418
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1260,
+      "bath_price_2": 1395,
+      "bath_price_3": 1493
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1323,
+      "bath_price_2": 1467,
+      "bath_price_3": 1574
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1390,
+      "bath_price_2": 1537,
+      "bath_price_3": 1649
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1452,
+      "bath_price_2": 1614,
+      "bath_price_3": 1730
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1520,
+      "bath_price_2": 1684,
+      "bath_price_3": 1806
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1583,
+      "bath_price_2": 1757,
+      "bath_price_3": 1881
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1649,
+      "bath_price_2": 1828,
+      "bath_price_3": 1961
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 573,
+      "bath_price_2": 629,
+      "bath_price_3": 666
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 638,
+      "bath_price_2": 704,
+      "bath_price_3": 749
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 708,
+      "bath_price_2": 778,
+      "bath_price_3": 829
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 773,
+      "bath_price_2": 852,
+      "bath_price_3": 912
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 843,
+      "bath_price_2": 926,
+      "bath_price_3": 992
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 908,
+      "bath_price_2": 1001,
+      "bath_price_3": 1071
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 977,
+      "bath_price_2": 1080,
+      "bath_price_3": 1154
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1042,
+      "bath_price_2": 1154,
+      "bath_price_3": 1234
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1113,
+      "bath_price_2": 1229,
+      "bath_price_3": 1313
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1178,
+      "bath_price_2": 1304,
+      "bath_price_3": 1396
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1243,
+      "bath_price_2": 1378,
+      "bath_price_3": 1476
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1313,
+      "bath_price_2": 1452,
+      "bath_price_3": 1554
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1378,
+      "bath_price_2": 1527,
+      "bath_price_3": 1639
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1447,
+      "bath_price_2": 1601,
+      "bath_price_3": 1717
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1512,
+      "bath_price_2": 1680,
+      "bath_price_3": 1801
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1583,
+      "bath_price_2": 1755,
+      "bath_price_3": 1880
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1648,
+      "bath_price_2": 1829,
+      "bath_price_3": 1959
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1717,
+      "bath_price_2": 1903,
+      "bath_price_3": 2043
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1512,
+      "bath_price_2": 1665,
+      "bath_price_3": 1867
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1578,
+      "bath_price_2": 1734,
+      "bath_price_3": 1940
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1640,
+      "bath_price_2": 1805,
+      "bath_price_3": 2017
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1704,
+      "bath_price_2": 1874,
+      "bath_price_3": 2091
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1765,
+      "bath_price_2": 1949,
+      "bath_price_3": 2171
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1830,
+      "bath_price_2": 2017,
+      "bath_price_3": 2244
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1892,
+      "bath_price_2": 2088,
+      "bath_price_3": 2322
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1953,
+      "bath_price_2": 2157,
+      "bath_price_3": 2397
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2017,
+      "bath_price_2": 2227,
+      "bath_price_3": 2471
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2079,
+      "bath_price_2": 2296,
+      "bath_price_3": 2548
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2144,
+      "bath_price_2": 2366,
+      "bath_price_3": 2624
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2205,
+      "bath_price_2": 2436,
+      "bath_price_3": 2698
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2270,
+      "bath_price_2": 2511,
+      "bath_price_3": 2775
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2332,
+      "bath_price_2": 2579,
+      "bath_price_3": 2848
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2397,
+      "bath_price_2": 2650,
+      "bath_price_3": 2928
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2457,
+      "bath_price_2": 2718,
+      "bath_price_3": 3002
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2519,
+      "bath_price_2": 2788,
+      "bath_price_3": 3075
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2584,
+      "bath_price_2": 2858,
+      "bath_price_3": 3155
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1576,
+      "bath_price_2": 1733,
+      "bath_price_3": 1943
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1643,
+      "bath_price_2": 1807,
+      "bath_price_3": 2019
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1707,
+      "bath_price_2": 1879,
+      "bath_price_3": 2102
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1774,
+      "bath_price_2": 1951,
+      "bath_price_3": 2178
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1838,
+      "bath_price_2": 2029,
+      "bath_price_3": 2260
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1905,
+      "bath_price_2": 2102,
+      "bath_price_3": 2337
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1969,
+      "bath_price_2": 2174,
+      "bath_price_3": 2418
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2033,
+      "bath_price_2": 2246,
+      "bath_price_3": 2495
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2102,
+      "bath_price_2": 2318,
+      "bath_price_3": 2573
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2165,
+      "bath_price_2": 2392,
+      "bath_price_3": 2654
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2233,
+      "bath_price_2": 2464,
+      "bath_price_3": 2731
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2296,
+      "bath_price_2": 2537,
+      "bath_price_3": 2809
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2364,
+      "bath_price_2": 2613,
+      "bath_price_3": 2890
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2428,
+      "bath_price_2": 2686,
+      "bath_price_3": 2968
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2495,
+      "bath_price_2": 2759,
+      "bath_price_3": 3049
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2559,
+      "bath_price_2": 2831,
+      "bath_price_3": 3126
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2624,
+      "bath_price_2": 2903,
+      "bath_price_3": 3204
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2691,
+      "bath_price_2": 2977,
+      "bath_price_3": 3285
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 576,
+      "bath_price_2": 616,
+      "bath_price_3": 712
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 647,
+      "bath_price_2": 689,
+      "bath_price_3": 802
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 715,
+      "bath_price_2": 763,
+      "bath_price_3": 889
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 785,
+      "bath_price_2": 836,
+      "bath_price_3": 974
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 853,
+      "bath_price_2": 910,
+      "bath_price_3": 1066
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 923,
+      "bath_price_2": 983,
+      "bath_price_3": 1152
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 992,
+      "bath_price_2": 1057,
+      "bath_price_3": 1239
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1062,
+      "bath_price_2": 1135,
+      "bath_price_3": 1330
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1130,
+      "bath_price_2": 1208,
+      "bath_price_3": 1416
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1200,
+      "bath_price_2": 1283,
+      "bath_price_3": 1506
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1268,
+      "bath_price_2": 1356,
+      "bath_price_3": 1593
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1338,
+      "bath_price_2": 1429,
+      "bath_price_3": 1680
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1407,
+      "bath_price_2": 1502,
+      "bath_price_3": 1771
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1477,
+      "bath_price_2": 1577,
+      "bath_price_3": 1856
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1546,
+      "bath_price_2": 1650,
+      "bath_price_3": 1944
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1615,
+      "bath_price_2": 1728,
+      "bath_price_3": 2034
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1680,
+      "bath_price_2": 1801,
+      "bath_price_3": 2121
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1749,
+      "bath_price_2": 1875,
+      "bath_price_3": 2208
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 596,
+      "bath_price_2": 635,
+      "bath_price_3": 734
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 667,
+      "bath_price_2": 712,
+      "bath_price_3": 828
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 738,
+      "bath_price_2": 787,
+      "bath_price_3": 917
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 810,
+      "bath_price_2": 863,
+      "bath_price_3": 1006
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 882,
+      "bath_price_2": 940,
+      "bath_price_3": 1099
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 952,
+      "bath_price_2": 1015,
+      "bath_price_3": 1190
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1024,
+      "bath_price_2": 1090,
+      "bath_price_3": 1278
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1095,
+      "bath_price_2": 1172,
+      "bath_price_3": 1372
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1168,
+      "bath_price_2": 1248,
+      "bath_price_3": 1462
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1239,
+      "bath_price_2": 1323,
+      "bath_price_3": 1555
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1310,
+      "bath_price_2": 1399,
+      "bath_price_3": 1646
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1381,
+      "bath_price_2": 1476,
+      "bath_price_3": 1733
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1452,
+      "bath_price_2": 1551,
+      "bath_price_3": 1828
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1525,
+      "bath_price_2": 1626,
+      "bath_price_3": 1917
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1595,
+      "bath_price_2": 1704,
+      "bath_price_3": 2007
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1667,
+      "bath_price_2": 1783,
+      "bath_price_3": 2100
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1733,
+      "bath_price_2": 1859,
+      "bath_price_3": 2189
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1806,
+      "bath_price_2": 1935,
+      "bath_price_3": 2279
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 620,
+      "bath_price_2": 662,
+      "bath_price_3": 764
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 694,
+      "bath_price_2": 740,
+      "bath_price_3": 861
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 769,
+      "bath_price_2": 820,
+      "bath_price_3": 955
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 843,
+      "bath_price_2": 899,
+      "bath_price_3": 1047
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 917,
+      "bath_price_2": 977,
+      "bath_price_3": 1145
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 992,
+      "bath_price_2": 1057,
+      "bath_price_3": 1239
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1066,
+      "bath_price_2": 1136,
+      "bath_price_3": 1331
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1140,
+      "bath_price_2": 1219,
+      "bath_price_3": 1429
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1215,
+      "bath_price_2": 1299,
+      "bath_price_3": 1522
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1290,
+      "bath_price_2": 1378,
+      "bath_price_3": 1619
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1364,
+      "bath_price_2": 1457,
+      "bath_price_3": 1713
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1438,
+      "bath_price_2": 1536,
+      "bath_price_3": 1806
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1512,
+      "bath_price_2": 1615,
+      "bath_price_3": 1903
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1587,
+      "bath_price_2": 1695,
+      "bath_price_3": 1997
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1661,
+      "bath_price_2": 1773,
+      "bath_price_3": 2089
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1736,
+      "bath_price_2": 1856,
+      "bath_price_3": 2187
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1806,
+      "bath_price_2": 1936,
+      "bath_price_3": 2280
+    }},
+    {
+      bathCountertopMaterial: "ceramic_hole",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1880,
+      "bath_price_2": 2015,
+      "bath_price_3": 2373
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1600,
+      "bath_price_2": 1738,
+      "bath_price_3": 2007
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1672,
+      "bath_price_2": 1815,
+      "bath_price_3": 2100
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1742,
+      "bath_price_2": 1891,
+      "bath_price_3": 2189
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1815,
+      "bath_price_2": 1966,
+      "bath_price_3": 2279
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1886,
+      "bath_price_2": 2042,
+      "bath_price_3": 2373
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1953,
+      "bath_price_2": 2122,
+      "bath_price_3": 2462
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2024,
+      "bath_price_2": 2198,
+      "bath_price_3": 2551
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2096,
+      "bath_price_2": 2275,
+      "bath_price_3": 2645
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2168,
+      "bath_price_2": 2350,
+      "bath_price_3": 2735
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2238,
+      "bath_price_2": 2426,
+      "bath_price_3": 2823
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2310,
+      "bath_price_2": 2503,
+      "bath_price_3": 2918
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2381,
+      "bath_price_2": 2578,
+      "bath_price_3": 3007
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2454,
+      "bath_price_2": 2653,
+      "bath_price_3": 3100
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2524,
+      "bath_price_2": 2735,
+      "bath_price_3": 3189
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2596,
+      "bath_price_2": 2811,
+      "bath_price_3": 3279
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2667,
+      "bath_price_2": 2886,
+      "bath_price_3": 3373
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2739,
+      "bath_price_2": 2961,
+      "bath_price_3": 3462
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2811,
+      "bath_price_2": 2949,
+      "bath_price_3": 3552
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1666,
+      "bath_price_2": 1811,
+      "bath_price_3": 2089
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1740,
+      "bath_price_2": 1889,
+      "bath_price_3": 2187
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1815,
+      "bath_price_2": 1968,
+      "bath_price_3": 2280
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1889,
+      "bath_price_2": 2048,
+      "bath_price_3": 2373
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 1964,
+      "bath_price_2": 2127,
+      "bath_price_3": 2471
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2033,
+      "bath_price_2": 2210,
+      "bath_price_3": 2564
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2108,
+      "bath_price_2": 2290,
+      "bath_price_3": 2657
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2182,
+      "bath_price_2": 2368,
+      "bath_price_3": 2755
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2257,
+      "bath_price_2": 2448,
+      "bath_price_3": 2847
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2332,
+      "bath_price_2": 2527,
+      "bath_price_3": 2941
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2406,
+      "bath_price_2": 2605,
+      "bath_price_3": 3039
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2480,
+      "bath_price_2": 2685,
+      "bath_price_3": 3131
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2554,
+      "bath_price_2": 2764,
+      "bath_price_3": 3229
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2629,
+      "bath_price_2": 2847,
+      "bath_price_3": 3322
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2703,
+      "bath_price_2": 2927,
+      "bath_price_3": 3415
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2778,
+      "bath_price_2": 3006,
+      "bath_price_3": 3513
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2853,
+      "bath_price_2": 3085,
+      "bath_price_3": 3605
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2927,
+      "bath_price_2": 3071,
+      "bath_price_3": 3699
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2212,
+      "bath_price_2": 2312,
+      "bath_price_3": 2676
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2307,
+      "bath_price_2": 2409,
+      "bath_price_3": 2790
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2401,
+      "bath_price_2": 2505,
+      "bath_price_3": 2904
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2496,
+      "bath_price_2": 2602,
+      "bath_price_3": 3024
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2585,
+      "bath_price_2": 2705,
+      "bath_price_3": 3137
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2678,
+      "bath_price_2": 2801,
+      "bath_price_3": 3251
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2773,
+      "bath_price_2": 2898,
+      "bath_price_3": 3371
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2869,
+      "bath_price_2": 2994,
+      "bath_price_3": 3485
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2962,
+      "bath_price_2": 3092,
+      "bath_price_3": 3598
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3058,
+      "bath_price_2": 3189,
+      "bath_price_3": 3718
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3151,
+      "bath_price_2": 3285,
+      "bath_price_3": 3832
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3247,
+      "bath_price_2": 3382,
+      "bath_price_3": 3951
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3341,
+      "bath_price_2": 3485,
+      "bath_price_3": 4065
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3436,
+      "bath_price_2": 3581,
+      "bath_price_3": 4179
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3530,
+      "bath_price_2": 3678,
+      "bath_price_3": 4298
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3623,
+      "bath_price_2": 3774,
+      "bath_price_3": 4411
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3719,
+      "bath_price_2": 3758,
+      "bath_price_3": 4525
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2303,
+      "bath_price_2": 2408,
+      "bath_price_3": 2787
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2401,
+      "bath_price_2": 2508,
+      "bath_price_3": 2905
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2501,
+      "bath_price_2": 2609,
+      "bath_price_3": 3024
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2599,
+      "bath_price_2": 2710,
+      "bath_price_3": 3149
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2691,
+      "bath_price_2": 2816,
+      "bath_price_3": 3268
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2790,
+      "bath_price_2": 2918,
+      "bath_price_3": 3386
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2888,
+      "bath_price_2": 3018,
+      "bath_price_3": 3511
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPriceLevel: {"bath_price_1": 2986,
+      "bath_price_2": 3120,
+      "bath_price_3": 3629
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3085,
+      "bath_price_2": 3220,
+      "bath_price_3": 3748
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3183,
+      "bath_price_2": 3320,
+      "bath_price_3": 3872
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3283,
+      "bath_price_2": 3422,
+      "bath_price_3": 3990
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3381,
+      "bath_price_2": 3522,
+      "bath_price_3": 4115
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3479,
+      "bath_price_2": 3629,
+      "bath_price_3": 4233
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3578,
+      "bath_price_2": 3729,
+      "bath_price_3": 4352
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3676,
+      "bath_price_2": 3831,
+      "bath_price_3": 4476
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3775,
+      "bath_price_2": 3931,
+      "bath_price_3": 4595
+    }},
+    {
+      bathCountertopMaterial: "ceramic_sink",
+      bathCountertopActualDepth: "51.5",
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "20+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPriceLevel: {"bath_price_1": 3873,
+      "bath_price_2": 3913,
+      "bath_price_3": 4713
+    }
+    }
+];
+const bathOcritechPricing = [
+  {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 317
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 357
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 398
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 439
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 480
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 520
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 560
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 601
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 642
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 683
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 724
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 764
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 805
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 846
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 886
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 927
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 967
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1008
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 327
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 368
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 410
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 452
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 494
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 536
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 577
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 620
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 662
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 704
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 746
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 787
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 829
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 871
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 914
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 956
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 997
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1039
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 327
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 368
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 410
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 452
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 494
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 536
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 577
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 620
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 662
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 704
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 746
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 787
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 829
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 871
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 914
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 956
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 997
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1039
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 517
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 556
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 597
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 638
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 679
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 720
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 760
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 801
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 842
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 883
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 923
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 963
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 1004
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 1045
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 1086
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 1127
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 1167
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1208
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 532
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 573
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 615
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 657
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 699
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 741
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 783
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 825
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 867
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 909
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 951
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 992
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 1034
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 1077
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 1119
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 1161
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 1202
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1244
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 532
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 573
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 615
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 657
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 699
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 741
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 783
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 825
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 867
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 909
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 951
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 992
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 1034
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 1077
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 1119
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 1161
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 1202
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "1cm",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1244
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 453
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 513
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 574
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 633
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 694
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 754
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 813
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 875
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 934
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 995
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 1055
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 1114
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 1176
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 1235
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 1294
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 1356
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 1415
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1476
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 467
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 528
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 591
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 653
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 714
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 777
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 838
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 901
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 963
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 1024
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 1087
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 1148
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 1211
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 1273
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 1334
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 1397
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 1459
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1521
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 467
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 528
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 591
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 653
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 714
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 777
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 838
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 901
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 963
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 1024
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 1087
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 1148
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 1211
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 1273
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 1334
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 1397
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 1459
+    },
+    {
+      bathCountertopMaterial: "ocritech_hole",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1521
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 653
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 712
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 773
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 833
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 892
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 954
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 1013
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 1073
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 1134
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 1193
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 1254
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 1314
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 1374
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 1435
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 1494
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 1554
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 1615
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 40,
+      bathCountertopDepth: "bcounterdepth40cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1675
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 672
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 734
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 796
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 858
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 919
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 982
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 1044
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 1106
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 1168
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 1229
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 1292
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 1354
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 1416
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 1478
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 1539
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 1602
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 1664
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 46,
+      bathCountertopDepth: "bcounterdepth46cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1726
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 70,
+      bathCountertopLength: "bcounterlength70cm",
+      bathCountertopPrice: 672
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 80,
+      bathCountertopLength: "bcounterlength80cm",
+      bathCountertopPrice: 734
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 90,
+      bathCountertopLength: "bcounterlength90cm",
+      bathCountertopPrice: 796
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 100,
+      bathCountertopLength: "bcounterlength100cm",
+      bathCountertopPrice: 858
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 110,
+      bathCountertopLength: "bcounterlength110cm",
+      bathCountertopPrice: 919
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 120,
+      bathCountertopLength: "bcounterlength120cm",
+      bathCountertopPrice: 982
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 130,
+      bathCountertopLength: "bcounterlength130cm",
+      bathCountertopPrice: 1044
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 140,
+      bathCountertopLength: "bcounterlength140cm",
+      bathCountertopPrice: 1106
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 150,
+      bathCountertopLength: "bcounterlength150cm",
+      bathCountertopPrice: 1168
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 160,
+      bathCountertopLength: "bcounterlength160cm",
+      bathCountertopPrice: 1229
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 170,
+      bathCountertopLength: "bcounterlength170cm",
+      bathCountertopPrice: 1292
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 180,
+      bathCountertopLength: "bcounterlength180cm",
+      bathCountertopPrice: 1354
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 190,
+      bathCountertopLength: "bcounterlength190cm",
+      bathCountertopPrice: 1416
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 200,
+      bathCountertopLength: "bcounterlength200cm",
+      bathCountertopPrice: 1478
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 210,
+      bathCountertopLength: "bcounterlength210cm",
+      bathCountertopPrice: 1539
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 220,
+      bathCountertopLength: "bcounterlength220cm",
+      bathCountertopPrice: 1602
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 230,
+      bathCountertopLength: "bcounterlength230cm",
+      bathCountertopPrice: 1664
+    },
+    {
+      bathCountertopMaterial: "ocritech_sink",
+      bathCountertopActualDepth: 51.5,
+      bathCountertopDepth: "bcounterdepth51cm",
+      bathCountertopThickness: "4+",
+      bathCountertopActualLength: 240,
+      bathCountertopLength: "bcounterlength240cm",
+      bathCountertopPrice: 1726
+    }  
+];
+
+//Dynamic Price Level Question based on Material
+const materialSelect = document.getElementById("bath-countertop-material");
+const priceLevelWrapper = document.getElementById("countertop-pricelevel-wrapper");
+const priceLevelSelect = document.getElementById("bath-countertop-pricelevel");
+materialSelect.addEventListener("change", () => {
+  const value = materialSelect.value;
+  // Show price level ONLY for ceramic materials
+  if (value === "ceramic_hole" || value === "ceramic_sink") {
+    priceLevelWrapper.style.display = "block";
+  } else { // Hide and reset if switching to Ocritech
+    priceLevelWrapper.style.display = "none";
+    priceLevelSelect.value = "";
+  }
+
+  // Recalculate totals
+  calculateBathPrice();
+});
+
+
+//Dynamic Sink Upgrade Question based on Material
+const sinkTypeWrapper = document.getElementById("countertop-sinktype-wrapper");
+const sinkTypeSelect = document.getElementById("bath-sink-type");
+materialSelect.addEventListener("change", () => {
+  const value = materialSelect.value;
+
+  // Show only for ocritech integrated sink
+  if (value === "ocritech_sink") {
+    sinkTypeWrapper.style.display = "block";
+  } else {
+    sinkTypeWrapper.style.display = "none";
+    sinkTypeSelect.value = ""; // reset selection
+  }
+
+  calculateBathPrice();
+});
+
+//Dynamic Handle Question based on Model
+const modelSelect = document.getElementById("bathroom-model");
+const handleWrapper = document.getElementById("bathroom-handle-wrapper");
+const handleSelect = document.getElementById("bath-handle-type");
+function updateHandleVisibility() {
+  const model = modelSelect.value;
+  if (model === "vertigo") {
+    handleWrapper.style.display = "block";
+  } else {
+    handleWrapper.style.display = "none";
+    handleSelect.value = ""; // reset when hidden
+  }
+  calculateBathPrice();
+}
+
+modelSelect.addEventListener("change", updateHandleVisibility);
+
+function calculateVanityPrice(cabIndex) {
+  let bathroomModelEntry = document.getElementById('bathroom-model').value;
+  const bathroomFinishEntry = document.getElementById('bathroom-finish').value;
+  const sinkUnitEntry = document.getElementById(`sink${cabIndex}-unit`).value;
+  const bathroomHeightEntry = document.getElementById(`bathroom${cabIndex}-height`).value;
+  const bathroomLengthEntry = document.getElementById(`bathroom${cabIndex}-length`).value;
+  const bathroomDepthEntry = document.getElementById(`bathroom${cabIndex}-depth`).value;
+  const bathroomSideEntry = document.getElementById(`bathroom${cabIndex}-side`).value;
+  
+  //Normalize model for pricing lookup 
+  let normalizedBathModel = bathroomModelEntry;
+  if (bathroomModelEntry === "vertigoEVO" || bathroomModelEntry === "reverso") {
+    normalizedBathModel = "vertigo";
+  }
+
+    // Check if all required fields are selected
+  const bathAllSelected = [bathroomModelEntry, bathroomFinishEntry, sinkUnitEntry, bathroomHeightEntry, bathroomLengthEntry, bathroomDepthEntry].every(val => val && val !== "");
+  
+  if (!bathAllSelected) return { price: 0, complete: false, match: true };
+  
+  // Find matching row  
+  const bathMatch = bathPricing.find(
+    row =>
+    row.bathroomModel === normalizedBathModel && 
+    row.sinkUnit === sinkUnitEntry &&
+    row.bathroomHeight === bathroomHeightEntry && 
+    row.bathroomLength === bathroomLengthEntry && 
+    row.bathroomDepth === bathroomDepthEntry
+  );
+  
+  if(!bathMatch) {
+    return {price: 0, complete: true, match: false};
+  }
+  
+  let bathPrice = bathMatch.bathroomFinishes[bathroomFinishEntry];
+  
+  if (bathroomModelEntry === "vertigoEVO") {
+    bathPrice = Math.round(bathPrice * 1.053);
+  }
+  
+  //Add Side Panel to Price
+  if (bathroomSideEntry && bathroomSideEntry !== "") {
+    const sideMatch = sidePricing.find(row =>
+      row.bathSide === bathroomSideEntry &&
+      row.bathroomHeight === bathroomHeightEntry &&
+      row.sideDepth === bathroomDepthEntry
+    );
+    if (sideMatch) {
+      bathPrice += sideMatch.bathroomFinishes[bathroomFinishEntry];
+    }
+  }
+  
+  // Add handle pricing (global selection applies to all cabinets)
+  const handleType = document.getElementById("bath-handle-type")?.value;
+  if (handleType) {
+    const handlePricing = {
+      push_bath_handle: 92,
+      bath_handle: 43  
+    };
+    if (bathroomHeightEntry === "bheight24cm1dr" || bathroomHeightEntry === "bheight36cm1dr") { //1 handle required
+      console.log("bathPrice pre handle: ", bathPrice);
+      bathPrice += handlePricing[handleType] || 0;
+      console.log("handle price: ", handlePricing[handleType]);
+    } else if (bathroomHeightEntry === "bheight48cm2dr" || bathroomHeightEntry === "bheight60cm2dr") { //2 handles required
+      console.log("bathPrice pre handle: ", bathPrice);
+      bathPrice += handlePricing[handleType] * 2 || 0;
+      console.log("handle price: ", handlePricing[handleType] * 2);
+    }
+  
+}
+  
+  
+  return {price: bathPrice, complete: true, match: true};
+}
+
+function calculateBathPrice() {
+  const bathErrorBox = document.getElementById("bathroom-error-message");
+  bathErrorBox.textContent = "";
+  
+  //calculates vanity price
+  let vanityTotal = 0;
+  let bathCountertopTotal = 0;
+  let bathGrandTotal = 0;
+  
+  for (let i = 1; i <= cabinetCount; i++) {
+    const result = calculateVanityPrice(i);
+    //if vanity match not found
+    if (result.complete && !result.match) {
+      bathErrorBox.textContent =
+        `The configuration of cabinet ${i} is not available. Please try another combination or contact Thelia Group.`;
+      bathErrorBox.style.color = "red";
+      document.getElementById("bathroom-total").textContent = "$0.00";
+      document.getElementById("bathroom-grand-total").textContent = "$0.00";
+      return;
+    }
+    vanityTotal += result.price;
+  }
+  
+    
+  //COUNTERTOP SECTION
+  const counterMaterial = document.getElementById('bath-countertop-material')?.value;
+  const counterThickness = document.getElementById('bath-countertop-thickness')?.value;
+  const counterLength = document.getElementById('bath-countertop-length')?.value;
+  const counterDepth = document.getElementById('bath-countertop-depth')?.value;
+  const counterPriceLevel = document.getElementById("bath-countertop-pricelevel").value;
+  
+  const sinkNumber = document.getElementById("sink-number")?.value;
+  
+  const countertopFieldsSelected =
+        counterMaterial &&
+        counterThickness &&
+        counterLength &&
+        counterDepth &&
+        (// Ceramic requires price level but not Ocritech
+          (counterMaterial === "ceramic_hole" || counterMaterial === "ceramic_sink")
+          ? counterPriceLevel
+          : true // Ocritech does NOT require price level
+        );
+
+  if (countertopFieldsSelected) {
+    let pricingArray;
+    let priceExtractor;
+
+    // Determine which pricing array to use
+    if (counterMaterial === "ceramic_hole" || counterMaterial === "ceramic_sink") {
+      pricingArray = bathGresPricing;
+      // Ceramic uses price levels
+      priceExtractor = (match) => match.bathCountertopPriceLevel[counterPriceLevel];
+    } else if (counterMaterial === "ocritech_hole" || counterMaterial === "ocritech_sink") {
+      pricingArray = bathOcritechPricing;
+      // Ocritech uses a single price field
+      priceExtractor = (match) => match.bathCountertopPrice;
+    }
+
+    const gresMatch = pricingArray.find(row =>
+      row.bathCountertopMaterial === counterMaterial &&
+      row.bathCountertopThickness == counterThickness &&
+      row.bathCountertopDepth === counterDepth &&
+      row.bathCountertopLength === counterLength
+    );
+    
+    if (!gresMatch) {
+    bathErrorBox.textContent =
+      "This countertop selection is not available. Adjust your selection or contact Thelia Group for more options.";
+    bathErrorBox.style.color = "red";
+    // Reset countertop + grand total display
+    document.getElementById("bathroom-countertop-total").textContent = "$0.00";
+    document.getElementById("bathroom-grand-total").textContent = vanityTotal;
+    return; // stop calculation cleanly
+    }
+    
+    bathCountertopTotal += priceExtractor(gresMatch);
+
+    //surcharge for 2 sinks
+    if (sinkNumber === "2") {
+      let surcharge = 0;
+      if (counterMaterial === "ceramic_hole") {
+        surcharge = 164;
+      }
+      if (counterMaterial === "ceramic_sink") {
+        // Thickness-based surcharge
+        if (counterThickness === "20+") {
+          surcharge = 1802;
+        } else {
+          surcharge = 1268;
+        }
+      }
+      if (counterMaterial === "ocritech_hole") {
+        surcharge = 77;
+      }
+      if (counterMaterial === "ocritech_sink") {
+        surcharge = 263;
+      }
+
+    bathCountertopTotal += surcharge;
+  }
+    
+    // 🔹 BRACKET LOGIC (for thickness ≥ 4cm)
+    if (counterThickness === "4+" || counterThickness === "20+") {
+      // Determine number of brackets
+      const numericLength = parseInt(counterLength.replace("bcounterlength", "").replace("cm", ""), 10);
+      let bracketCount = numericLength <= 120 ? 2 : 3;
+      // Determine price per bracket based on depth
+      let bracketPrice = 0;
+      if (counterDepth === "bcounterdepth40cm") {
+        bracketPrice = 54;
+      } else if (counterDepth === "bcounterdepth46cm" || counterDepth === "bcounterdepth51cm") {
+        bracketPrice = 59;
+      }
+      const bracketTotal = bracketCount * bracketPrice;
+      
+      bathCountertopTotal += bracketTotal;
+      console.log(`Bracket logic applied: ${bracketCount} brackets × ${bracketPrice} = ${bracketTotal}`);
+    }
+    
+    // 🔹OCRITECH SINK TYPE UPGRADE SURCHARGE
+    if (counterMaterial === "ocritech_sink") {
+      const sinkType = document.getElementById("bath-sink-type")?.value;
+      const sinkTypePricing = {
+        sink_CUT: 392,
+        sink_META_1: 491,
+        sink_META_2: 625,
+        sink_META_3: 662,
+        sink_META_4: 680
+      };
+
+      if (sinkType && sinkTypePricing[sinkType]) {
+        bathCountertopTotal += sinkTypePricing[sinkType];
+        console.log("Ocritech sink upgrade surcharge:", sinkTypePricing[sinkType]);
+      }
+    }
+    
+  }
+  
+  
+  //CATALOG GRAND TOTAL PRICE
+  bathGrandTotal = vanityTotal + bathCountertopTotal; 
+  
+  // Get dealer group multiplier
+  const bathDealerGroup = document.getElementById("bathroom-dealer-type")?.value || "none";
+  // Choose currency symbol
+  const currencySymbol = bathDealerGroup === "none" ? "€" : "$";
+  
+  
+  //CUSTOM DUTIES CALCULATIONS
+  const bathCustomDuties = bathGrandTotal * 0.1 * dollarConversionRate; 
+  document.getElementById("bathroom-custom-duties-total").textContent =
+    `$${bathCustomDuties.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+  
+  //DEALER MULTIPLIER AND CONVERSION TO DOLLAR: 
+    const puntotreDealerMultipliers = {
+      retail: 1.872,
+      advanced: 0.7956,
+      preferred: 0.7605,
+      elite: 0.7371,
+      builder: 1.3104,
+      designer: 1.4976,
+      none: 1.0 //EQUIVALENT TO POINTS
+    };
+
+  const bathDealerMultiplier = puntotreDealerMultipliers[bathDealerGroup] || 1;
+  
+  // Apply multiplier to cabinet + countertop totals
+  const dealerVanityTotal = vanityTotal * bathDealerMultiplier;
+  const dealerCountertopTotal = bathCountertopTotal * bathDealerMultiplier;
+  
+  document.getElementById("bathroom-total").textContent =
+    `${currencySymbol}${dealerVanityTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  
+  document.getElementById("bathroom-countertop-total").textContent =
+    `${currencySymbol}${dealerCountertopTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+  
+  const dealerBathGrandTotal = dealerVanityTotal + dealerCountertopTotal + bathCustomDuties;
+
+  document.getElementById("bathroom-grand-total").textContent =
+    `${currencySymbol}${dealerBathGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+document.querySelectorAll('#bathroom-model, #bathroom-finish, #sink-unit, #bath-height, #bath-length, #bath-depth, #bath-side, #bath-countertop, #bath-countertop-pricelevel, #bath-countertop-depth, #bath-countertop-length, #bath-countertop-thickness, #sink-number, #bath-sink-type, #bath-handle-type')
+  .forEach(el => el.addEventListener('change', calculateBathPrice));
+
