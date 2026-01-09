@@ -20,6 +20,7 @@
 <nav class="page-nav">
   <button class="nav-button" onclick="showCalculator('discount')">Discount Calculator</button>
   <button class="nav-button" onclick="showCalculator('kitchen')">Kitchen</button>
+  <button class="nav-button" onclick="showCalculator('bathroom')">Bathroom</button>
   <button class="nav-button" onclick="showCalculator('door')">Door</button>
   <button class="nav-button" onclick="showCalculator('floor')">Floor</button>
 </nav>
@@ -61,7 +62,7 @@
                    <option value="pianca">Pianca</option>
                  </select> 
                  <label for="euro-price">Enter Price:</label>
-                 <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">Static exchange rate valid through December 31, 2025 --> 1€ : $1.15. Please note, all catalog prices are in euros, except for Laguna Superfici which is in dollars.</p>
+                 <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">Static exchange rate valid through June 30, 2026 --> 1€ : $1.17. Please note, all catalog prices are in euros, except for Laguna Superfici which is in dollars.</p>
                  <div style="display: flex; align-items: center; gap: 10px;">
                    <span class="currency-symbol">€</span>
                    <input type="number" id="euro-price" placeholder="€" step="0.01">
@@ -86,8 +87,10 @@
                    <span>Your Price</span>
                    <span id="discount-total" class="total-price">$0.00</span>
                  </div>
-                 <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="catalog-custom-duties-total">+$0.00</span></div>
-                 <p class="duties-statement"><strong> Average Resell Price Including Estimated Custom Duties: </strong></p>
+                 <div class="breakdown-row"><span>Estimated Custom Duties</span>
+                   <span id="catalog-custom-duties-total" class = "duties-bold-number">+$0.00</span>
+                 </div>
+                 <p class="duties-statement"><strong> Average Resell Price EXCLUDING Estimated Custom Duties: </strong></p>
                  <div id="resell-price-breakdown" class="breakdown-list">
                    <div class="breakdown-row"><span>Builder</span><span id="builder-MSRP">$0.00</span></div>
                   <div class="breakdown-row"><span>Designer</span><span id="designer-MSRP">$0.00</span></div>
@@ -527,7 +530,7 @@
                <option value="advanced">Level 1 - Advanced Dealer</option>
                <option value="preferred">Level 2 - Preferred Dealer</option>
                <option value="elite">Level 3 -  Elite Dealer</option>
-               <option value="none">Catalog Price (Converted to $)</option>
+               <option value="none">Catalog Price (aka "Points" or €)</option>
              </select>
            </div>  
            <p class="range-explanation">The range below is representative of variations in price which occur based on the level of customization required.</p>           
@@ -771,7 +774,7 @@
                  <option value="advanced">Level 1 - Advanced Dealer</option>
                  <option value="preferred">Level 2 - Preferred Dealer</option>
                  <option value="elite">Level 3 -  Elite Dealer</option>
-                 <option value="none">Catalog Price (Converted to $)</option>
+                 <option value="none">Catalog Price (in $)</option>
                </select>
              </div>
              <div id="floor-error-message" class="floor-warning-message"></div>
@@ -810,7 +813,7 @@
      <section class="how-it-works" id="how-it-works">
        <div class="how-container">
          <h2>How It Works</h2>
-         <p class="intro">Estimate your door price in three simple steps.</p>
+         <p class="intro">Estimate your door price in four simple steps.</p>
          <div class="steps">
            <div class="step">
              <div class="step-icon">📏</div>
@@ -819,15 +822,15 @@
              </p>
            </div>
            <div class="step">
-             <div class="step-icon">🎨</div>
+             <div class="step-icon">🎨🚪</div>
              <h3>Select Your Finish and Door Model</h3>
              <p>Select the frame type, leaf model, and finish. </p>
            </div>
-           <!-- <div class="step">
-             <div class="step-icon">🖌️</div>
-             <h3>Add On Customizations</h3>
-             <p>TBD</p>
-           </div>--> 
+           <div class="step">
+             <div class="step-icon">🫳</div>
+             <h3>Add Door Handle (Optional)</h3>
+             <p>Select from handle from a popular subselection of door handles. Please note, more handles are available in the catalog.</p>
+           </div> 
            <div class="step">
              <div class="step-icon">💰</div>
              <h3>Get Your Estimate</h3>
@@ -1037,9 +1040,7 @@
                  <option value="privacy-lock">Privacy Lock</option>	
                  <option value="yalelock">Lock with Thumbturn</option>
                </select>
-               
-               
-                           
+                    
              </div>
            </form>
          </div>
@@ -1061,7 +1062,7 @@
                  <option value="advanced">Level 1 - Advanced Dealer</option>
                  <option value="preferred">Level 2 - Preferred Dealer</option>
                  <option value="elite">Level 3 -  Elite Dealer</option>
-                 <option value="none">Catalog Price (Converted to $)</option>
+                 <option value="none">Catalog Price (aka "Point" or €)</option>
                </select>
              </div>
              <div id="door-error-message" class="door-warning-message"></div>
@@ -1087,6 +1088,290 @@
    </section>
    
   <!--CLOSE OF DOOR CONTAINER-->
+   
+   
+   
+    <!-------------------------------START OF BATHROOM CONTAINER--------------------------------------->
+   <section class="calculator-section" id="bathroom-calculator" style = "display: none;"> 
+     <div class = "section-header" id = "section-header">
+       <h2>Bathroom Price Estimator</h2>
+       <p class="calculator-intro">
+         Please note, this estimator is intended for general guidance only. Final pricing may vary based on project specifications, selected materials, and other design details.
+       </p>
+     </div>
+     
+     <section class="how-it-works" id="how-it-works">
+       <div class="how-container">
+         <h2>How It Works</h2>
+         <p class="intro">Estimate your bathroom price in four simple steps.</p>
+         <div class="steps">
+           <div class="step">
+             <div class="step-icon">🎨</div>
+             <h3>Select Your Model and Finish</h3>
+             <p>Select the vanity model, and finish. </p>
+           </div>
+           <div class="step">
+             <div class="step-icon">📏</div>
+             <h3>Provide the Measurement of Each Module</h3>
+             <p>Add the measurement of each cabinet seperately to create the entire vanity. Provide details if its a sink unit, the height, length, depth, and whether you want to add a finish side panel. 
+             </p>
+           </div>
+
+           <div class="step">
+             <div class="step-icon">💎</div>
+             <h3>Select Your Countertop</h3>
+             <p>Choose your countertop material, measurements, and sink option.</p>
+           </div>
+           
+           <div class="step">
+             <div class="step-icon">💰</div>
+             <h3>Get Your Estimate</h3>
+             <p>Select your respective discount and the price will update automatically based on your input.</p>
+           </div>
+         </div>
+       </div>
+     </section>
+     
+     <div class="calculator-container">
+       <p class="calculator-blank-space"> </p>
+       <div class="calculator-layout">
+         <!-- Left: Form -->
+         <div class="calculator-form-wrapper">
+           <!-- Master Reset Controls -->
+           <div class="calculator-controls">
+             <h3>Quick Reset Options</h3>
+             <div class="reset-buttons">
+               <button onclick="resetAllBathroomInputs('bathroom-calculator', 'bathroom-grand-total')">Reset All Inputs</button>
+               <button onclick="resetBathroomCountertop('bathroom0-calculator', 'bathroom-grand-total')">Reset Countertop</button>
+               <button onclick="resetBathroomCabinets('bathroom-calculator', 'bathroom-grand-total')">Reset Cabinets</button>
+             </div>
+           </div>
+           <!-- Form Sections -->
+           <form class="calculator-form">
+             <!-- Cabinet Section -->
+             <div class="section">
+               <h3>Vanity Model</h3>
+               
+               <label for="bathroom-model">Model:</label>
+               <select id="bathroom-model">
+                 <option value="" disabled selected>Select a Model</option>
+                 <option value="vertigo">Vertigo</option>
+                 <option value="vertigoEVO">Vertigo Evolution (opening with groove)</option>
+                 <option value="reverso">Reverso (horizontal lines)</option>
+               </select>
+               
+               <div id="bathroom-handle-wrapper"> 
+                 <label>Handle Type</label>
+                 <select id="bath-handle-type" class="bath-handle-type">
+                   <option value="" selected>Select a Handle Type</option>
+                   <option value="push_bath_handle">Push-pull</option>
+                   <option value="bath_handle">Handle</option>
+                 </select>
+               </div>
+               
+               <label for="bathroom-finish">Cabinet Finish:</label>
+               <select id="bathroom-finish">
+                 <option value="" disabled selected>Select a Cabinet Finish</option>
+                 <option value="polymeric">Polymeric</option>
+                 <option value="mattcolor">Matt Color</option>
+                 <option value="silkcolor">Silk Color</option>
+               </select>
+             </div>
+             
+             <div id="cabinet-template" style="display:none;">
+               <div class="cabinet-block template-block">
+                 <div class="section">
+                   <h3>Cabinet <span class="cabinet-number"></span></h3>
+                   <label>Sink Unit?</label>
+                   <select class="sink-unit">
+                     <option value="" disabled selected>Is This a Sink Unit?</option>
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                   </select>
+
+                   <label>Height/Configuration:</label>
+                   <select class="bath-height">
+                     <option value="" disabled selected>Select a Height</option>
+                     <option value="bheight24cm1dr">9 4/9 in (24cm) - 1 drawer</option>
+                     <option value="bheight36cm1dr">14 1/6 in (36cm) - 1 drawer</option>
+                     <!--<option value="bheight36cm1do">14 1/6 in (36cm) - 1 door</option>
+                     <option value="bheight36cm2do">14 1/6 in (36cm) - 2 doors</option> -->
+                     <option value="bheight48cm2dr">18 8/9 in (48cm) - 2 drawers</option>
+                     <!-- <option value="bheight48cm1do">18 8/9 in (48cm) - 1 door</option>
+                     <option value="bheight48cm2do">18 8/9 in (48cm) - 2 doors</option> -->
+                     <option value="bheight60cm2dr">23 5/8 in (60cm) - 2 drawers</option>
+                   </select>
+
+                   <label>Length:</label>
+                   <select class="bath-length">
+                     <option value="" disabled selected>Select a Length</option>
+                     <option value="blength35cm">13 7/9 in (35cm)</option>
+                     <option value="blength50cm">19 2/2 in (50cm)</option>
+                     <option value="blength60cm">23 5/8 in (60cm)</option>
+                     <option value="blength70cm">27 5/9 in (70cm)</option>
+                     <option value="blength80cm">31 1/2 in (80cm)</option>
+                     <option value="blength90cm">35 3/7 in (90cm)</option>
+                     <option value="blength100cm">39 3/8 in (100cm)</option>
+                     <option value="blength120cm">47 1/4 in (120cm)</option>
+                   </select>
+
+                   <label>Depth:</label>
+                   <select class="bath-depth">
+                     <option value="" disabled selected>Select a Depth</option>
+                     <option value="bdepth35cm">13 7/9 in (35cm)</option>
+                     <option value="bdepth40cm">15 3/4 in (40cm)</option>
+                     <option value="bdepth46cm">18 1/9 in (46cm)</option>
+                     <option value="bdepth51cm">20 in (51cm)</option>
+                   </select>
+                   
+                   <label>Is a Side Panel Required?</label>
+                   <select class="bath-side">
+                     <option value=""selected>None</option>
+                     <option value="cannettedSide">Cannetted</option>
+                     <option value="roundSide">Round Shape Smooth Finish</option>
+                     <option value="straightSide">Straight Shape Smooth Finish</option>
+                     <option value="45degreeSide">45 degree Bevelled Edges</option>
+                   </select>
+                 </div>
+               </div>
+             </div>
+           
+             <!-- Add Cabinet Button -->
+             <div id="cabinet-container"></div>
+             <div class="add-cabinet-wrapper">
+               <button type="button" id="add-cabinet-btn">+ Add Cabinet</button>
+             </div>
+             
+             <!-- Bathroom Countertop -->
+             <div class="section">
+               <h3>Countertop with Integrated Sink <span class="bath-countertop"></span></h3>
+               <label>Material/Stucture</label>
+               <select id="bath-countertop-material" class="bath-countertop-material">
+                 <option value="" disabled selected>Select a Countertop Material</option>
+                 <option value="ceramic_hole">Ceramic - Basin Hole</option>
+                 <option value="ceramic_sink">Ceramic - Integrated Sink</option>
+                 <option value="ocritech_hole">Ocritech - Basin Hole</option>
+                 <option value="ocritech_sink">Ocritech - Integrated Sink</option>
+               </select>
+               
+               <div id="countertop-pricelevel-wrapper">
+                 <label>Countertop Price Level</label>
+                 <select id="bath-countertop-pricelevel" class="bath-countertop-pricelevel">
+                   <option value="" disabled selected>Select a Price Level</option>
+                   <option value="bath_price_1">Price Level 1 - Bahia Black, Osso, Marble Aubisque Matt, Sahara Noir Matt, Stone Montpellier Matt, Travertino Navona, Travertino Silver, White Silk, Yamuna Matt, Yura Grey</option>
+                   <option value="bath_price_2">Price Level 2 - Ardesia Nero Spacco, Calacatta Michelangelo, Emperador Extra, Nero Greco, Pietra Iseo, Pietra Savoia Antracite, Pietra Savoia Grigia Bocciardato, Statuarietto Mat</option>
+                   <option value="bath_price_3">Price Level 3 - Bianco Assoluto, Breccia Capraia, Gris Geo, Iron Corten, Noir Desir, Rosso Lepanto</option>
+                 </select>
+               </div>
+               
+               
+               
+               <label>Countertop Depth</label>
+               <select id="bath-countertop-depth" class="bath-countertop-depth">
+                 <option value="" disabled selected>Select a Depth</option>
+                <!-- <option value="bcounterdepth35cm">35cm</option> -->
+                 <option value="bcounterdepth40cm">15 3/4 in (40cm)</option>
+                 <option value="bcounterdepth46cm">18 1/9 in (46cm)</option>
+                 <option value="bcounterdepth51cm">20 in (51cm)</option>
+               </select>
+               
+               <label>Countertop Length</label>
+               <select id="bath-countertop-length" class="bath-countertop-length">
+                 <option value="" disabled selected>Select a Length</option>
+                <!-- <option value="bcounterdepth35cm">35cm</option> -->
+                 <option value="bcounterlength70cm">27 5/9 in (70cm)</option>
+                 <option value="bcounterlength80cm">3101/0 in (80cm)</option>
+                 <option value="bcounterlength90cm">35 3/7 in (90cm</option>
+                 <option value="bcounterlength100cm">39 3/8 in (100cm)</option>
+                 <option value="bcounterlength110cm">43 1/3 in (110cm)</option>
+                 <option value="bcounterlength120cm">47 1/4 in (120cm)</option>
+                 <option value="bcounterlength130cm">51 1/6 in (130cm)</option>
+                 <option value="bcounterlength140cm">55 1/8 in (140cm)</option>
+                 <option value="bcounterlength150cm">59 in (150cm)</option>
+                 <option value="bcounterlength160cm">63 in (160cm)</option>
+                 <option value="bcounterlength170cm">67 in (170cm)</option>
+                 <option value="bcounterlength180cm">70 6/7 in (180cm)</option>
+                 <option value="bcounterlength190cm">74 4/5 in (190cm)</option>
+                 <option value="bcounterlength200cm">78 3/4 in (200cm)</option>
+                 <option value="bcounterlength210cm">82 2/3 in (210cm)</option>
+                 <option value="bcounterlength220cm">86 3/5 in (220cm)</option>
+                 <option value="bcounterlength230cm">90 5/9 in (230cm)</option>
+                 <option value="bcounterlength240cm">94 1/2 in (240cm)</option>
+               </select>
+               
+               
+               <label>Countertop Thickness</label>
+               <select id="bath-countertop-thickness" class="bath-countertop-thickness">
+                 <option value="" disabled selected>Select a Thickness</option>
+                 <option value="1cm">2/5 in (1cm)</option>
+                 <option value="4+">1 4/7 - 4 5/7 in (4-12cm)</option>
+                 <option value="20+">7 7/8 - 10 1/4 in (20-26cm) - only available in Ceramic </option>
+               </select>
+               
+               <label>Number of Sinks</label>
+               <select id = "sink-number" class="sink-number">
+                 <option value="1" selected>1</option>
+                 <option value="2">2</option>
+               </select>
+               
+               <div id="countertop-sinktype-wrapper">
+                 <label>Sink Type Upgrade (Optional)</label>
+                 <select id="bath-sink-type" class="bath-sink-type">
+                   <option value="" selected>Select a Sink Upgrade</option>
+                   <option value="sink_CUT">CUT</option>
+                   <option value="sink_META_1">META 1 (Length: 19 in)</option>
+                   <option value="sink_META_2">META 2 (Length: 23 in)</option>
+                   <option value="sink_META_3">META 3 (Length: 27 in)</option>
+                   <option value="sink_META_4">META 4 (Length: 31 in)</option>
+                 </select>
+               </div>
+               
+             </div>
+           </form>
+         </div>
+         <!-- Right: Sticky Price Breakdown -->
+         <!-- Result Section --> 
+         <aside class="sticky-summary" id="sticky-result">
+           <div class = "section header">
+             <h3 class="result-title">Estimate Summary</h3>
+           </div>
+           <!--Dealer Type Toggle -->
+           <div class="dealer-section">
+             <p class="dealer-intro"><strong>Select your discount level below: </strong></p>
+             <div class="dealer-row">
+               <label for="dealer-type">SALE GROUP:</label>
+               <select id="bathroom-dealer-type">
+                 <option value="retail">Suggested Retail</option>
+                 <option value="designer">Suggested Designer</option>
+                 <option value="builder">Suggested Builder</option>
+                 <option value="advanced">Level 1 - Advanced Dealer</option>
+                 <option value="preferred">Level 2 - Preferred Dealer</option>
+                 <option value="elite">Level 3 -  Elite Dealer</option>
+                 <option value="none">Catalog Price (aka "Points" or €)</option>
+               </select>
+             </div>
+             <div id="bathroom-error-message" class="bathroom-warning-message"></div>
+             <div class="result-card">
+               <div class="total-line">
+                 <span>Total Price</span>
+                 <span id="bathroom-grand-total" class="total-price">$0.00</span>
+               </div>
+               <div id="bathroom-price-breakdown" class="breakdown-list">
+                 <div class="breakdown-row"><span>Bathroom Vanity</span><span id="bathroom-total">$0.00</span></div>
+                 <div class="breakdown-row"><span>Countertop & Sink</span><span id="bathroom-countertop-total">$0.00</span></div>
+                 <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="bathroom-custom-duties-total">$0.00</span></div>
+               </div>
+
+             </div> 
+             <div id="estimate-disclaimer" style="color: #333; margin-top: 20px; font-size: 0.95rem;"><strong> As a reminder, this is a high-level estimate. For a more precise quote, contact Thelia Group with your project details.</strong> 
+             </div>
+           </div>
+         </aside>
+       </div>
+     </div>
+   </section>
+   
+  <!--CLOSE OF BATHROOM CONTAINER-->
   
   
 </main>
