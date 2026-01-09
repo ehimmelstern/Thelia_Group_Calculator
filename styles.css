@@ -489,6 +489,12 @@ input::placeholder {
 
 
 /*-----------------------------------------------------------------------
+5B. DISCOUNT CALCULATOR
+------------------------------------------------------------------------*/
+.duties-bold-number {
+  font-weight: 700;
+}
+/*-----------------------------------------------------------------------
 6. FLOOR CODE
 ------------------------------------------------------------------------*/
 
@@ -596,3 +602,78 @@ input::placeholder {
   appearance: none;
 }
 
+
+/*-----------------------------------------------------------------------
+8. BATHROOM CODE
+------------------------------------------------------------------------*/
+
+/* Bathroom Estimate Summary - Dealer type dropdown formatting */
+#bathroom-dealer-type {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #463930;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  appearance: none;
+}
+
+/*Cabinet Button */
+.add-cabinet-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0; /* spacing around the block */
+  position: relative;
+}
+
+.add-cabinet-wrapper::before,
+.add-cabinet-wrapper::after {
+  content: "";
+  width: 1px;
+  height: 40px; /* adjust length of the vertical lines */
+  background-color: #d1d5db; /* soft gray to match your UI */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.add-cabinet-wrapper::before {
+  top: -40px; /* positions the top line */
+}
+
+.add-cabinet-wrapper::after {
+  bottom: -40px; /* positions the bottom line */
+}
+
+#add-cabinet-btn {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #463930;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#add-cabinet-btn:hover {
+  background-color: #f3f4f6;
+  border-color: #cbd5e1;
+}
+
+/* Countertop Dynamic Question */
+#countertop-pricelevel-wrapper {
+  display: none;
+}
+
+#countertop-sinktype-wrapper {
+  display: none;
+}
+
+/*Handle Dynamic Question */
+#bathroom-handle-wrapper {
+  display: none;
+}
