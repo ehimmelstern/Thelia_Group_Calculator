@@ -902,9 +902,7 @@
                  <option value="" disabled selected>Select a Frame</option>
                  <option value="secret-frame">Basic Flush Frame: Secret</option>
                  <option value="secret-twin-frame">Upgraded Flush Frame: Secret Twin</option>
-                 <option value="tnp-frame">Wooden Frame: TNP/TN Plus Frame</option>
-                 <option value="fn-frame">Wooden Frame: FN Frame</option>
-                 <option value="era-frame">Wooden Frame: ERA Frame</option>
+                 <option value="wooden-frame">Wooden Frame</option>
                </select>
                
                <label for="door-model">Door Model:</label>
@@ -1013,6 +1011,16 @@
              
              <div class="section">
                <h3>Accessories</h3>
+               
+               <label for="door-lock">Lock Type:</label>
+               <select id="door-lock">
+                 <option value="" disabled selected>Select a Locking Variant</option>
+                 <option value="passage-lock">Passage Lock (no lock)</option>
+                 <option value="skeleton-key">Skeleton Key</option>	
+                 <option value="privacy-lock">Privacy Lock</option>	
+                 <option value="yalelock">Lock with Thumbturn</option>
+               </select>
+               
                <label for="door-handle">Handle:</label>
                <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">We’ve pre‑selected our most popular handle style. Explore the price list for more choices.</p>
                <select id="door-handle">
@@ -1032,14 +1040,7 @@
                  <option value="black-door-handle">Matt Black</option>
                </select>
                
-               <label for="door-lock">Lock Type:</label>
-               <select id="door-lock">
-                 <option value="" disabled selected>Select a Locking Variant</option>
-                 <option value="passage-lock">Passage Lock (no lock)</option>
-                 <option value="skeleton-key">Skeleton Key</option>	
-                 <option value="privacy-lock">Privacy Lock</option>	
-                 <option value="yalelock">Lock with Thumbturn</option>
-               </select>
+               
                     
              </div>
            </form>
@@ -1073,7 +1074,8 @@
                </div>
                <div id="door-price-breakdown" class="breakdown-list">
                  <div class="breakdown-row"><span>Door</span><span id="door-total">$0.00</span></div>
-                 <div class="breakdown-row"><span>Accessories & Upgrades</span><span id="door-upgrade-total">$0.00</span></div>
+                 <div class="breakdown-row"><span>Lock System & Upgrades</span><span id="door-upgrade-total">$0.00</span></div>
+                 <div class="breakdown-row"><span>Handle</span><span id="door-handle-total">$0.00</span></div>
                  <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="door-custom-duties-total">$0.00</span></div>
                </div>
                <p class="dealer-intro"><strong>Price includes door with frame and hardware kit including magnetic passage lock and concealed hinges. </strong></p>
