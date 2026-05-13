@@ -16557,8 +16557,8 @@ document.getElementById('door-width').addEventListener('change', function() {
 // Custom image-select dropdowns — door model & finish
 // ================================================================
 
-const leafModelBasePath = '../Pictures/Leaf Model/';
-const finishBasePath    = '../Pictures/Finishes/';
+const leafModelBasePath = 'assets/';
+const finishBasePath    = 'assets/';
 
 const leafModelImages = {
   "ON":              "ON.png",
