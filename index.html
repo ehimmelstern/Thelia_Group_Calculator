@@ -856,45 +856,6 @@
            </div>
            <!-- Form Sections -->
            <form class="calculator-form">
-             <!-- Patina? -->
-             <div class="section">
-               <h3>Door Size</h3>
-               <label for="door-height">Height:</label>
-               <select id="door-height">
-                 <option value="" disabled selected>Select a Height</option>
-                 <option value="2100-height">7ft (2100mm)</option>
-                 <option value="2400-height">8ft (2400mm)</option>
-                 <option value="2700-height">9ft (2700mm)</option>
-                 <option value ="3000-height">10ft (3000mm)</option>
-                 <option value="3400-height">11ft (3400mm)</option>
-                 <option value="3410-4000-height">12ft & 13ft (3700-4000mm)</option>
-               </select>
-               
-               <label for="door-width">Door Width:</label>
-               <select id="door-width">
-                 <option value="" disabled selected>Select a Width</option>
-                 <option value="less-than-900mm">Less than or equal to 3ft</option>
-                 <option value="more-than-900mm">More than 3ft</option>	
-               </select>
-               
-               <label for="door-thickness">Door Thickness:</label>
-               <select id="door-thickness">
-                 <option value="" disabled selected>Select a Thickness</option>
-                 <option value="45mm">1 3/4 in (45mm)</option>
-                 <option value="60mm">2 3/8 in (60mm)</option>	
-               </select>
-               
-                <div class="toggle-group">
-                 <label class="toggle-label" for="filling">Solid Filling:</label>
-                 <label class="switch">
-                   <input type="checkbox" id="filling">
-                   <span class="slider round"></span>
-                 </label>
-               </div>
-
-               
-             </div>
-             
              <div class="section">
                <h3>Door Selection</h3>
                <label for="door-frame">Frame:</label>
@@ -903,116 +864,152 @@
                  <option value="secret-frame">Basic Flush Frame: Secret</option>
                  <option value="secret-twin-frame">Upgraded Flush Frame: Secret Twin</option>
                  <option value="wooden-frame">Wooden Frame</option>
+                 <option value="ng-frame">NG</option>
                </select>
-               
+
                <label for="door-model">Door Model:</label>
                <select id="door-model">
-                 <option value="ON" selected>ON (Standard Flat Door)</option>
-                 <option value="KIN">KIN</option>	
-                 <option value="KV">KV</option>	
-                 <option value="I1">I1</option>	
-                 <option value="I2">I2</option>	
-                 <option value="Q2">Q2</option>	
-                 <option value="Q3">Q3</option>	
-                 <option value="2Q2">2Q2</option>	
-                 <option value="PURA">PURA</option>	
-                 <option value="AURA">AURA</option>	
-                 <option value="QUADRO">QUADRO</option>	
-                 <option value="TRATTO">TRATTO</option>	
-                 <option value="LUCIO">LUCIO</option>	
-                 <option value="OTTAGONO">OTTAGONO</option>
-                 <option value="COLONIALE">COLONIALE</option>	
-                 <option value="BIT">BIT</option>	
-                 <option value="EAN">EAN</option>	
-                 <option value="NODO">NODO</option>	
-                 <option value="GRAFFIATA">GRAFFIATA</option>	               
-                 <option value="DOGEPU">DOGE PU</option>
-                 <option value="DOGEPP">DOGE PP</option>
-                 <option value="DOGEPPP">DOGE PPP</option>
-                 <option value="DOGEVU">DOGE VU</option>
-                 <option value="DOGEVP">DOGE VP</option>
-                 <option value="DOGEVPP">DOGE VPP</option>
-                 <option value="RIALTO-PU">RIALTO PU</option>
-                 <option value="RIALTO-PP">RIALTO PP</option>
-                 <option value="RIALTO-PPP">RIALTO PPP</option>
-                 <option value="VENEZIA">VENEZIA</option>	
-                 <option value="OPENG">OPEN G</option>
-                 <option value="ESPRIT">ESPRIT</option>
-                 <option value="PALLADIO">PALLADIO</option>
-                 <option value="GIOTTOG">GIOTTO G</option>
-                 <option value="RVU">RVU</option>
-                 <option value="RVUG">RVU G</option>	
-                 <option value="RLL">RLL</option>
-                 <option value="OPEN1PU">OPEN 01 PU</option>
-                 <option value="OPEN1PP">OPEN 01 PP</option>
-                 <option value="OPEN8PU">OPEN 08 PU</option>
-                 <option value="OPEN8PP">OPEN 08 PP</option>
-                 <option value="OPEN1VU">OPEN 01 VU</option>
-                 <option value="OPEN1VP">OPEN 01 VP</option>
-                 <option value="OPEN8VP">OPEN 08 VP</option>
-                 <option value="OPEN15PU">OPEN 15 PU</option>
-                 <option value="OPEN15PP">OPEN 15 PP</option>
-                 <option value="GIOTTO2PU">GIOTTO 02 PU</option>
-                 <option value="GIOTTO2PP">GIOTTO 02 PP</option>
-                 <option value="GIOTTO2VU">GIOTTO 02 VU</option>
-                 <option value="GIOTTO2VP">GIOTTO 02 VP</option>
+                 <option value="" disabled selected>Select a Model</option>
+                 <option value="ON">ON (Standard Flat Door)</option>
+                 <option value="KIN">KIN</option>
+                 <option value="KV">KV</option>
+                 <option value="I1">I1</option>
+                 <option value="I2">I2</option>
+                 <option value="Q2">Q2</option>
+                 <option value="Q3">Q3</option>
+                 <option value="2Q2">2Q2</option>
+                 <option value="PURA">PURA</option>
+                 <option value="AURA">AURA</option>
+                 <option value="QUADRO">QUADRO</option>
+                 <option value="TRATTO">TRATTO</option>
+                 <option value="LUCIO">LUCIO</option>
+                 <option value="MILLED">MILLED</option>
+                 <option value="WAVE">WAVE</option>
+                 <option value="COLONIALE">COLONIALE</option>
+                 <option value="EAN">EAN</option>
                  <option value="ONGA">ONGA</option>
-                 
+                 <option value="DOGE PU">DOGE PU</option>
+                 <option value="DOGE PP">DOGE PP</option>
+                 <option value="DOGE PPP">DOGE PPP</option>
+                 <option value="DOGE VU">DOGE VU</option>
+                 <option value="DOGE VP">DOGE VP</option>
+                 <option value="DOGE VPP">DOGE VPP</option>
+                 <option value="RIALTO PU">RIALTO PU</option>
+                 <option value="RIALTO PP">RIALTO PP</option>
+                 <option value="RIALTO PPP">RIALTO PPP</option>
+                 <option value="VENEZIA">VENEZIA</option>
+                 <option value="OPEN G">OPEN G</option>
+                 <option value="ESPRIT PU">ESPRIT PU</option>
+                 <option value="ESPRIT PP">ESPRIT PP</option>
+                 <option value="ESPRIT PPP">ESPRIT PPP</option>
+                 <option value="PALLADIO 121 PU">PALLADIO 121 PU</option>
+                 <option value="PALLADIO 122 PP">PALLADIO 122 PP</option>
+                 <option value="GIOTTO 02 PU">GIOTTO 02 PU</option>
+                 <option value="GIOTTO 02 PP">GIOTTO 02 PP</option>
+                 <option value="GIOTTO 02 VU">GIOTTO 02 VU</option>
+                 <option value="GIOTTO 02 VP">GIOTTO 02 VP</option>
+                 <option value="GIOTTO 11G">GIOTTO 11G</option>
+                 <option value="GIOTTO 12G">GIOTTO 12G</option>
+                 <option value="GIOTTO 13G">GIOTTO 13G</option>
+                 <option value="RVU (TR)">RVU (TR)</option>
+                 <option value="RVU G (TR)">RVU G (TR)</option>
+                 <option value="RLL">RLL</option>
+                 <option value="OPEN 01 PU">OPEN 01 PU</option>
+                 <option value="OPEN 01 PP">OPEN 01 PP</option>
+                 <option value="OPEN 01 VU">OPEN 01 VU</option>
+                 <option value="OPEN 01 VP">OPEN 01 VP</option>
+                 <option value="OPEN 08 PU">OPEN 08 PU</option>
+                 <option value="OPEN 08 PP">OPEN 08 PP</option>
+                 <option value="OPEN 08 VP">OPEN 08 VP</option>
+                 <option value="OPEN 15 PU">OPEN 15 PU</option>
+                 <option value="OPEN 15 PP">OPEN 15 PP</option>
                </select>
 
                <label for="door-finish">Finish:</label>
                <select id="door-finish">
                  <option value="" disabled selected>Select a Finish</option>
                  <option value="blanc">Lacquer - Blanc</option>
-                 <option value="soft">Lacquer - Soft</option>	
-                 <option value="dark">Lacquer - Dark </option>	
-                 <option value="metal">Lacquer - Metal</option>	
+                 <option value="soft">Lacquer - Soft</option>
+                 <option value="dark">Lacquer - Dark </option>
+                 <option value="metal">Lacquer - Metal</option>
+                 <option value="tortora">Lacquer - Tortora</option>	
                  <option value="pearl">Lacquer - Pearl</option>	
-                 <option value="shiny">Lacquer - Shiny</option>	
-                 <option value="glossy">Lacquer - Glossy</option>	
-                 <option value="nodato">Veneer - Nodato</option>	
-                 <option value="olmo">Veneer - Olmo</option>	
-                 <option value="sesamo">Veneer - Sesamo</option>	
-                 <option value="jazz">Veneer - Jazz</option>	
-                 <option value="blond">Veneer - Blond</option>	
-                 <option value="carruba">Veneer - Carruba</option>	
-                 <option value="naturoc">Veneer - Naturoc</option>	
+                 <option value="glossy">Lacquer - Glossy</option>
+                 <option value="nodato">Veneer - Nodato</option>
+                 <option value="olmo">Veneer - Olmo</option>
+                 <option value="sesamo">Veneer - Sesamo</option>
+                 <option value="jazz">Veneer - Jazz</option>
+                 <option value="blond">Veneer - Blond</option>
+                 <option value="carruba">Veneer - Carruba</option>
                  <option value="coloroc">Veneer - Coloroc</option>
                  <option value="masai">Veneer - Masai</option>
                  <option value="sigaro">Veneer - Sigaro</option>
                  <option value="cenere">Veneer - Cenere</option>
                  <option value="tabacco">Veneer - Tabacco</option>
-                 <option value="noce">Veneer - Noce</option>
+                 <option value="vanilla">Veneer - Vanilla</option>
+                 <option value="canaletto">Veneer - Canaletto</option>
                  <option value="moka">Laminate - Moka</option>
                  <option value="brina">Laminate - Brina</option>
                  <option value="ghiaccio">Laminate - Ghiaccio</option>
                  <option value="otter">Laminate - Otter</option>
                  <option value="walnut">Laminate - Walnut</option>
                  <option value="sabbia">Laminate - Sabbia</option>
-                 <option value="quercia">Laminate - Quercia</option>                 
                  <option value="you">You (Paintable)</option>                 
-                 <option value="stone">Stone Effect</option>                 
-                 <option value="concrete">Concrete Effect (Baklite)</option>                 
-                 <option value="clay">Clay Effect</option>                 
-                 <option value="carrara">Carrara</option>                 
                </select>
               <label for="door-hinge">Hinge Upgrade:</label>
                <select id="door-hinge">
                  <option value="" disabled selected>Select a Hinge Upgrade (optional)</option>
-                 <option value="chrome-hinge"selected>Satin Chrome (Baseline Option)</option>
-                 <option value="white-hinge">Matt White</option>	
-                 <option value="black-hinge">Matt Black</option>	
-                 <option value="bronze-hinge">Bronze</option>	
-                 <option value="gold-hinge">Gold</option>	
-                 <option value="brass-hinge">Polished Brass</option>	            
+                 <option value="chrome-hinge" selected>Satin Chrome (Baseline Option)</option>
+                 <option value="white-hinge">Matt White</option>
+                 <option value="black-hinge">Matt Black</option>
+                 <option value="bronze-hinge">Bronze</option>
+                 <option value="gold-hinge">Gold</option>
                </select>
-              
+
              </div>
-             
+
+             <div class="section">
+               <h3>Door Size</h3>
+               <label for="door-height">Height:</label>
+               <select id="door-height">
+                 <option value="" disabled selected>Select a Height</option>
+                 <option value="2100-height">7ft (2100mm)</option>
+                 <option value="between-2100-2400-height">Btw 7ft &amp; 8ft (2110–2390mm)</option>
+                 <option value="2400-height">8ft (2400mm)</option>
+                 <option value="2700-height">9ft (2700mm)</option>
+                 <option value="3000-height">10ft (3000mm)</option>
+                 <option value="3010-to-3400-height">11ft (3010–3400mm)</option>
+                 <option value="3410-to-4000-height">12ft &amp; 13ft (3410–4000mm)</option>
+               </select>
+
+               <label for="door-width">Door Width:</label>
+               <select id="door-width">
+                 <option value="" disabled selected>Select a Width</option>
+                 <option value="less-than-900mm">Less than or equal to 3ft</option>
+                 <option value="more-than-900mm">More than 3ft</option>
+               </select>
+
+               <label for="door-thickness">Door Thickness:</label>
+               <select id="door-thickness">
+                 <option value="" disabled selected>Select a Thickness</option>
+                 <option value="45mm">1 3/4 in (45mm)</option>
+                 <option value="60mm">2 3/8 in (60mm)</option>
+               </select>
+
+               <div class="toggle-group">
+                 <label class="toggle-label" for="filling">Solid Filling:</label>
+                 <label class="switch">
+                   <input type="checkbox" id="filling">
+                   <span class="slider round"></span>
+                 </label>
+               </div>
+
+             </div>
+
              <div class="section">
                <h3>Accessories</h3>
                
-                <label for="door-handle-finish">Lock/Handle Finish:</label>
+               <label for="door-handle-finish">Lock/Handle Finish:</label>
                <p style="font-size: 0.9rem; color: #7d7065; margin-top: 3px;">We’ve pre‑selected our most popular finishes. Explore the price list for more choices.</p>
                <select id="door-handle-finish">
                  <option value="" disabled selected>Select a Finish</option>
@@ -1039,6 +1036,8 @@
                  <option value ="lama-door-handle">LAMA L (by Olivari)</option>
                  <option value="lotus-door-handle">LOTUS Q (by Olivari)</option>
                </select>
+               
+               
                
                
                     
@@ -1074,7 +1073,15 @@
                </div>
                <div id="door-price-breakdown" class="breakdown-list">
                  <div class="breakdown-row"><span>Door</span><span id="door-total">$0.00</span></div>
-                 <div class="breakdown-row"><span>Lock System & Upgrades</span><span id="door-upgrade-total">$0.00</span></div>
+                 <div class="breakdown-row expandable-row" id="door-upgrade-row" onclick="toggleUpgradeBreakdown()">
+                   <span class="expandable-label">Lock System &amp; Upgrades <span class="expand-arrow" id="upgrade-arrow">&#9656;</span></span>
+                   <span id="door-upgrade-total">$0.00</span>
+                 </div>
+                 <div id="door-upgrade-breakdown" class="breakdown-subrows" style="display:none;">
+                   <div class="breakdown-subrow"><span>Hinge Upgrade</span><span id="door-hinge-sub">$0.00</span></div>
+                   <div class="breakdown-subrow"><span>Solid Filling</span><span id="door-filling-sub">$0.00</span></div>
+                   <div class="breakdown-subrow"><span>Lock Type Add-on</span><span id="door-lock-sub">$0.00</span></div>
+                 </div>
                  <div class="breakdown-row"><span>Handle</span><span id="door-handle-total">$0.00</span></div>
                  <div class="breakdown-row"><span>Estimated Custom Duties</span><span id="door-custom-duties-total">$0.00</span></div>
                </div>
@@ -1375,7 +1382,6 @@
 </body>
 </html>
     
-
 
 
 
