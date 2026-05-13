@@ -16616,7 +16616,11 @@ const leafModelImages = {
 
 const finishImages = {
   "blanc":     "Blanc.png",
+  "soft":     "Lacquer - Soft.png",
+  "dark":     "Lacquer - Dark.png",
+  "metal":     "Lacquer - Metal.png",
   "tortora":   "Lacquer - Tortora.png",
+  "pearl":     "pearl.png",
   "glossy":    "Glossy.png",
   "nodato":    "nodato.png",
   "olmo":      "olmo.png",
