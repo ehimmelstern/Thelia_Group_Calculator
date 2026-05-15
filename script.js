@@ -14727,12 +14727,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2100-height",
     finishes: {
-      "moka": 1072,
-      "brina": 1072,
-      "ghiaccio": 1072,
-      "otter": 1072,
-      "walnut": 1072,
-      "sabbia": 1072
+      "moka": 1092,
+      "brina": 1092,
+      "ghiaccio": 1092,
+      "otter": 1092,
+      "walnut": 1092,
+      "sabbia": 1092
     }
   },
   {
@@ -14742,12 +14742,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2400-height",
     finishes: {
-      "moka": 1305,
-      "brina": 1305,
-      "ghiaccio": 1305,
-      "otter": 1305,
-      "walnut": 1305,
-      "sabbia": 1305
+      "moka": 1285,
+      "brina": 1285,
+      "ghiaccio": 1285,
+      "otter": 1285,
+      "walnut": 1285,
+      "sabbia": 1285
     }
   },
   {
@@ -14787,12 +14787,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2100-height",
     finishes: {
-      "moka": 1072,
-      "brina": 1072,
-      "ghiaccio": 1072,
-      "otter": 1072,
-      "walnut": 1072,
-      "sabbia": 1072
+      "moka": 1643,
+      "brina": 1643,
+      "ghiaccio": 1643,
+      "otter": 1643,
+      "walnut": 1643,
+      "sabbia": 1643
     }
   },
   {
@@ -14802,12 +14802,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2400-height",
     finishes: {
-      "moka": 1305,
-      "brina": 1305,
-      "ghiaccio": 1305,
-      "otter": 1305,
-      "walnut": 1305,
-      "sabbia": 1305
+      "moka": 1971,
+      "brina": 1971,
+      "ghiaccio": 1971,
+      "otter": 1971,
+      "walnut": 1971,
+      "sabbia": 1971
     }
   },
   {
@@ -14817,12 +14817,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2700-height",
     finishes: {
-      "moka": 1586,
-      "brina": 1586,
-      "ghiaccio": 1586,
-      "otter": 1586,
-      "walnut": 1586,
-      "sabbia": 1586
+      "moka": 2272,
+      "brina": 2272,
+      "ghiaccio": 2272,
+      "otter": 2272,
+      "walnut": 2272,
+      "sabbia": 2272
     }
   },
   {
@@ -14832,12 +14832,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "3000-height",
     finishes: {
-      "moka": 1678,
-      "brina": 1678,
-      "ghiaccio": 1678,
-      "otter": 1678,
-      "walnut": 1678,
-      "sabbia": 1678
+      "moka": 2364,
+      "brina": 2364,
+      "ghiaccio": 2364,
+      "otter": 2364,
+      "walnut": 2364,
+      "sabbia": 2364
     }
   },
   {
@@ -14907,12 +14907,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2100-height",
     finishes: {
-      "moka": 1266,
-      "brina": 1266,
-      "ghiaccio": 1266,
-      "otter": 1266,
-      "walnut": 1266,
-      "sabbia": 1266
+      "moka": 1817,
+      "brina": 1817,
+      "ghiaccio": 1817,
+      "otter": 1817,
+      "walnut": 1817,
+      "sabbia": 1817
     }
   },
   {
@@ -14922,12 +14922,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2400-height",
     finishes: {
-      "moka": 1497,
-      "brina": 1497,
-      "ghiaccio": 1497,
-      "otter": 1497,
-      "walnut": 1497,
-      "sabbia": 1497
+      "moka": 2183,
+      "brina": 2183,
+      "ghiaccio": 2183,
+      "otter": 2183,
+      "walnut": 2183,
+      "sabbia": 2183
     }
   },
   {
@@ -14937,12 +14937,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2700-height",
     finishes: {
-      "moka": 1841,
-      "brina": 1841,
-      "ghiaccio": 1841,
-      "otter": 1841,
-      "walnut": 1841,
-      "sabbia": 1841
+      "moka": 2527,
+      "brina": 2527,
+      "ghiaccio": 2527,
+      "otter": 2527,
+      "walnut": 2527,
+      "sabbia": 2527
     }
   },
   {
@@ -14952,12 +14952,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "3000-height",
     finishes: {
-      "moka": 1965,
-      "brina": 1965,
-      "ghiaccio": 1965,
-      "otter": 1965,
-      "walnut": 1965,
-      "sabbia": 1965
+      "moka": 2651,
+      "brina": 2651,
+      "ghiaccio": 2651,
+      "otter": 2651,
+      "walnut": 2651,
+      "sabbia": 2651
     }
   },
   {
@@ -16286,12 +16286,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "between-2100-2400-height",
     finishes: {
-      "moka": 1417,
-      "brina": 1417,
-      "ghiaccio": 1417,
-      "otter": 1417,
-      "walnut": 1417,
-      "sabbia": 1417
+      "moka": 2083,
+      "brina": 2083,
+      "ghiaccio": 2083,
+      "otter": 2083,
+      "walnut": 2083,
+      "sabbia": 2083
     }
   },
   {
@@ -16316,12 +16316,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "between-2100-2400-height",
     finishes: {
-      "moka": 1609,
-      "brina": 1609,
-      "ghiaccio": 1609,
-      "otter": 1609,
-      "walnut": 1609,
-      "sabbia": 1609
+      "moka": 2295,
+      "brina": 2295,
+      "ghiaccio": 2295,
+      "otter": 2295,
+      "walnut": 2295,
+      "sabbia": 2295
     }
   }
 ];
@@ -16435,21 +16435,21 @@ const lockTypePrice = [
     }},
     {
       doorLock: "skeleton-key",
-      doorHandleFinish: {"polishedchrome-door-handle": 12,
-      "satinchrome-door-handle": 12,
-      "black-door-handle": 12
+      doorHandleFinish: {"polishedchrome-door-handle": 0,
+      "satinchrome-door-handle": 0,
+      "black-door-handle": 0
     }},
     {
       doorLock: "privacy-lock",
-      doorHandleFinish: {"polishedchrome-door-handle": 13,
-      "satinchrome-door-handle": 13,
-      "black-door-handle": 13
+      doorHandleFinish: {"polishedchrome-door-handle": 0,
+      "satinchrome-door-handle": 0,
+      "black-door-handle": 0
     }},
     {
       doorLock: "yalelock",
-      doorHandleFinish: {"polishedchrome-door-handle": 151,
-      "satinchrome-door-handle": 151,
-      "black-door-handle": 225
+      doorHandleFinish: {"polishedchrome-door-handle": 163,
+      "satinchrome-door-handle": 163,
+      "black-door-handle": 243
                         }
     }
 ]
