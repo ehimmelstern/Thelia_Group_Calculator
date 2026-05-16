@@ -16829,15 +16829,24 @@ function filterDoorFinishes() {
   const model = document.getElementById('door-model').value;
   if (!frame || !model) return;
   const lookupFrame = frame === "secret-twin-frame" ? "secret-frame" : frame;
-  let rows = doorPricing.filter(r => r.model === model && r.frame === lookupFrame);
-  if (rows.length === 0 && frame === "ng-frame") {
-    rows = doorPricing.filter(r => r.model === model && r.frame === "wooden-frame");
+
+  let rows;
+  if (frame === "ng-frame") {
+    // Always combine NG-frame rows (laminates with specific prices) +
+    // wooden-frame rows (lacquer/veneer at wooden-frame prices)
+    const ngRows     = doorPricing.filter(r => r.model === model && r.frame === "ng-frame");
+    const woodenRows = doorPricing.filter(r => r.model === model && r.frame === "wooden-frame");
+    rows = [...ngRows, ...woodenRows];
+  } else {
+    rows = doorPricing.filter(r => r.model === model && r.frame === lookupFrame);
   }
+
   const availableFinishes = new Set();
   rows.forEach(r => Object.keys(r.finishes).forEach(f => availableFinishes.add(f)));
   if (frame === "ng-frame") {
     availableFinishes.delete("you");
     availableFinishes.delete("glossy");
+    availableFinishes.delete("canaletto");
   }
   const finishSelect = document.getElementById('door-finish');
   Array.from(finishSelect.options).forEach(opt => {
@@ -16885,10 +16894,10 @@ function calculateDoorPrice() {
 
   const errorBox = document.getElementById('door-error-message');
 
-  // NG frame: block glossy and "you" finishes
-  if (frame === "ng-frame" && (finish === "you" || finish === "glossy")) {
+  // NG frame: block glossy, "you", and canaletto finishes
+  if (frame === "ng-frame" && (finish === "you" || finish === "glossy" || finish === "canaletto")) {
     if (allSelected) {
-      errorBox.textContent = "The 'You (Paintable)' and 'Glossy' finishes are not available for the NG frame.";
+      errorBox.textContent = "This finish is not available for the NG frame.";
       errorBox.style.display = "block";
       errorBox.style.color = "red";
       resetDoorBreakdownValues();
@@ -16908,9 +16917,10 @@ function calculateDoorPrice() {
       row.height === height
   );
 
-  // NG frame fallback: if no ng-frame entry exists, use wooden-frame pricing
-  if (!match && frame === "ng-frame") {
-    match = doorPricing.find(
+  // NG frame fallback: if no ng-frame entry exists, OR the entry doesn't have this finish
+  // (laminates use NG-specific prices; lacquers/veneers fall back to wooden-frame prices)
+  if (frame === "ng-frame" && (!match || !match.finishes[finish])) {
+    const woodenMatch = doorPricing.find(
       row =>
         row.model === model &&
         row.frame === "wooden-frame" &&
@@ -16918,6 +16928,7 @@ function calculateDoorPrice() {
         row.width === width &&
         row.height === height
     );
+    if (woodenMatch) match = woodenMatch;
   }
 
   if (!match) {
