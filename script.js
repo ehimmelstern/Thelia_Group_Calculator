@@ -8850,13 +8850,7 @@ const doorPricing = [
       "soft": 1984,
       "dark": 2199,
       "metal": 2390,
-      "nodato": 2120,
       "vanilla": 2120,
-      "olmo": 2120,
-      "jazz": 2120,
-      "blond": 2120,
-      "carruba": 2120,
-      "sesamo": 2120,
       "coloroc": 2397,
       "masai": 2397,
       "sigaro": 2397,
@@ -8877,13 +8871,7 @@ const doorPricing = [
       "soft": 2259,
       "dark": 2480,
       "metal": 2753,
-      "nodato": 2426,
       "vanilla": 2426,
-      "olmo": 2426,
-      "jazz": 2426,
-      "blond": 2426,
-      "carruba": 2426,
-      "sesamo": 2426,
       "coloroc": 2758,
       "masai": 2758,
       "sigaro": 2758,
@@ -8904,13 +8892,7 @@ const doorPricing = [
       "soft": 2748,
       "dark": 3057,
       "metal": 3341,
-      "nodato": 3034,
       "vanilla": 3034,
-      "olmo": 3034,
-      "jazz": 3034,
-      "blond": 3034,
-      "carruba": 3034,
-      "sesamo": 3034,
       "coloroc": 3392,
       "masai": 3392,
       "sigaro": 3392,
@@ -8931,13 +8913,7 @@ const doorPricing = [
       "soft": 2872,
       "dark": 3210,
       "metal": 3555,
-      "nodato": 3172,
       "vanilla": 3172,
-      "olmo": 3172,
-      "jazz": 3172,
-      "blond": 3172,
-      "carruba": 3172,
-      "sesamo": 3172,
       "coloroc": 3570,
       "masai": 3570,
       "sigaro": 3570,
@@ -8958,13 +8934,7 @@ const doorPricing = [
       "soft": 2112,
       "dark": 2326,
       "metal": 2550,
-      "nodato": 2170,
       "vanilla": 2170,
-      "olmo": 2170,
-      "jazz": 2170,
-      "blond": 2170,
-      "carruba": 2170,
-      "sesamo": 2170,
       "coloroc": 2530,
       "masai": 2530,
       "sigaro": 2530,
@@ -8985,13 +8955,7 @@ const doorPricing = [
       "soft": 2446,
       "dark": 2666,
       "metal": 2943,
-      "nodato": 2510,
       "vanilla": 2510,
-      "olmo": 2510,
-      "jazz": 2510,
-      "blond": 2510,
-      "carruba": 2510,
-      "sesamo": 2510,
       "coloroc": 2905,
       "masai": 2905,
       "sigaro": 2905,
@@ -9012,13 +8976,7 @@ const doorPricing = [
       "soft": 3171,
       "dark": 3337,
       "metal": 3790,
-      "nodato": 3159,
       "vanilla": 3159,
-      "olmo": 3159,
-      "jazz": 3159,
-      "blond": 3159,
-      "carruba": 3159,
-      "sesamo": 3159,
       "coloroc": 3521,
       "masai": 3521,
       "sigaro": 3521,
@@ -9039,13 +8997,7 @@ const doorPricing = [
       "soft": 3324,
       "dark": 3512,
       "metal": 3980,
-      "nodato": 3380,
       "vanilla": 3380,
-      "olmo": 3380,
-      "jazz": 3380,
-      "blond": 3380,
-      "carruba": 3380,
-      "sesamo": 3380,
       "coloroc": 3789,
       "masai": 3789,
       "sigaro": 3789,
@@ -11919,13 +11871,7 @@ const doorPricing = [
       "soft": 1664,
       "dark": 1879,
       "metal": 2070,
-      "nodato": 1800,
       "vanilla": 1800,
-      "olmo": 1800,
-      "jazz": 1800,
-      "blond": 1800,
-      "carruba": 1800,
-      "sesamo": 1800,
       "coloroc": 2077,
       "masai": 2077,
       "sigaro": 2077,
@@ -11946,13 +11892,7 @@ const doorPricing = [
       "soft": 1939,
       "dark": 2160,
       "metal": 2433,
-      "nodato": 2106,
       "vanilla": 2106,
-      "olmo": 2106,
-      "jazz": 2106,
-      "blond": 2106,
-      "carruba": 2106,
-      "sesamo": 2106,
       "coloroc": 2438,
       "masai": 2438,
       "sigaro": 2438,
@@ -11973,13 +11913,7 @@ const doorPricing = [
       "soft": 2428,
       "dark": 2737,
       "metal": 3021,
-      "nodato": 2714,
       "vanilla": 2714,
-      "olmo": 2714,
-      "jazz": 2714,
-      "blond": 2714,
-      "carruba": 2714,
-      "sesamo": 2714,
       "coloroc": 3072,
       "masai": 3072,
       "sigaro": 3072,
@@ -12000,13 +11934,7 @@ const doorPricing = [
       "soft": 2552,
       "dark": 2890,
       "metal": 3235,
-      "nodato": 2852,
       "vanilla": 2852,
-      "olmo": 2852,
-      "jazz": 2852,
-      "blond": 2852,
-      "carruba": 2852,
-      "sesamo": 2852,
       "coloroc": 3250,
       "masai": 3250,
       "sigaro": 3250,
@@ -12027,13 +11955,7 @@ const doorPricing = [
       "soft": 1792,
       "dark": 2006,
       "metal": 2230,
-      "nodato": 1850,
       "vanilla": 1850,
-      "olmo": 1850,
-      "jazz": 1850,
-      "blond": 1850,
-      "carruba": 1850,
-      "sesamo": 1850,
       "coloroc": 2210,
       "masai": 2210,
       "sigaro": 2210,
@@ -12054,13 +11976,7 @@ const doorPricing = [
       "soft": 2126,
       "dark": 2346,
       "metal": 2623,
-      "nodato": 2190,
       "vanilla": 2190,
-      "olmo": 2190,
-      "jazz": 2190,
-      "blond": 2190,
-      "carruba": 2190,
-      "sesamo": 2190,
       "coloroc": 2585,
       "masai": 2585,
       "sigaro": 2585,
@@ -12081,13 +11997,7 @@ const doorPricing = [
       "soft": 2851,
       "dark": 3017,
       "metal": 3470,
-      "nodato": 2839,
       "vanilla": 2839,
-      "olmo": 2839,
-      "jazz": 2839,
-      "blond": 2839,
-      "carruba": 2839,
-      "sesamo": 2839,
       "coloroc": 3201,
       "masai": 3201,
       "sigaro": 3201,
@@ -12108,13 +12018,7 @@ const doorPricing = [
       "soft": 3004,
       "dark": 3192,
       "metal": 3660,
-      "nodato": 3060,
       "vanilla": 3060,
-      "olmo": 3060,
-      "jazz": 3060,
-      "blond": 3060,
-      "carruba": 3060,
-      "sesamo": 3060,
       "coloroc": 3469,
       "masai": 3469,
       "sigaro": 3469,
@@ -12135,13 +12039,7 @@ const doorPricing = [
       "soft": 1796,
       "dark": 2011,
       "metal": 2202,
-      "nodato": 1932,
       "vanilla": 1932,
-      "olmo": 1932,
-      "jazz": 1932,
-      "blond": 1932,
-      "carruba": 1932,
-      "sesamo": 1932,
       "coloroc": 2209,
       "masai": 2209,
       "sigaro": 2209,
@@ -12162,13 +12060,7 @@ const doorPricing = [
       "soft": 2071,
       "dark": 2292,
       "metal": 2565,
-      "nodato": 2238,
       "vanilla": 2238,
-      "olmo": 2238,
-      "jazz": 2238,
-      "blond": 2238,
-      "carruba": 2238,
-      "sesamo": 2238,
       "coloroc": 2570,
       "masai": 2570,
       "sigaro": 2570,
@@ -12189,13 +12081,7 @@ const doorPricing = [
       "soft": 2560,
       "dark": 2869,
       "metal": 3153,
-      "nodato": 2846,
       "vanilla": 2846,
-      "olmo": 2846,
-      "jazz": 2846,
-      "blond": 2846,
-      "carruba": 2846,
-      "sesamo": 2846,
       "coloroc": 3204,
       "masai": 3204,
       "sigaro": 3204,
@@ -12216,13 +12102,7 @@ const doorPricing = [
       "soft": 2684,
       "dark": 3022,
       "metal": 3367,
-      "nodato": 2984,
       "vanilla": 2984,
-      "olmo": 2984,
-      "jazz": 2984,
-      "blond": 2984,
-      "carruba": 2984,
-      "sesamo": 2984,
       "coloroc": 3382,
       "masai": 3382,
       "sigaro": 3382,
@@ -12243,13 +12123,7 @@ const doorPricing = [
       "soft": 1924,
       "dark": 2138,
       "metal": 2362,
-      "nodato": 1982,
       "vanilla": 1982,
-      "olmo": 1982,
-      "jazz": 1982,
-      "blond": 1982,
-      "carruba": 1982,
-      "sesamo": 1982,
       "coloroc": 2342,
       "masai": 2342,
       "sigaro": 2342,
@@ -12270,13 +12144,7 @@ const doorPricing = [
       "soft": 2258,
       "dark": 2478,
       "metal": 2755,
-      "nodato": 2322,
       "vanilla": 2322,
-      "olmo": 2322,
-      "jazz": 2322,
-      "blond": 2322,
-      "carruba": 2322,
-      "sesamo": 2322,
       "coloroc": 2717,
       "masai": 2717,
       "sigaro": 2717,
@@ -12297,13 +12165,7 @@ const doorPricing = [
       "soft": 2983,
       "dark": 3149,
       "metal": 3602,
-      "nodato": 2971,
       "vanilla": 2971,
-      "olmo": 2971,
-      "jazz": 2971,
-      "blond": 2971,
-      "carruba": 2971,
-      "sesamo": 2971,
       "coloroc": 3333,
       "masai": 3333,
       "sigaro": 3333,
@@ -12324,13 +12186,7 @@ const doorPricing = [
       "soft": 3136,
       "dark": 3324,
       "metal": 3792,
-      "nodato": 3192,
       "vanilla": 3192,
-      "olmo": 3192,
-      "jazz": 3192,
-      "blond": 3192,
-      "carruba": 3192,
-      "sesamo": 3192,
       "coloroc": 3601,
       "masai": 3601,
       "sigaro": 3601,
@@ -12346,13 +12202,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2100-height",
     finishes: {
-      "nodato": 1690,
       "vanilla": 1690,
-      "olmo": 1690,
-      "jazz": 1690,
-      "blond": 1690,
-      "carruba": 1690,
-      "sesamo": 1690,
       "coloroc": 1967,
       "masai": 1967,
       "sigaro": 1967,
@@ -12368,13 +12218,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2400-height",
     finishes: {
-      "nodato": 1996,
       "vanilla": 1996,
-      "olmo": 1996,
-      "jazz": 1996,
-      "blond": 1996,
-      "carruba": 1996,
-      "sesamo": 1996,
       "coloroc": 2328,
       "masai": 2328,
       "sigaro": 2328,
@@ -12390,13 +12234,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2700-height",
     finishes: {
-      "nodato": 2604,
       "vanilla": 2604,
-      "olmo": 2604,
-      "jazz": 2604,
-      "blond": 2604,
-      "carruba": 2604,
-      "sesamo": 2604,
       "coloroc": 2962,
       "masai": 2962,
       "sigaro": 2962,
@@ -12412,13 +12250,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "3000-height",
     finishes: {
-      "nodato": 2742,
       "vanilla": 2742,
-      "olmo": 2742,
-      "jazz": 2742,
-      "blond": 2742,
-      "carruba": 2742,
-      "sesamo": 2742,
       "coloroc": 3140,
       "masai": 3140,
       "sigaro": 3140,
@@ -12434,13 +12266,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2100-height",
     finishes: {
-      "nodato": 1740,
       "vanilla": 1740,
-      "olmo": 1740,
-      "jazz": 1740,
-      "blond": 1740,
-      "carruba": 1740,
-      "sesamo": 1740,
       "coloroc": 2100,
       "masai": 2100,
       "sigaro": 2100,
@@ -12456,13 +12282,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2400-height",
     finishes: {
-      "nodato": 2080,
       "vanilla": 2080,
-      "olmo": 2080,
-      "jazz": 2080,
-      "blond": 2080,
-      "carruba": 2080,
-      "sesamo": 2080,
       "coloroc": 2475,
       "masai": 2475,
       "sigaro": 2475,
@@ -12478,13 +12298,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2700-height",
     finishes: {
-      "nodato": 2729,
       "vanilla": 2729,
-      "olmo": 2729,
-      "jazz": 2729,
-      "blond": 2729,
-      "carruba": 2729,
-      "sesamo": 2729,
       "coloroc": 3091,
       "masai": 3091,
       "sigaro": 3091,
@@ -12500,13 +12314,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "3000-height",
     finishes: {
-      "nodato": 2950,
       "vanilla": 2950,
-      "olmo": 2950,
-      "jazz": 2950,
-      "blond": 2950,
-      "carruba": 2950,
-      "sesamo": 2950,
       "coloroc": 3359,
       "masai": 3359,
       "sigaro": 3359,
@@ -12522,13 +12330,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2100-height",
     finishes: {
-      "nodato": 1786,
       "vanilla": 1786,
-      "olmo": 1786,
-      "jazz": 1786,
-      "blond": 1786,
-      "carruba": 1786,
-      "sesamo": 1786,
       "coloroc": 2063,
       "masai": 2063,
       "sigaro": 2063,
@@ -12544,13 +12346,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2400-height",
     finishes: {
-      "nodato": 2092,
       "vanilla": 2092,
-      "olmo": 2092,
-      "jazz": 2092,
-      "blond": 2092,
-      "carruba": 2092,
-      "sesamo": 2092,
       "coloroc": 2424,
       "masai": 2424,
       "sigaro": 2424,
@@ -12566,13 +12362,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2700-height",
     finishes: {
-      "nodato": 2700,
       "vanilla": 2700,
-      "olmo": 2700,
-      "jazz": 2700,
-      "blond": 2700,
-      "carruba": 2700,
-      "sesamo": 2700,
       "coloroc": 3058,
       "masai": 3058,
       "sigaro": 3058,
@@ -12588,13 +12378,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "3000-height",
     finishes: {
-      "nodato": 2838,
       "vanilla": 2838,
-      "olmo": 2838,
-      "jazz": 2838,
-      "blond": 2838,
-      "carruba": 2838,
-      "sesamo": 2838,
       "coloroc": 3236,
       "masai": 3236,
       "sigaro": 3236,
@@ -12610,13 +12394,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2100-height",
     finishes: {
-      "nodato": 1836,
       "vanilla": 1836,
-      "olmo": 1836,
-      "jazz": 1836,
-      "blond": 1836,
-      "carruba": 1836,
-      "sesamo": 1836,
       "coloroc": 2196,
       "masai": 2196,
       "sigaro": 2196,
@@ -12632,13 +12410,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2400-height",
     finishes: {
-      "nodato": 2176,
       "vanilla": 2176,
-      "olmo": 2176,
-      "jazz": 2176,
-      "blond": 2176,
-      "carruba": 2176,
-      "sesamo": 2176,
       "coloroc": 2571,
       "masai": 2571,
       "sigaro": 2571,
@@ -12654,13 +12426,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2700-height",
     finishes: {
-      "nodato": 2825,
       "vanilla": 2825,
-      "olmo": 2825,
-      "jazz": 2825,
-      "blond": 2825,
-      "carruba": 2825,
-      "sesamo": 2825,
       "coloroc": 3187,
       "masai": 3187,
       "sigaro": 3187,
@@ -12676,13 +12442,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "3000-height",
     finishes: {
-      "nodato": 3046,
       "vanilla": 3046,
-      "olmo": 3046,
-      "jazz": 3046,
-      "blond": 3046,
-      "carruba": 3046,
-      "sesamo": 3046,
       "coloroc": 3455,
       "masai": 3455,
       "sigaro": 3455,
@@ -12807,13 +12567,7 @@ const doorPricing = [
       "soft": 1491,
       "dark": 1706,
       "metal": 1897,
-      "nodato": 1627,
       "vanilla": 1627,
-      "olmo": 1627,
-      "jazz": 1627,
-      "blond": 1627,
-      "carruba": 1627,
-      "sesamo": 1627,
       "coloroc": 1904,
       "masai": 1904,
       "sigaro": 1904,
@@ -12821,11 +12575,9 @@ const doorPricing = [
       "tabacco": 1949,
       "canaletto": 1745,
       "moka": 935,
-      "brina": 935,
       "ghiaccio": 935,
       "otter": 935,
-      "walnut": 935,
-      "sabbia": 935
+      "walnut": 935
     }
   },
   {
@@ -12840,13 +12592,7 @@ const doorPricing = [
       "soft": 1766,
       "dark": 1987,
       "metal": 2260,
-      "nodato": 1933,
       "vanilla": 1933,
-      "olmo": 1933,
-      "jazz": 1933,
-      "blond": 1933,
-      "carruba": 1933,
-      "sesamo": 1933,
       "coloroc": 2265,
       "masai": 2265,
       "sigaro": 2265,
@@ -12854,11 +12600,9 @@ const doorPricing = [
       "tabacco": 2332,
       "canaletto": 2078,
       "moka": 1148,
-      "brina": 1148,
       "ghiaccio": 1148,
       "otter": 1148,
-      "walnut": 1148,
-      "sabbia": 1148
+      "walnut": 1148
     }
   },
   {
@@ -12873,13 +12617,7 @@ const doorPricing = [
       "soft": 2255,
       "dark": 2564,
       "metal": 2848,
-      "nodato": 2541,
       "vanilla": 2541,
-      "olmo": 2541,
-      "jazz": 2541,
-      "blond": 2541,
-      "carruba": 2541,
-      "sesamo": 2541,
       "coloroc": 2899,
       "masai": 2899,
       "sigaro": 2899,
@@ -12900,13 +12638,7 @@ const doorPricing = [
       "soft": 2379,
       "dark": 2717,
       "metal": 3062,
-      "nodato": 2679,
       "vanilla": 2679,
-      "olmo": 2679,
-      "jazz": 2679,
-      "blond": 2679,
-      "carruba": 2679,
-      "sesamo": 2679,
       "coloroc": 3077,
       "masai": 3077,
       "sigaro": 3077,
@@ -12927,13 +12659,7 @@ const doorPricing = [
       "soft": 1619,
       "dark": 1833,
       "metal": 2057,
-      "nodato": 1677,
       "vanilla": 1677,
-      "olmo": 1677,
-      "jazz": 1677,
-      "blond": 1677,
-      "carruba": 1677,
-      "sesamo": 1677,
       "coloroc": 2037,
       "masai": 2037,
       "sigaro": 2037,
@@ -12954,13 +12680,7 @@ const doorPricing = [
       "soft": 1953,
       "dark": 2173,
       "metal": 2450,
-      "nodato": 2017,
       "vanilla": 2017,
-      "olmo": 2017,
-      "jazz": 2017,
-      "blond": 2017,
-      "carruba": 2017,
-      "sesamo": 2017,
       "coloroc": 2412,
       "masai": 2412,
       "sigaro": 2412,
@@ -12981,13 +12701,7 @@ const doorPricing = [
       "soft": 2678,
       "dark": 2844,
       "metal": 3297,
-      "nodato": 2666,
       "vanilla": 2666,
-      "olmo": 2666,
-      "jazz": 2666,
-      "blond": 2666,
-      "carruba": 2666,
-      "sesamo": 2666,
       "coloroc": 3028,
       "masai": 3028,
       "sigaro": 3028,
@@ -13008,13 +12722,7 @@ const doorPricing = [
       "soft": 2831,
       "dark": 3019,
       "metal": 3487,
-      "nodato": 2887,
       "vanilla": 2887,
-      "olmo": 2887,
-      "jazz": 2887,
-      "blond": 2887,
-      "carruba": 2887,
-      "sesamo": 2887,
       "coloroc": 3296,
       "masai": 3296,
       "sigaro": 3296,
@@ -13654,13 +13362,7 @@ const doorPricing = [
       "soft": 1890,
       "dark": 2105,
       "metal": 2296,
-      "nodato": 2026,
       "vanilla": 2026,
-      "olmo": 2026,
-      "jazz": 2026,
-      "blond": 2026,
-      "carruba": 2026,
-      "sesamo": 2026,
       "coloroc": 2303,
       "masai": 2303,
       "sigaro": 2303,
@@ -13681,13 +13383,7 @@ const doorPricing = [
       "soft": 2165,
       "dark": 2386,
       "metal": 2659,
-      "nodato": 2332,
       "vanilla": 2332,
-      "olmo": 2332,
-      "jazz": 2332,
-      "blond": 2332,
-      "carruba": 2332,
-      "sesamo": 2332,
       "coloroc": 2664,
       "masai": 2664,
       "sigaro": 2664,
@@ -13708,13 +13404,7 @@ const doorPricing = [
       "soft": 2654,
       "dark": 2963,
       "metal": 3247,
-      "nodato": 2940,
       "vanilla": 2940,
-      "olmo": 2940,
-      "jazz": 2940,
-      "blond": 2940,
-      "carruba": 2940,
-      "sesamo": 2940,
       "coloroc": 3298,
       "masai": 3298,
       "sigaro": 3298,
@@ -13735,13 +13425,7 @@ const doorPricing = [
       "soft": 2778,
       "dark": 3116,
       "metal": 3461,
-      "nodato": 3078,
       "vanilla": 3078,
-      "olmo": 3078,
-      "jazz": 3078,
-      "blond": 3078,
-      "carruba": 3078,
-      "sesamo": 3078,
       "coloroc": 3476,
       "masai": 3476,
       "sigaro": 3476,
@@ -13762,13 +13446,7 @@ const doorPricing = [
       "soft": 2018,
       "dark": 2232,
       "metal": 2456,
-      "nodato": 2076,
       "vanilla": 2076,
-      "olmo": 2076,
-      "jazz": 2076,
-      "blond": 2076,
-      "carruba": 2076,
-      "sesamo": 2076,
       "coloroc": 2436,
       "masai": 2436,
       "sigaro": 2436,
@@ -13789,13 +13467,7 @@ const doorPricing = [
       "soft": 2352,
       "dark": 2572,
       "metal": 2849,
-      "nodato": 2416,
       "vanilla": 2416,
-      "olmo": 2416,
-      "jazz": 2416,
-      "blond": 2416,
-      "carruba": 2416,
-      "sesamo": 2416,
       "coloroc": 2811,
       "masai": 2811,
       "sigaro": 2811,
@@ -13816,13 +13488,7 @@ const doorPricing = [
       "soft": 3077,
       "dark": 3243,
       "metal": 3696,
-      "nodato": 3065,
       "vanilla": 3065,
-      "olmo": 3065,
-      "jazz": 3065,
-      "blond": 3065,
-      "carruba": 3065,
-      "sesamo": 3065,
       "coloroc": 3427,
       "masai": 3427,
       "sigaro": 3427,
@@ -13843,13 +13509,7 @@ const doorPricing = [
       "soft": 3230,
       "dark": 3418,
       "metal": 3886,
-      "nodato": 3286,
       "vanilla": 3286,
-      "olmo": 3286,
-      "jazz": 3286,
-      "blond": 3286,
-      "carruba": 3286,
-      "sesamo": 3286,
       "coloroc": 3695,
       "masai": 3695,
       "sigaro": 3695,
@@ -13870,13 +13530,7 @@ const doorPricing = [
       "soft": 2090,
       "dark": 2305,
       "metal": 2496,
-      "nodato": 2226,
       "vanilla": 2226,
-      "olmo": 2226,
-      "jazz": 2226,
-      "blond": 2226,
-      "carruba": 2226,
-      "sesamo": 2226,
       "coloroc": 2503,
       "masai": 2503,
       "sigaro": 2503,
@@ -13897,13 +13551,7 @@ const doorPricing = [
       "soft": 2365,
       "dark": 2586,
       "metal": 2859,
-      "nodato": 2532,
       "vanilla": 2532,
-      "olmo": 2532,
-      "jazz": 2532,
-      "blond": 2532,
-      "carruba": 2532,
-      "sesamo": 2532,
       "coloroc": 2864,
       "masai": 2864,
       "sigaro": 2864,
@@ -13924,13 +13572,7 @@ const doorPricing = [
       "soft": 2854,
       "dark": 3163,
       "metal": 3447,
-      "nodato": 3140,
       "vanilla": 3140,
-      "olmo": 3140,
-      "jazz": 3140,
-      "blond": 3140,
-      "carruba": 3140,
-      "sesamo": 3140,
       "coloroc": 3498,
       "masai": 3498,
       "sigaro": 3498,
@@ -13951,13 +13593,7 @@ const doorPricing = [
       "soft": 2978,
       "dark": 3316,
       "metal": 3661,
-      "nodato": 3278,
       "vanilla": 3278,
-      "olmo": 3278,
-      "jazz": 3278,
-      "blond": 3278,
-      "carruba": 3278,
-      "sesamo": 3278,
       "coloroc": 3676,
       "masai": 3676,
       "sigaro": 3676,
@@ -13978,13 +13614,7 @@ const doorPricing = [
       "soft": 2218,
       "dark": 2432,
       "metal": 2656,
-      "nodato": 2276,
       "vanilla": 2276,
-      "olmo": 2276,
-      "jazz": 2276,
-      "blond": 2276,
-      "carruba": 2276,
-      "sesamo": 2276,
       "coloroc": 2636,
       "masai": 2636,
       "sigaro": 2636,
@@ -14005,13 +13635,7 @@ const doorPricing = [
       "soft": 2552,
       "dark": 2772,
       "metal": 3049,
-      "nodato": 2616,
       "vanilla": 2616,
-      "olmo": 2616,
-      "jazz": 2616,
-      "blond": 2616,
-      "carruba": 2616,
-      "sesamo": 2616,
       "coloroc": 3011,
       "masai": 3011,
       "sigaro": 3011,
@@ -14032,13 +13656,7 @@ const doorPricing = [
       "soft": 3277,
       "dark": 3443,
       "metal": 3896,
-      "nodato": 3265,
       "vanilla": 3265,
-      "olmo": 3265,
-      "jazz": 3265,
-      "blond": 3265,
-      "carruba": 3265,
-      "sesamo": 3265,
       "coloroc": 3627,
       "masai": 3627,
       "sigaro": 3627,
@@ -14059,13 +13677,7 @@ const doorPricing = [
       "soft": 3430,
       "dark": 3618,
       "metal": 4086,
-      "nodato": 3486,
       "vanilla": 3486,
-      "olmo": 3486,
-      "jazz": 3486,
-      "blond": 3486,
-      "carruba": 3486,
-      "sesamo": 3486,
       "coloroc": 3895,
       "masai": 3895,
       "sigaro": 3895,
@@ -14312,114 +13924,62 @@ const doorPricing = [
   },
   {
     model: "RVU (TR)",
-    frame: "wooden-frame",
+    frame: "ng-frame",
     thickness: "45mm",
     width: "less-than-900mm",
     height: "2100-height",
     finishes: {
-      "blanc": 1698,
-      "soft": 2043,
-      "dark": 2191,
-      "nodato": 2281,
-      "vanilla": 2281,
-      "olmo": 2281,
-      "jazz": 2281,
-      "blond": 2281,
-      "carruba": 2281,
-      "sesamo": 2281,
-      "coloroc": 2503,
-      "masai": 2503,
-      "sigaro": 2503,
-      "cenere": 2503,
-      "tabacco": 2577,
-      "canaletto": 2424,
-      "moka": 1486,
-      "brina": 1486,
-      "ghiaccio": 1486,
-      "otter": 1486,
-      "walnut": 1486,
-      "sabbia": 1486
+      "moka": 1643,
+      "brina": 1643,
+      "ghiaccio": 1643,
+      "otter": 1643,
+      "walnut": 1643,
+      "sabbia": 1643
     }
   },
   {
     model: "RVU (TR)",
-    frame: "wooden-frame",
+    frame: "ng-frame",
     thickness: "45mm",
     width: "less-than-900mm",
     height: "2400-height",
     finishes: {
-      "blanc": 2036,
-      "soft": 2417,
-      "dark": 2529,
-      "nodato": 2905,
-      "vanilla": 2905,
-      "olmo": 2905,
-      "jazz": 2905,
-      "blond": 2905,
-      "carruba": 2905,
-      "sesamo": 2905,
-      "coloroc": 3170,
-      "masai": 3170,
-      "sigaro": 3170,
-      "cenere": 3170,
-      "tabacco": 3438,
-      "canaletto": 3080,
-      "moka": 1834,
-      "brina": 1834,
-      "ghiaccio": 1834,
-      "otter": 1834,
-      "walnut": 1834,
-      "sabbia": 1834
+      "moka": 1971,
+      "brina": 1971,
+      "ghiaccio": 1971,
+      "otter": 1971,
+      "walnut": 1971,
+      "sabbia": 1971
     }
   },
   {
     model: "RVU (TR)",
-    frame: "wooden-frame",
+    frame: "ng-frame",
     thickness: "45mm",
     width: "less-than-900mm",
     height: "2700-height",
     finishes: {
-      "blanc": 2579,
-      "soft": 3035,
-      "dark": 3246,
-      "nodato": 3379,
-      "vanilla": 3379,
-      "olmo": 3379,
-      "jazz": 3379,
-      "blond": 3379,
-      "carruba": 3379,
-      "sesamo": 3379,
-      "coloroc": 3696,
-      "masai": 3696,
-      "sigaro": 3696,
-      "cenere": 3696,
-      "tabacco": 4018,
-      "canaletto": 3589
+      "moka": 2272,
+      "brina": 2272,
+      "ghiaccio": 2272,
+      "otter": 2272,
+      "walnut": 2272,
+      "sabbia": 2272
     }
   },
   {
     model: "RVU (TR)",
-    frame: "wooden-frame",
+    frame: "ng-frame",
     thickness: "45mm",
     width: "less-than-900mm",
     height: "3000-height",
     finishes: {
-      "blanc": 2772,
-      "soft": 3263,
-      "dark": 3493,
-      "nodato": 3634,
-      "vanilla": 3634,
-      "olmo": 3634,
-      "jazz": 3634,
-      "blond": 3634,
-      "carruba": 3634,
-      "sesamo": 3634,
-      "coloroc": 3980,
-      "masai": 3980,
-      "sigaro": 3980,
-      "cenere": 3980,
-      "tabacco": 4302,
-      "canaletto": 3853
+      "moka": 2364,
+      "brina": 2364,
+      "ghiaccio": 2364,
+      "otter": 2364,
+      "walnut": 2364,
+      "sabbia": 2364
     }
   },
   {
@@ -14431,13 +13991,7 @@ const doorPricing = [
     finishes: {
       "blanc": 1989,
       "soft": 2308,
-      "nodato": 2564,
       "vanilla": 2564,
-      "olmo": 2564,
-      "jazz": 2564,
-      "blond": 2564,
-      "carruba": 2564,
-      "sesamo": 2564,
       "coloroc": 2785,
       "masai": 2785,
       "sigaro": 2785,
@@ -14453,13 +14007,7 @@ const doorPricing = [
     finishes: {
       "blanc": 2343,
       "soft": 2731,
-      "nodato": 3237,
       "vanilla": 3237,
-      "olmo": 3237,
-      "jazz": 3237,
-      "blond": 3237,
-      "carruba": 3237,
-      "sesamo": 3237,
       "coloroc": 3502,
       "masai": 3502,
       "sigaro": 3502,
@@ -14475,13 +14023,7 @@ const doorPricing = [
     finishes: {
       "blanc": 2946,
       "soft": 3407,
-      "nodato": 3775,
       "vanilla": 3775,
-      "olmo": 3775,
-      "jazz": 3775,
-      "blond": 3775,
-      "carruba": 3775,
-      "sesamo": 3775,
       "coloroc": 4091,
       "masai": 4091,
       "sigaro": 4091,
@@ -14497,13 +14039,7 @@ const doorPricing = [
     finishes: {
       "blanc": 3190,
       "soft": 3687,
-      "nodato": 4085,
       "vanilla": 4085,
-      "olmo": 4085,
-      "jazz": 4085,
-      "blond": 4085,
-      "carruba": 4085,
-      "sesamo": 4085,
       "coloroc": 4431,
       "masai": 4431,
       "sigaro": 4431,
@@ -14727,6 +14263,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2100-height",
     finishes: {
+      "nodato": 1627,
+      "olmo": 1627,
+      "jazz": 1627,
+      "blond": 1627,
+      "carruba": 1627,
+      "sesamo": 1627,
       "moka": 1092,
       "brina": 1092,
       "ghiaccio": 1092,
@@ -14742,6 +14284,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2400-height",
     finishes: {
+      "nodato": 1933,
+      "olmo": 1933,
+      "jazz": 1933,
+      "blond": 1933,
+      "carruba": 1933,
+      "sesamo": 1933,
       "moka": 1285,
       "brina": 1285,
       "ghiaccio": 1285,
@@ -14757,6 +14305,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "2700-height",
     finishes: {
+      "nodato": 2541,
+      "olmo": 2541,
+      "jazz": 2541,
+      "blond": 2541,
+      "carruba": 2541,
+      "sesamo": 2541,
       "moka": 1586,
       "brina": 1586,
       "ghiaccio": 1586,
@@ -14772,132 +14326,18 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "3000-height",
     finishes: {
+      "nodato": 2679,
+      "olmo": 2679,
+      "jazz": 2679,
+      "blond": 2679,
+      "carruba": 2679,
+      "sesamo": 2679,
       "moka": 1678,
       "brina": 1678,
       "ghiaccio": 1678,
       "otter": 1678,
       "walnut": 1678,
       "sabbia": 1678
-    }
-  },
-  {
-    model: "RVU (TR)",
-    frame: "ng-frame",
-    thickness: "45mm",
-    width: "less-than-900mm",
-    height: "2100-height",
-    finishes: {
-      "moka": 1643,
-      "brina": 1643,
-      "ghiaccio": 1643,
-      "otter": 1643,
-      "walnut": 1643,
-      "sabbia": 1643
-    }
-  },
-  {
-    model: "RVU (TR)",
-    frame: "ng-frame",
-    thickness: "45mm",
-    width: "less-than-900mm",
-    height: "2400-height",
-    finishes: {
-      "moka": 1971,
-      "brina": 1971,
-      "ghiaccio": 1971,
-      "otter": 1971,
-      "walnut": 1971,
-      "sabbia": 1971
-    }
-  },
-  {
-    model: "RVU (TR)",
-    frame: "ng-frame",
-    thickness: "45mm",
-    width: "less-than-900mm",
-    height: "2700-height",
-    finishes: {
-      "moka": 2272,
-      "brina": 2272,
-      "ghiaccio": 2272,
-      "otter": 2272,
-      "walnut": 2272,
-      "sabbia": 2272
-    }
-  },
-  {
-    model: "RVU (TR)",
-    frame: "ng-frame",
-    thickness: "45mm",
-    width: "less-than-900mm",
-    height: "3000-height",
-    finishes: {
-      "moka": 2364,
-      "brina": 2364,
-      "ghiaccio": 2364,
-      "otter": 2364,
-      "walnut": 2364,
-      "sabbia": 2364
-    }
-  },
-  {
-    model: "ON",
-    frame: "ng-frame",
-    thickness: "60mm",
-    width: "less-than-900mm",
-    height: "2100-height",
-    finishes: {
-      "moka": 1266,
-      "brina": 1266,
-      "ghiaccio": 1266,
-      "otter": 1266,
-      "walnut": 1266,
-      "sabbia": 1266
-    }
-  },
-  {
-    model: "ON",
-    frame: "ng-frame",
-    thickness: "60mm",
-    width: "less-than-900mm",
-    height: "2400-height",
-    finishes: {
-      "moka": 1497,
-      "brina": 1497,
-      "ghiaccio": 1497,
-      "otter": 1497,
-      "walnut": 1497,
-      "sabbia": 1497
-    }
-  },
-  {
-    model: "ON",
-    frame: "ng-frame",
-    thickness: "60mm",
-    width: "less-than-900mm",
-    height: "2700-height",
-    finishes: {
-      "moka": 1841,
-      "brina": 1841,
-      "ghiaccio": 1841,
-      "otter": 1841,
-      "walnut": 1841,
-      "sabbia": 1841
-    }
-  },
-  {
-    model: "ON",
-    frame: "ng-frame",
-    thickness: "60mm",
-    width: "less-than-900mm",
-    height: "3000-height",
-    finishes: {
-      "moka": 1965,
-      "brina": 1965,
-      "ghiaccio": 1965,
-      "otter": 1965,
-      "walnut": 1965,
-      "sabbia": 1965
     }
   },
   {
@@ -14958,6 +14398,168 @@ const doorPricing = [
       "otter": 2651,
       "walnut": 2651,
       "sabbia": 2651
+    }
+  },
+  {
+    model: "ON",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 1677,
+      "olmo": 1677,
+      "jazz": 1677,
+      "blond": 1677,
+      "carruba": 1677,
+      "sesamo": 1677,
+      "moka": 1266,
+      "brina": 1266,
+      "ghiaccio": 1266,
+      "otter": 1266,
+      "walnut": 1266,
+      "sabbia": 1266
+    }
+  },
+  {
+    model: "ON",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2017,
+      "olmo": 2017,
+      "jazz": 2017,
+      "blond": 2017,
+      "carruba": 2017,
+      "sesamo": 2017,
+      "moka": 1497,
+      "brina": 1497,
+      "ghiaccio": 1497,
+      "otter": 1497,
+      "walnut": 1497,
+      "sabbia": 1497
+    }
+  },
+  {
+    model: "ON",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2666,
+      "olmo": 2666,
+      "jazz": 2666,
+      "blond": 2666,
+      "carruba": 2666,
+      "sesamo": 2666,
+      "moka": 1841,
+      "brina": 1841,
+      "ghiaccio": 1841,
+      "otter": 1841,
+      "walnut": 1841,
+      "sabbia": 1841
+    }
+  },
+  {
+    model: "ON",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 2887,
+      "olmo": 2887,
+      "jazz": 2887,
+      "blond": 2887,
+      "carruba": 2887,
+      "sesamo": 2887,
+      "moka": 1965,
+      "brina": 1965,
+      "ghiaccio": 1965,
+      "otter": 1965,
+      "walnut": 1965,
+      "sabbia": 1965
+    }
+  },
+  {
+    model: "RVU (TR)",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "moka": 2083,
+      "brina": 2083,
+      "ghiaccio": 2083,
+      "otter": 2083,
+      "walnut": 2083,
+      "sabbia": 2083
+    }
+  },
+  {
+    model: "RVU (TR)",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "moka": 2295,
+      "brina": 2295,
+      "ghiaccio": 2295,
+      "otter": 2295,
+      "walnut": 2295,
+      "sabbia": 2295
+    }
+  },
+  {
+    model: "RVU (TR)",
+    frame: "wooden-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "blanc": 1698,
+      "soft": 2043,
+      "dark": 2191,
+      "nodato": 2281,
+      "vanilla": 2281,
+      "coloroc": 2503,
+      "masai": 2503,
+      "sigaro": 2503,
+      "cenere": 2503,
+      "tabacco": 2577,
+      "canaletto": 2424,
+      "moka": 1486,
+      "ghiaccio": 1486,
+      "otter": 1486,
+      "walnut": 1486
+    }
+  },
+  {
+    model: "RVU (TR)",
+    frame: "wooden-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "blanc": 2036,
+      "soft": 2417,
+      "dark": 2529,
+      "nodato": 2905,
+      "vanilla": 2905,
+      "coloroc": 3170,
+      "masai": 3170,
+      "sigaro": 3170,
+      "cenere": 3170,
+      "tabacco": 3438,
+      "canaletto": 3080,
+      "moka": 1834,
+      "ghiaccio": 1834,
+      "otter": 1834,
+      "walnut": 1834
     }
   },
   {
@@ -15185,13 +14787,7 @@ const doorPricing = [
       "soft": 2371,
       "dark": 2592,
       "metal": 2865,
-      "nodato": 2538,
       "vanilla": 2538,
-      "olmo": 2538,
-      "jazz": 2538,
-      "blond": 2538,
-      "carruba": 2538,
-      "sesamo": 2538,
       "coloroc": 2870,
       "masai": 2870,
       "sigaro": 2870,
@@ -15212,13 +14808,7 @@ const doorPricing = [
       "soft": 2558,
       "dark": 2778,
       "metal": 3055,
-      "nodato": 2622,
       "vanilla": 2622,
-      "olmo": 2622,
-      "jazz": 2622,
-      "blond": 2622,
-      "carruba": 2622,
-      "sesamo": 2622,
       "coloroc": 3017,
       "masai": 3017,
       "sigaro": 3017,
@@ -15521,13 +15111,7 @@ const doorPricing = [
       "soft": 2051,
       "dark": 2272,
       "metal": 2545,
-      "nodato": 2218,
       "vanilla": 2218,
-      "olmo": 2218,
-      "jazz": 2218,
-      "blond": 2218,
-      "carruba": 2218,
-      "sesamo": 2218,
       "coloroc": 2550,
       "masai": 2550,
       "sigaro": 2550,
@@ -15548,13 +15132,7 @@ const doorPricing = [
       "soft": 2238,
       "dark": 2458,
       "metal": 2735,
-      "nodato": 2302,
       "vanilla": 2302,
-      "olmo": 2302,
-      "jazz": 2302,
-      "blond": 2302,
-      "carruba": 2302,
-      "sesamo": 2302,
       "coloroc": 2697,
       "masai": 2697,
       "sigaro": 2697,
@@ -15575,13 +15153,7 @@ const doorPricing = [
       "soft": 2183,
       "dark": 2404,
       "metal": 2677,
-      "nodato": 2350,
       "vanilla": 2350,
-      "olmo": 2350,
-      "jazz": 2350,
-      "blond": 2350,
-      "carruba": 2350,
-      "sesamo": 2350,
       "coloroc": 2682,
       "masai": 2682,
       "sigaro": 2682,
@@ -15602,13 +15174,7 @@ const doorPricing = [
       "soft": 2370,
       "dark": 2590,
       "metal": 2867,
-      "nodato": 2434,
       "vanilla": 2434,
-      "olmo": 2434,
-      "jazz": 2434,
-      "blond": 2434,
-      "carruba": 2434,
-      "sesamo": 2434,
       "coloroc": 2829,
       "masai": 2829,
       "sigaro": 2829,
@@ -15624,13 +15190,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "between-2100-2400-height",
     finishes: {
-      "nodato": 2108,
       "vanilla": 2108,
-      "olmo": 2108,
-      "jazz": 2108,
-      "blond": 2108,
-      "carruba": 2108,
-      "sesamo": 2108,
       "coloroc": 2440,
       "masai": 2440,
       "sigaro": 2440,
@@ -15646,13 +15206,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "between-2100-2400-height",
     finishes: {
-      "nodato": 2192,
       "vanilla": 2192,
-      "olmo": 2192,
-      "jazz": 2192,
-      "blond": 2192,
-      "carruba": 2192,
-      "sesamo": 2192,
       "coloroc": 2587,
       "masai": 2587,
       "sigaro": 2587,
@@ -15668,13 +15222,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "between-2100-2400-height",
     finishes: {
-      "nodato": 2204,
       "vanilla": 2204,
-      "olmo": 2204,
-      "jazz": 2204,
-      "blond": 2204,
-      "carruba": 2204,
-      "sesamo": 2204,
       "coloroc": 2536,
       "masai": 2536,
       "sigaro": 2536,
@@ -15690,13 +15238,7 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "between-2100-2400-height",
     finishes: {
-      "nodato": 2288,
       "vanilla": 2288,
-      "olmo": 2288,
-      "jazz": 2288,
-      "blond": 2288,
-      "carruba": 2288,
-      "sesamo": 2288,
       "coloroc": 2683,
       "masai": 2683,
       "sigaro": 2683,
@@ -15743,13 +15285,7 @@ const doorPricing = [
       "soft": 1878,
       "dark": 2099,
       "metal": 2372,
-      "nodato": 2045,
       "vanilla": 2045,
-      "olmo": 2045,
-      "jazz": 2045,
-      "blond": 2045,
-      "carruba": 2045,
-      "sesamo": 2045,
       "coloroc": 2377,
       "masai": 2377,
       "sigaro": 2377,
@@ -15757,11 +15293,9 @@ const doorPricing = [
       "tabacco": 2444,
       "canaletto": 2190,
       "moka": 1260,
-      "brina": 1260,
       "ghiaccio": 1260,
       "otter": 1260,
-      "walnut": 1260,
-      "sabbia": 1260
+      "walnut": 1260
     }
   },
   {
@@ -15776,13 +15310,7 @@ const doorPricing = [
       "soft": 2065,
       "dark": 2285,
       "metal": 2562,
-      "nodato": 2129,
       "vanilla": 2129,
-      "olmo": 2129,
-      "jazz": 2129,
-      "blond": 2129,
-      "carruba": 2129,
-      "sesamo": 2129,
       "coloroc": 2524,
       "masai": 2524,
       "sigaro": 2524,
@@ -15988,13 +15516,7 @@ const doorPricing = [
       "soft": 2277,
       "dark": 2498,
       "metal": 2771,
-      "nodato": 2444,
       "vanilla": 2444,
-      "olmo": 2444,
-      "jazz": 2444,
-      "blond": 2444,
-      "carruba": 2444,
-      "sesamo": 2444,
       "coloroc": 2776,
       "masai": 2776,
       "sigaro": 2776,
@@ -16015,13 +15537,7 @@ const doorPricing = [
       "soft": 2464,
       "dark": 2684,
       "metal": 2961,
-      "nodato": 2528,
       "vanilla": 2528,
-      "olmo": 2528,
-      "jazz": 2528,
-      "blond": 2528,
-      "carruba": 2528,
-      "sesamo": 2528,
       "coloroc": 2923,
       "masai": 2923,
       "sigaro": 2923,
@@ -16042,13 +15558,7 @@ const doorPricing = [
       "soft": 2477,
       "dark": 2698,
       "metal": 2971,
-      "nodato": 2644,
       "vanilla": 2644,
-      "olmo": 2644,
-      "jazz": 2644,
-      "blond": 2644,
-      "carruba": 2644,
-      "sesamo": 2644,
       "coloroc": 2976,
       "masai": 2976,
       "sigaro": 2976,
@@ -16069,13 +15579,7 @@ const doorPricing = [
       "soft": 2664,
       "dark": 2884,
       "metal": 3161,
-      "nodato": 2728,
       "vanilla": 2728,
-      "olmo": 2728,
-      "jazz": 2728,
-      "blond": 2728,
-      "carruba": 2728,
-      "sesamo": 2728,
       "coloroc": 3123,
       "masai": 3123,
       "sigaro": 3123,
@@ -16163,30 +15667,19 @@ const doorPricing = [
     frame: "wooden-frame",
     thickness: "45mm",
     width: "less-than-900mm",
-    height: "between-2100-2400-height",
+    height: "2700-height",
     finishes: {
-      "blanc": 2148,
-      "soft": 2529,
-      "dark": 2641,
-      "nodato": 3017,
-      "vanilla": 3017,
-      "olmo": 3017,
-      "jazz": 3017,
-      "blond": 3017,
-      "carruba": 3017,
-      "sesamo": 3017,
-      "coloroc": 3282,
-      "masai": 3282,
-      "sigaro": 3282,
-      "cenere": 3282,
-      "tabacco": 3550,
-      "canaletto": 3192,
-      "moka": 1946,
-      "brina": 1946,
-      "ghiaccio": 1946,
-      "otter": 1946,
-      "walnut": 1946,
-      "sabbia": 1946
+      "blanc": 2579,
+      "soft": 3035,
+      "dark": 3246,
+      "nodato": 3379,
+      "vanilla": 3379,
+      "coloroc": 3696,
+      "masai": 3696,
+      "sigaro": 3696,
+      "cenere": 3696,
+      "tabacco": 4018,
+      "canaletto": 3589
     }
   },
   {
@@ -16200,11 +15693,6 @@ const doorPricing = [
       "soft": 2843,
       "nodato": 3349,
       "vanilla": 3349,
-      "olmo": 3349,
-      "jazz": 3349,
-      "blond": 3349,
-      "carruba": 3349,
-      "sesamo": 3349,
       "coloroc": 3614,
       "masai": 3614,
       "sigaro": 3614,
@@ -16271,6 +15759,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "between-2100-2400-height",
     finishes: {
+      "nodato": 2045,
+      "olmo": 2045,
+      "jazz": 2045,
+      "blond": 2045,
+      "carruba": 2045,
+      "sesamo": 2045,
       "moka": 1417,
       "brina": 1417,
       "ghiaccio": 1417,
@@ -16281,17 +15775,22 @@ const doorPricing = [
   },
   {
     model: "RVU (TR)",
-    frame: "ng-frame",
+    frame: "wooden-frame",
     thickness: "45mm",
     width: "less-than-900mm",
-    height: "between-2100-2400-height",
+    height: "3000-height",
     finishes: {
-      "moka": 2083,
-      "brina": 2083,
-      "ghiaccio": 2083,
-      "otter": 2083,
-      "walnut": 2083,
-      "sabbia": 2083
+      "blanc": 2772,
+      "soft": 3263,
+      "dark": 3493,
+      "nodato": 3634,
+      "vanilla": 3634,
+      "coloroc": 3980,
+      "masai": 3980,
+      "sigaro": 3980,
+      "cenere": 3980,
+      "tabacco": 4302,
+      "canaletto": 3853
     }
   },
   {
@@ -16301,6 +15800,12 @@ const doorPricing = [
     width: "less-than-900mm",
     height: "between-2100-2400-height",
     finishes: {
+      "nodato": 2129,
+      "olmo": 2129,
+      "jazz": 2129,
+      "blond": 2129,
+      "carruba": 2129,
+      "sesamo": 2129,
       "moka": 1609,
       "brina": 1609,
       "ghiaccio": 1609,
@@ -16311,17 +15816,1151 @@ const doorPricing = [
   },
   {
     model: "RVU (TR)",
+    frame: "wooden-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "blanc": 2148,
+      "soft": 2529,
+      "dark": 2641,
+      "nodato": 3017,
+      "vanilla": 3017,
+      "coloroc": 3282,
+      "masai": 3282,
+      "sigaro": 3282,
+      "cenere": 3282,
+      "tabacco": 3550,
+      "canaletto": 3192,
+      "moka": 1946,
+      "ghiaccio": 1946,
+      "otter": 1946,
+      "walnut": 1946
+    }
+  },
+  {
+    model: "2Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 2120,
+      "olmo": 2120,
+      "jazz": 2120,
+      "blond": 2120,
+      "carruba": 2120,
+      "sesamo": 2120
+    }
+  },
+  {
+    model: "2Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2426,
+      "olmo": 2426,
+      "jazz": 2426,
+      "blond": 2426,
+      "carruba": 2426,
+      "sesamo": 2426
+    }
+  },
+  {
+    model: "2Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 3034,
+      "olmo": 3034,
+      "jazz": 3034,
+      "blond": 3034,
+      "carruba": 3034,
+      "sesamo": 3034
+    }
+  },
+  {
+    model: "2Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 3172,
+      "olmo": 3172,
+      "jazz": 3172,
+      "blond": 3172,
+      "carruba": 3172,
+      "sesamo": 3172
+    }
+  },
+  {
+    model: "2Q2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 2170,
+      "olmo": 2170,
+      "jazz": 2170,
+      "blond": 2170,
+      "carruba": 2170,
+      "sesamo": 2170
+    }
+  },
+  {
+    model: "2Q2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2510,
+      "olmo": 2510,
+      "jazz": 2510,
+      "blond": 2510,
+      "carruba": 2510,
+      "sesamo": 2510
+    }
+  },
+  {
+    model: "2Q2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 3159,
+      "olmo": 3159,
+      "jazz": 3159,
+      "blond": 3159,
+      "carruba": 3159,
+      "sesamo": 3159
+    }
+  },
+  {
+    model: "2Q2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 3380,
+      "olmo": 3380,
+      "jazz": 3380,
+      "blond": 3380,
+      "carruba": 3380,
+      "sesamo": 3380
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 1800,
+      "olmo": 1800,
+      "jazz": 1800,
+      "blond": 1800,
+      "carruba": 1800,
+      "sesamo": 1800
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2106,
+      "olmo": 2106,
+      "jazz": 2106,
+      "blond": 2106,
+      "carruba": 2106,
+      "sesamo": 2106
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2714,
+      "olmo": 2714,
+      "jazz": 2714,
+      "blond": 2714,
+      "carruba": 2714,
+      "sesamo": 2714
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 2852,
+      "olmo": 2852,
+      "jazz": 2852,
+      "blond": 2852,
+      "carruba": 2852,
+      "sesamo": 2852
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 1850,
+      "olmo": 1850,
+      "jazz": 1850,
+      "blond": 1850,
+      "carruba": 1850,
+      "sesamo": 1850
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2190,
+      "olmo": 2190,
+      "jazz": 2190,
+      "blond": 2190,
+      "carruba": 2190,
+      "sesamo": 2190
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2839,
+      "olmo": 2839,
+      "jazz": 2839,
+      "blond": 2839,
+      "carruba": 2839,
+      "sesamo": 2839
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 3060,
+      "olmo": 3060,
+      "jazz": 3060,
+      "blond": 3060,
+      "carruba": 3060,
+      "sesamo": 3060
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 1932,
+      "olmo": 1932,
+      "jazz": 1932,
+      "blond": 1932,
+      "carruba": 1932,
+      "sesamo": 1932
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2238,
+      "olmo": 2238,
+      "jazz": 2238,
+      "blond": 2238,
+      "carruba": 2238,
+      "sesamo": 2238
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2846,
+      "olmo": 2846,
+      "jazz": 2846,
+      "blond": 2846,
+      "carruba": 2846,
+      "sesamo": 2846
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 2984,
+      "olmo": 2984,
+      "jazz": 2984,
+      "blond": 2984,
+      "carruba": 2984,
+      "sesamo": 2984
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 1982,
+      "olmo": 1982,
+      "jazz": 1982,
+      "blond": 1982,
+      "carruba": 1982,
+      "sesamo": 1982
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2322,
+      "olmo": 2322,
+      "jazz": 2322,
+      "blond": 2322,
+      "carruba": 2322,
+      "sesamo": 2322
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2971,
+      "olmo": 2971,
+      "jazz": 2971,
+      "blond": 2971,
+      "carruba": 2971,
+      "sesamo": 2971
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 3192,
+      "olmo": 3192,
+      "jazz": 3192,
+      "blond": 3192,
+      "carruba": 3192,
+      "sesamo": 3192
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 1690,
+      "olmo": 1690,
+      "jazz": 1690,
+      "blond": 1690,
+      "carruba": 1690,
+      "sesamo": 1690
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 1996,
+      "olmo": 1996,
+      "jazz": 1996,
+      "blond": 1996,
+      "carruba": 1996,
+      "sesamo": 1996
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2604,
+      "olmo": 2604,
+      "jazz": 2604,
+      "blond": 2604,
+      "carruba": 2604,
+      "sesamo": 2604
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 2742,
+      "olmo": 2742,
+      "jazz": 2742,
+      "blond": 2742,
+      "carruba": 2742,
+      "sesamo": 2742
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 1740,
+      "olmo": 1740,
+      "jazz": 1740,
+      "blond": 1740,
+      "carruba": 1740,
+      "sesamo": 1740
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2080,
+      "olmo": 2080,
+      "jazz": 2080,
+      "blond": 2080,
+      "carruba": 2080,
+      "sesamo": 2080
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2729,
+      "olmo": 2729,
+      "jazz": 2729,
+      "blond": 2729,
+      "carruba": 2729,
+      "sesamo": 2729
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 2950,
+      "olmo": 2950,
+      "jazz": 2950,
+      "blond": 2950,
+      "carruba": 2950,
+      "sesamo": 2950
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 1786,
+      "olmo": 1786,
+      "jazz": 1786,
+      "blond": 1786,
+      "carruba": 1786,
+      "sesamo": 1786
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2092,
+      "olmo": 2092,
+      "jazz": 2092,
+      "blond": 2092,
+      "carruba": 2092,
+      "sesamo": 2092
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2700,
+      "olmo": 2700,
+      "jazz": 2700,
+      "blond": 2700,
+      "carruba": 2700,
+      "sesamo": 2700
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 2838,
+      "olmo": 2838,
+      "jazz": 2838,
+      "blond": 2838,
+      "carruba": 2838,
+      "sesamo": 2838
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 1836,
+      "olmo": 1836,
+      "jazz": 1836,
+      "blond": 1836,
+      "carruba": 1836,
+      "sesamo": 1836
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2176,
+      "olmo": 2176,
+      "jazz": 2176,
+      "blond": 2176,
+      "carruba": 2176,
+      "sesamo": 2176
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2825,
+      "olmo": 2825,
+      "jazz": 2825,
+      "blond": 2825,
+      "carruba": 2825,
+      "sesamo": 2825
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 3046,
+      "olmo": 3046,
+      "jazz": 3046,
+      "blond": 3046,
+      "carruba": 3046,
+      "sesamo": 3046
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 2026,
+      "olmo": 2026,
+      "jazz": 2026,
+      "blond": 2026,
+      "carruba": 2026,
+      "sesamo": 2026
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2332,
+      "olmo": 2332,
+      "jazz": 2332,
+      "blond": 2332,
+      "carruba": 2332,
+      "sesamo": 2332
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 2940,
+      "olmo": 2940,
+      "jazz": 2940,
+      "blond": 2940,
+      "carruba": 2940,
+      "sesamo": 2940
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 3078,
+      "olmo": 3078,
+      "jazz": 3078,
+      "blond": 3078,
+      "carruba": 3078,
+      "sesamo": 3078
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 2076,
+      "olmo": 2076,
+      "jazz": 2076,
+      "blond": 2076,
+      "carruba": 2076,
+      "sesamo": 2076
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2416,
+      "olmo": 2416,
+      "jazz": 2416,
+      "blond": 2416,
+      "carruba": 2416,
+      "sesamo": 2416
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 3065,
+      "olmo": 3065,
+      "jazz": 3065,
+      "blond": 3065,
+      "carruba": 3065,
+      "sesamo": 3065
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 3286,
+      "olmo": 3286,
+      "jazz": 3286,
+      "blond": 3286,
+      "carruba": 3286,
+      "sesamo": 3286
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 2226,
+      "olmo": 2226,
+      "jazz": 2226,
+      "blond": 2226,
+      "carruba": 2226,
+      "sesamo": 2226
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2532,
+      "olmo": 2532,
+      "jazz": 2532,
+      "blond": 2532,
+      "carruba": 2532,
+      "sesamo": 2532
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 3140,
+      "olmo": 3140,
+      "jazz": 3140,
+      "blond": 3140,
+      "carruba": 3140,
+      "sesamo": 3140
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 3278,
+      "olmo": 3278,
+      "jazz": 3278,
+      "blond": 3278,
+      "carruba": 3278,
+      "sesamo": 3278
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 2276,
+      "olmo": 2276,
+      "jazz": 2276,
+      "blond": 2276,
+      "carruba": 2276,
+      "sesamo": 2276
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 2616,
+      "olmo": 2616,
+      "jazz": 2616,
+      "blond": 2616,
+      "carruba": 2616,
+      "sesamo": 2616
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 3265,
+      "olmo": 3265,
+      "jazz": 3265,
+      "blond": 3265,
+      "carruba": 3265,
+      "sesamo": 3265
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 3486,
+      "olmo": 3486,
+      "jazz": 3486,
+      "blond": 3486,
+      "carruba": 3486,
+      "sesamo": 3486
+    }
+  },
+  {
+    model: "RVU G (TR)",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2100-height",
+    finishes: {
+      "nodato": 2564,
+      "olmo": 2564,
+      "jazz": 2564,
+      "blond": 2564,
+      "carruba": 2564,
+      "sesamo": 2564
+    }
+  },
+  {
+    model: "RVU G (TR)",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2400-height",
+    finishes: {
+      "nodato": 3237,
+      "olmo": 3237,
+      "jazz": 3237,
+      "blond": 3237,
+      "carruba": 3237,
+      "sesamo": 3237
+    }
+  },
+  {
+    model: "RVU G (TR)",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "2700-height",
+    finishes: {
+      "nodato": 3775,
+      "olmo": 3775,
+      "jazz": 3775,
+      "blond": 3775,
+      "carruba": 3775,
+      "sesamo": 3775
+    }
+  },
+  {
+    model: "RVU G (TR)",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "3000-height",
+    finishes: {
+      "nodato": 4085,
+      "olmo": 4085,
+      "jazz": 4085,
+      "blond": 4085,
+      "carruba": 4085,
+      "sesamo": 4085
+    }
+  },
+  {
+    model: "2Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2538,
+      "olmo": 2538,
+      "jazz": 2538,
+      "blond": 2538,
+      "carruba": 2538,
+      "sesamo": 2538
+    }
+  },
+  {
+    model: "2Q2",
     frame: "ng-frame",
     thickness: "60mm",
     width: "less-than-900mm",
     height: "between-2100-2400-height",
     finishes: {
-      "moka": 2295,
-      "brina": 2295,
-      "ghiaccio": 2295,
-      "otter": 2295,
-      "walnut": 2295,
-      "sabbia": 2295
+      "nodato": 2622,
+      "olmo": 2622,
+      "jazz": 2622,
+      "blond": 2622,
+      "carruba": 2622,
+      "sesamo": 2622
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2218,
+      "olmo": 2218,
+      "jazz": 2218,
+      "blond": 2218,
+      "carruba": 2218,
+      "sesamo": 2218
+    }
+  },
+  {
+    model: "I1",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2302,
+      "olmo": 2302,
+      "jazz": 2302,
+      "blond": 2302,
+      "carruba": 2302,
+      "sesamo": 2302
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2350,
+      "olmo": 2350,
+      "jazz": 2350,
+      "blond": 2350,
+      "carruba": 2350,
+      "sesamo": 2350
+    }
+  },
+  {
+    model: "I2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2434,
+      "olmo": 2434,
+      "jazz": 2434,
+      "blond": 2434,
+      "carruba": 2434,
+      "sesamo": 2434
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2108,
+      "olmo": 2108,
+      "jazz": 2108,
+      "blond": 2108,
+      "carruba": 2108,
+      "sesamo": 2108
+    }
+  },
+  {
+    model: "KIN",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2192,
+      "olmo": 2192,
+      "jazz": 2192,
+      "blond": 2192,
+      "carruba": 2192,
+      "sesamo": 2192
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2204,
+      "olmo": 2204,
+      "jazz": 2204,
+      "blond": 2204,
+      "carruba": 2204,
+      "sesamo": 2204
+    }
+  },
+  {
+    model: "KV",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2288,
+      "olmo": 2288,
+      "jazz": 2288,
+      "blond": 2288,
+      "carruba": 2288,
+      "sesamo": 2288
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2444,
+      "olmo": 2444,
+      "jazz": 2444,
+      "blond": 2444,
+      "carruba": 2444,
+      "sesamo": 2444
+    }
+  },
+  {
+    model: "Q2",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2528,
+      "olmo": 2528,
+      "jazz": 2528,
+      "blond": 2528,
+      "carruba": 2528,
+      "sesamo": 2528
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2644,
+      "olmo": 2644,
+      "jazz": 2644,
+      "blond": 2644,
+      "carruba": 2644,
+      "sesamo": 2644
+    }
+  },
+  {
+    model: "Q3",
+    frame: "ng-frame",
+    thickness: "60mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 2728,
+      "olmo": 2728,
+      "jazz": 2728,
+      "blond": 2728,
+      "carruba": 2728,
+      "sesamo": 2728
+    }
+  },
+  {
+    model: "RVU G (TR)",
+    frame: "ng-frame",
+    thickness: "45mm",
+    width: "less-than-900mm",
+    height: "between-2100-2400-height",
+    finishes: {
+      "nodato": 3349,
+      "olmo": 3349,
+      "jazz": 3349,
+      "blond": 3349,
+      "carruba": 3349,
+      "sesamo": 3349
     }
   }
 ];
@@ -16500,7 +17139,7 @@ function resetAllDoorInputs(calculatorId, totalId) {
 
   // Reset toggle
   const fillingToggle = document.getElementById('filling');
-  if (fillingToggle) fillingToggle.checked = false;
+  if (fillingToggle) fillingToggle.checked = true;
 
   // Reset totals and error
   resetDoorBreakdownValues();
@@ -16529,7 +17168,7 @@ function resetDoorSizes(calculatorId, totalId) {
 
   // Reset toggle
   const fillingToggle = document.getElementById('filling');
-  if (fillingToggle) fillingToggle.checked = false;
+  if (fillingToggle) fillingToggle.checked = true;
 
   resetDoorBreakdownValues();
   resetErrorMessage();
@@ -16799,16 +17438,17 @@ function updateDoorThicknessOptions() {
   }
 }
 
+// Step 1 — Finish selected: filter models that have this finish in any frame
 function filterDoorModels() {
-  const frame = document.getElementById('door-frame').value;
-  if (!frame) return;
-  const lookupFrame = frame === "secret-twin-frame" ? "secret-frame" : frame;
+  const finish = document.getElementById('door-finish').value;
+  if (!finish) return;
+
+  // A model is available if any doorPricing entry (any frame) has this finish key.
+  // NG-frame borrows wooden-frame finishes, so wooden-frame coverage is sufficient.
   const availableModels = new Set(
-    doorPricing.filter(r => r.frame === lookupFrame).map(r => r.model)
+    doorPricing.filter(r => r.finishes[finish] !== undefined).map(r => r.model)
   );
-  if (frame === "ng-frame") {
-    doorPricing.filter(r => r.frame === "wooden-frame").forEach(r => availableModels.add(r.model));
-  }
+
   const modelSelect = document.getElementById('door-model');
   Array.from(modelSelect.options).forEach(opt => {
     if (!opt.value) return;
@@ -16820,38 +17460,43 @@ function filterDoorModels() {
       opt.style.color = '#bbb';
     }
   });
-  if (modelSelect.value && !availableModels.has(modelSelect.value)) modelSelect.value = '';
+  if (modelSelect.value && !availableModels.has(modelSelect.value)) {
+    modelSelect.value = '';
+    refreshCustomSelect('door-model');
+  }
   refreshCustomSelect('door-model');
 }
 
-function filterDoorFinishes() {
-  const frame = document.getElementById('door-frame').value;
-  const model = document.getElementById('door-model').value;
-  if (!frame || !model) return;
-  const lookupFrame = frame === "secret-twin-frame" ? "secret-frame" : frame;
+// Step 2 — Model selected: filter frames available for this finish + model
+function filterDoorFrames() {
+  const finish = document.getElementById('door-finish').value;
+  const model  = document.getElementById('door-model').value;
+  if (!finish || !model) return;
 
-  let rows;
-  if (frame === "ng-frame") {
-    // Always combine NG-frame rows (laminates with specific prices) +
-    // wooden-frame rows (lacquer/veneer at wooden-frame prices)
-    const ngRows     = doorPricing.filter(r => r.model === model && r.frame === "ng-frame");
-    const woodenRows = doorPricing.filter(r => r.model === model && r.frame === "wooden-frame");
-    rows = [...ngRows, ...woodenRows];
-  } else {
-    rows = doorPricing.filter(r => r.model === model && r.frame === lookupFrame);
-  }
-
-  const availableFinishes = new Set();
-  rows.forEach(r => Object.keys(r.finishes).forEach(f => availableFinishes.add(f)));
-  if (frame === "ng-frame") {
-    availableFinishes.delete("you");
-    availableFinishes.delete("glossy");
-    availableFinishes.delete("canaletto");
-  }
-  const finishSelect = document.getElementById('door-finish');
-  Array.from(finishSelect.options).forEach(opt => {
+  const frameSelect = document.getElementById('door-frame');
+  Array.from(frameSelect.options).forEach(opt => {
     if (!opt.value) return;
-    if (availableFinishes.has(opt.value)) {
+    let available = false;
+
+    if (opt.value === 'wooden-frame') {
+      available = doorPricing.some(r => r.model === model && r.frame === 'wooden-frame' && r.finishes[finish] !== undefined);
+    } else if (opt.value === 'secret-frame') {
+      available = doorPricing.some(r => r.model === model && r.frame === 'secret-frame' && r.finishes[finish] !== undefined);
+    } else if (opt.value === 'secret-twin-frame') {
+      // Secret Twin uses secret-frame prices
+      available = doorPricing.some(r => r.model === model && r.frame === 'secret-frame' && r.finishes[finish] !== undefined);
+    } else if (opt.value === 'ng-frame') {
+      // Blocked finishes
+      if (finish === 'you' || finish === 'glossy' || finish === 'canaletto') {
+        available = false;
+      } else {
+        // Available if ng-frame has specific price for this finish, OR wooden-frame has it
+        available = doorPricing.some(r => r.model === model && r.frame === 'ng-frame'      && r.finishes[finish] !== undefined)
+                 || doorPricing.some(r => r.model === model && r.frame === 'wooden-frame'  && r.finishes[finish] !== undefined);
+      }
+    }
+
+    if (available) {
       opt.disabled = false;
       opt.style.color = '';
     } else {
@@ -16859,17 +17504,33 @@ function filterDoorFinishes() {
       opt.style.color = '#bbb';
     }
   });
-  if (finishSelect.value && !availableFinishes.has(finishSelect.value)) finishSelect.value = '';
-  refreshCustomSelect('door-finish');
+
+  // If current frame selection became unavailable, clear it
+  if (frameSelect.value && frameSelect.options[frameSelect.selectedIndex]?.disabled) {
+    frameSelect.value = '';
+  }
 }
+
+// Event listeners — new cascade: finish → model → frame
+document.getElementById('door-finish').addEventListener('change', function() {
+  // Reset downstream selections
+  document.getElementById('door-model').value = '';
+  refreshCustomSelect('door-model');
+  document.getElementById('door-frame').value = '';
+  // Re-enable all frame options (they'll be filtered once a model is picked)
+  Array.from(document.getElementById('door-frame').options).forEach(opt => {
+    opt.disabled = false; opt.style.color = '';
+  });
+  filterDoorModels();
+});
+
+document.getElementById('door-model').addEventListener('change', function() {
+  document.getElementById('door-frame').value = '';
+  filterDoorFrames();
+});
 
 document.getElementById('door-frame').addEventListener('change', function() {
   updateDoorThicknessOptions();
-  filterDoorModels();
-  filterDoorFinishes();
-});
-document.getElementById('door-model').addEventListener('change', function() {
-  filterDoorFinishes();
 });
 
 // ---------------------------------------------------------------
