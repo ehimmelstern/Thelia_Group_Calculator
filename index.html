@@ -858,15 +858,39 @@
            <form class="calculator-form">
              <div class="section">
                <h3>Door Selection</h3>
-               <label for="door-frame">Frame:</label>
-               <select id="door-frame">
-                 <option value="" disabled selected>Select a Frame</option>
-                 <option value="secret-frame">Basic Flush Frame: Secret</option>
-                 <option value="secret-twin-frame">Upgraded Flush Frame: Secret Twin</option>
-                 <option value="wooden-frame">Wooden Frame</option>
-                 <option value="ng-frame">NG</option>
+               
+               <label for="door-finish">Finish:</label>
+               <select id="door-finish">
+                 <option value="" disabled selected>Select a Finish</option>
+                 <option value="blanc">Lacquer - Blanc</option>
+                 <option value="soft">Lacquer - Soft</option>
+                 <option value="dark">Lacquer - Dark </option>
+                 <option value="metal">Lacquer - Metal</option>
+                 <option value="tortora">Lacquer - Tortora</option>	
+                 <option value="pearl">Lacquer - Pearl</option>	
+                 <option value="glossy">Lacquer - Glossy</option>
+                 <option value="you">You (Paintable)</option> 
+                 <option value="moka">Laminate - Moka</option>
+                 <option value="brina">Laminate - Brina</option>
+                 <option value="ghiaccio">Laminate - Ghiaccio</option>
+                 <option value="otter">Laminate - Otter</option>
+                 <option value="walnut">Laminate - Walnut</option>
+                 <option value="sabbia">Laminate - Sabbia</option>
+                 <option value="nodato">Veneer - Nodato</option>
+                 <option value="olmo">Veneer - Olmo</option>
+                 <option value="sesamo">Veneer - Sesamo</option>
+                 <option value="jazz">Veneer - Jazz</option>
+                 <option value="blond">Veneer - Blond</option>
+                 <option value="carruba">Veneer - Carruba</option>
+                 <option value="coloroc">Veneer - Coloroc</option>
+                 <option value="masai">Veneer - Masai</option>
+                 <option value="sigaro">Veneer - Sigaro</option>
+                 <option value="cenere">Veneer - Cenere</option>
+                 <option value="tabacco">Veneer - Tabacco</option>
+                 <option value="vanilla">Veneer - Vanilla</option>
+                 <option value="canaletto">Veneer - Canaletto</option>                
                </select>
-
+               
                <label for="door-model">Door Model:</label>
                <select id="door-model">
                  <option value="" disabled selected>Select a Model</option>
@@ -885,6 +909,9 @@
                  <option value="LUCIO">LUCIO</option>
                  <option value="MILLED">MILLED</option>
                  <option value="WAVE">WAVE</option>
+                 <option value="RVU (TR)">RVU (TR)</option>
+                 <option value="RVU G (TR)">RVU G (TR)</option>
+                 <option value="RLL">RLL</option>
                  <option value="COLONIALE">COLONIALE</option>
                  <option value="EAN">EAN</option>
                  <option value="ONGA">ONGA</option>
@@ -911,9 +938,6 @@
                  <option value="GIOTTO 11G">GIOTTO 11G</option>
                  <option value="GIOTTO 12G">GIOTTO 12G</option>
                  <option value="GIOTTO 13G">GIOTTO 13G</option>
-                 <option value="RVU (TR)">RVU (TR)</option>
-                 <option value="RVU G (TR)">RVU G (TR)</option>
-                 <option value="RLL">RLL</option>
                  <option value="OPEN 01 PU">OPEN 01 PU</option>
                  <option value="OPEN 01 PP">OPEN 01 PP</option>
                  <option value="OPEN 01 VU">OPEN 01 VU</option>
@@ -924,38 +948,16 @@
                  <option value="OPEN 15 PU">OPEN 15 PU</option>
                  <option value="OPEN 15 PP">OPEN 15 PP</option>
                </select>
-
-               <label for="door-finish">Finish:</label>
-               <select id="door-finish">
-                 <option value="" disabled selected>Select a Finish</option>
-                 <option value="blanc">Lacquer - Blanc</option>
-                 <option value="soft">Lacquer - Soft</option>
-                 <option value="dark">Lacquer - Dark </option>
-                 <option value="metal">Lacquer - Metal</option>
-                 <option value="tortora">Lacquer - Tortora</option>	
-                 <option value="pearl">Lacquer - Pearl</option>	
-                 <option value="glossy">Lacquer - Glossy</option>
-                 <option value="nodato">Veneer - Nodato</option>
-                 <option value="olmo">Veneer - Olmo</option>
-                 <option value="sesamo">Veneer - Sesamo</option>
-                 <option value="jazz">Veneer - Jazz</option>
-                 <option value="blond">Veneer - Blond</option>
-                 <option value="carruba">Veneer - Carruba</option>
-                 <option value="coloroc">Veneer - Coloroc</option>
-                 <option value="masai">Veneer - Masai</option>
-                 <option value="sigaro">Veneer - Sigaro</option>
-                 <option value="cenere">Veneer - Cenere</option>
-                 <option value="tabacco">Veneer - Tabacco</option>
-                 <option value="vanilla">Veneer - Vanilla</option>
-                 <option value="canaletto">Veneer - Canaletto</option>
-                 <option value="moka">Laminate - Moka</option>
-                 <option value="brina">Laminate - Brina</option>
-                 <option value="ghiaccio">Laminate - Ghiaccio</option>
-                 <option value="otter">Laminate - Otter</option>
-                 <option value="walnut">Laminate - Walnut</option>
-                 <option value="sabbia">Laminate - Sabbia</option>
-                 <option value="you">You (Paintable)</option>                 
+               
+               <label for="door-frame">Frame:</label>
+               <select id="door-frame">
+                 <option value="" disabled selected>Select a Frame</option>
+                 <option value="secret-frame">Basic Flush Frame: Secret</option>
+                 <option value="secret-twin-frame">Upgraded Flush Frame: Secret Twin</option>
+                 <option value="wooden-frame">Large Wooden Frame (TNP/FN/ERA)</option>
+                 <option value="ng-frame">Thin Wooden Frame (NG)</option>
                </select>
+
               <label for="door-hinge">Hinge Upgrade:</label>
                <select id="door-hinge">
                  <option value="" disabled selected>Select a Hinge Upgrade (optional)</option>
