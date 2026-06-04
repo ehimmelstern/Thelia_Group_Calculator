@@ -17125,8 +17125,7 @@ function resetAllDoorInputs(calculatorId, totalId) {
     'door-model',
     'door-finish',
     'door-height',
-    'door-width',
-    'door-thickness', 
+    'door-thickness',
     'door-hinge',
     'door-handle',
     'door-handle-finish',
@@ -17135,6 +17134,17 @@ function resetAllDoorInputs(calculatorId, totalId) {
   fields.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = "";
+  });
+
+  // Refresh custom image-select dropdowns for finish and model
+  refreshCustomSelect('door-finish');
+  refreshCustomSelect('door-model');
+
+  // Re-enable all options that may have been grayed out by filters
+  ['door-frame', 'door-model', 'door-finish', 'door-height', 'door-thickness'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    Array.from(sel.options).forEach(opt => { opt.disabled = false; opt.style.color = ''; });
   });
 
   // Reset toggle
@@ -17160,7 +17170,7 @@ function resetDoorFinishLevels(calculatorId, totalId) {
 
 // 🔹 Reset Door Sizes only
 function resetDoorSizes(calculatorId, totalId) {
-  const fields = ['door-height', 'door-width', 'door-thickness'];
+  const fields = ['door-height', 'door-thickness'];
   fields.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = "";
@@ -17174,23 +17184,7 @@ function resetDoorSizes(calculatorId, totalId) {
   resetErrorMessage();
 }
 
-document.getElementById('door-width').addEventListener('change', function() {
-  const doorWidth = this.value;
-  const errorBox = document.getElementById('door-error-message');
-
-  if (doorWidth === "more-than-900mm") {
-    errorBox.textContent = 
-      "Custom door widths over 3 feet are not supported by this tool. Please contact Thelia Group for assistance.";
-    errorBox.style.display = "block";
-    errorBox.style.color = "red";
-    // Optionally reset totals if you want to clear the calculator
-    resetDoorBreakdownValues();
-  } else {
-    // Clear error if user selects less-than-900mm
-    errorBox.textContent = "";
-    errorBox.style.display = "none";
-  }
-});
+// door-width listener removed — width field no longer shown; hardcoded to "less-than-900mm"
 
 // ================================================================
 // Custom image-select dropdowns — door model & finish
@@ -17423,28 +17417,11 @@ if (document.readyState === 'loading') {
 // Door dropdown filtering helpers
 // ---------------------------------------------------------------
 
-function updateDoorThicknessOptions() {
-  const frame = document.getElementById('door-frame').value;
-  const thicknessSelect = document.getElementById('door-thickness');
-  const opt45 = Array.from(thicknessSelect.options).find(o => o.value === '45mm');
-  if (!opt45) return;
-  if (frame === "secret-frame" || frame === "secret-twin-frame") {
-    opt45.disabled = true;
-    opt45.style.color = '#bbb';
-    if (thicknessSelect.value === '45mm') thicknessSelect.value = '';
-  } else {
-    opt45.disabled = false;
-    opt45.style.color = '';
-  }
-}
-
 // Step 1 — Finish selected: filter models that have this finish in any frame
 function filterDoorModels() {
   const finish = document.getElementById('door-finish').value;
   if (!finish) return;
 
-  // A model is available if any doorPricing entry (any frame) has this finish key.
-  // NG-frame borrows wooden-frame finishes, so wooden-frame coverage is sufficient.
   const availableModels = new Set(
     doorPricing.filter(r => r.finishes[finish] !== undefined).map(r => r.model)
   );
@@ -17452,18 +17429,10 @@ function filterDoorModels() {
   const modelSelect = document.getElementById('door-model');
   Array.from(modelSelect.options).forEach(opt => {
     if (!opt.value) return;
-    if (availableModels.has(opt.value)) {
-      opt.disabled = false;
-      opt.style.color = '';
-    } else {
-      opt.disabled = true;
-      opt.style.color = '#bbb';
-    }
+    if (availableModels.has(opt.value)) { opt.disabled = false; opt.style.color = ''; }
+    else                                { opt.disabled = true;  opt.style.color = '#bbb'; }
   });
-  if (modelSelect.value && !availableModels.has(modelSelect.value)) {
-    modelSelect.value = '';
-    refreshCustomSelect('door-model');
-  }
+  if (modelSelect.value && !availableModels.has(modelSelect.value)) modelSelect.value = '';
   refreshCustomSelect('door-model');
 }
 
@@ -17483,54 +17452,154 @@ function filterDoorFrames() {
     } else if (opt.value === 'secret-frame') {
       available = doorPricing.some(r => r.model === model && r.frame === 'secret-frame' && r.finishes[finish] !== undefined);
     } else if (opt.value === 'secret-twin-frame') {
-      // Secret Twin uses secret-frame prices
       available = doorPricing.some(r => r.model === model && r.frame === 'secret-frame' && r.finishes[finish] !== undefined);
     } else if (opt.value === 'ng-frame') {
-      // Blocked finishes
       if (finish === 'you' || finish === 'glossy' || finish === 'canaletto') {
         available = false;
       } else {
-        // Available if ng-frame has specific price for this finish, OR wooden-frame has it
-        available = doorPricing.some(r => r.model === model && r.frame === 'ng-frame'      && r.finishes[finish] !== undefined)
-                 || doorPricing.some(r => r.model === model && r.frame === 'wooden-frame'  && r.finishes[finish] !== undefined);
+        available = doorPricing.some(r => r.model === model && r.frame === 'ng-frame'     && r.finishes[finish] !== undefined)
+                 || doorPricing.some(r => r.model === model && r.frame === 'wooden-frame' && r.finishes[finish] !== undefined);
       }
     }
 
-    if (available) {
-      opt.disabled = false;
-      opt.style.color = '';
-    } else {
-      opt.disabled = true;
-      opt.style.color = '#bbb';
-    }
+    if (available) { opt.disabled = false; opt.style.color = ''; }
+    else           { opt.disabled = true;  opt.style.color = '#bbb'; }
   });
 
-  // If current frame selection became unavailable, clear it
   if (frameSelect.value && frameSelect.options[frameSelect.selectedIndex]?.disabled) {
     frameSelect.value = '';
   }
 }
 
-// Event listeners — new cascade: finish → model → frame
-document.getElementById('door-finish').addEventListener('change', function() {
-  // Reset downstream selections
-  document.getElementById('door-model').value = '';
-  refreshCustomSelect('door-model');
-  document.getElementById('door-frame').value = '';
-  // Re-enable all frame options (they'll be filtered once a model is picked)
-  Array.from(document.getElementById('door-frame').options).forEach(opt => {
-    opt.disabled = false; opt.style.color = '';
+// Step 3a — Frame selected: update thickness options (auto-set 60mm for secret frames, filter by data)
+function updateDoorThicknessOptions() {
+  const finish    = document.getElementById('door-finish').value;
+  const model     = document.getElementById('door-model').value;
+  const frame     = document.getElementById('door-frame').value;
+  const thicknessSelect = document.getElementById('door-thickness');
+
+  // Secret / Secret Twin: only 60mm available — auto-select it
+  if (frame === "secret-frame" || frame === "secret-twin-frame") {
+    Array.from(thicknessSelect.options).forEach(opt => {
+      if (opt.value === '45mm') { opt.disabled = true;  opt.style.color = '#bbb'; }
+      else if (opt.value)       { opt.disabled = false; opt.style.color = ''; }
+    });
+    thicknessSelect.value = '60mm';
+    return;
+  }
+
+  // Re-enable all options first
+  Array.from(thicknessSelect.options).forEach(opt => { opt.disabled = false; opt.style.color = ''; });
+
+  if (!finish || !model || !frame) return;
+
+  // Filter by what's actually in doorPricing for this finish+model+frame
+  const lookupFrame = frame === 'secret-twin-frame' ? 'secret-frame' : frame;
+  let rows;
+  if (frame === 'ng-frame') {
+    const ngRows   = doorPricing.filter(r => r.model === model && r.frame === 'ng-frame'     && r.finishes[finish] !== undefined);
+    const woodRows = doorPricing.filter(r => r.model === model && r.frame === 'wooden-frame' && r.finishes[finish] !== undefined);
+    rows = [...ngRows, ...woodRows];
+  } else {
+    rows = doorPricing.filter(r => r.model === model && r.frame === lookupFrame && r.finishes[finish] !== undefined);
+  }
+
+  const availableThicknesses = new Set(rows.map(r => r.thickness));
+  Array.from(thicknessSelect.options).forEach(opt => {
+    if (!opt.value) return;
+    if (availableThicknesses.has(opt.value)) { opt.disabled = false; opt.style.color = ''; }
+    else                                     { opt.disabled = true;  opt.style.color = '#bbb'; }
   });
-  filterDoorModels();
+  if (thicknessSelect.value && !availableThicknesses.has(thicknessSelect.value)) thicknessSelect.value = '';
+}
+
+// Step 3b — Frame/Thickness selected: filter available heights and widths
+const SMALL_DOOR_MODELS = new Set(['KIN', 'KV', 'I1', 'I2', 'Q2', 'Q3', '2Q2']);
+
+function filterDoorSizes() {
+  const finish    = document.getElementById('door-finish').value;
+  const model     = document.getElementById('door-model').value;
+  const frame     = document.getElementById('door-frame').value;
+  const thickness = document.getElementById('door-thickness').value;
+  const heightSelect = document.getElementById('door-height');
+
+  if (!finish || !model || !frame) return;
+
+  // Width is always "less-than-900mm" (field removed from form)
+  const lookupFrame = frame === 'secret-twin-frame' ? 'secret-frame' : frame;
+  let rows;
+  if (frame === 'ng-frame') {
+    const ngRows   = doorPricing.filter(r => r.model === model && r.frame === 'ng-frame'     && r.finishes[finish] !== undefined && r.width === 'less-than-900mm');
+    const woodRows = doorPricing.filter(r => r.model === model && r.frame === 'wooden-frame' && r.finishes[finish] !== undefined && r.width === 'less-than-900mm');
+    rows = [...ngRows, ...woodRows];
+  } else {
+    rows = doorPricing.filter(r => r.model === model && r.frame === lookupFrame && r.finishes[finish] !== undefined && r.width === 'less-than-900mm');
+  }
+  if (thickness) rows = rows.filter(r => r.thickness === thickness);
+
+  const availableHeights = new Set(rows.map(r => r.height));
+
+  // KIN, KV, I1, I2, Q2, Q3, 2Q2: max 3000mm
+  if (SMALL_DOOR_MODELS.has(model)) {
+    availableHeights.delete('3010-to-3400-height');
+    availableHeights.delete('3410-to-4000-height');
+  }
+
+  Array.from(heightSelect.options).forEach(opt => {
+    if (!opt.value) return;
+    if (availableHeights.has(opt.value)) { opt.disabled = false; opt.style.color = ''; }
+    else                                 { opt.disabled = true;  opt.style.color = '#bbb'; }
+  });
+  if (heightSelect.value && !availableHeights.has(heightSelect.value)) heightSelect.value = '';
+}
+
+// Helper: re-enable and clear all size selects (height, width, thickness)
+function resetDoorSizeOptions() {
+  ['door-thickness', 'door-height'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    Array.from(sel.options).forEach(opt => { opt.disabled = false; opt.style.color = ''; });
+    sel.value = '';
+  });
+}
+
+// ── Event listeners — cascade: finish → model → frame → thickness → height ──
+// Rule: only clear a downstream value if it is no longer valid after the change.
+// Each filter function already handles this — it only clears .value when the
+// current selection is absent from the newly-computed available set.
+
+document.getElementById('door-finish').addEventListener('change', function() {
+  resetDoorBreakdownValues();
+  // Re-enable all model/frame options so the filter functions can re-evaluate them
+  ['door-model', 'door-frame'].forEach(id => {
+    Array.from(document.getElementById(id).options)
+      .forEach(opt => { opt.disabled = false; opt.style.color = ''; });
+  });
+  filterDoorModels();          // keeps model if still valid; clears only if not
+  filterDoorFrames();          // keeps frame if still valid for finish+model
+  updateDoorThicknessOptions(); // keeps/updates thickness
+  filterDoorSizes();           // keeps height if still valid
 });
 
 document.getElementById('door-model').addEventListener('change', function() {
-  document.getElementById('door-frame').value = '';
-  filterDoorFrames();
+  resetDoorBreakdownValues();
+  // Re-enable all frame options so the filter can re-evaluate them
+  Array.from(document.getElementById('door-frame').options)
+    .forEach(opt => { opt.disabled = false; opt.style.color = ''; });
+  filterDoorFrames();          // keeps frame if still valid for finish+new model
+  updateDoorThicknessOptions(); // keeps/updates thickness
+  filterDoorSizes();           // keeps height if still valid
 });
 
 document.getElementById('door-frame').addEventListener('change', function() {
-  updateDoorThicknessOptions();
+  resetDoorBreakdownValues();
+  updateDoorThicknessOptions(); // auto-60mm for secret frames; otherwise keeps valid thickness
+  filterDoorSizes();           // keeps height if still valid for new frame
+});
+
+document.getElementById('door-thickness').addEventListener('change', function() {
+  resetDoorBreakdownValues();
+  filterDoorSizes();           // keeps height if still valid for new thickness
 });
 
 // ---------------------------------------------------------------
@@ -17539,7 +17608,7 @@ function calculateDoorPrice() {
   const frame = document.getElementById('door-frame').value;
   const thickness = document.getElementById('door-thickness').value;
   const height = document.getElementById('door-height').value;
-  const width = document.getElementById('door-width').value;
+  const width = "less-than-900mm"; // width field removed; calculator covers ≤3ft doors only
   const finish = document.getElementById('door-finish').value; 
   const dealerType = document.getElementById('door-dealer-type').value;
   const model = document.getElementById('door-model').value;
@@ -17615,11 +17684,7 @@ function calculateDoorPrice() {
       errorBox.style.color = "red";
       resetDoorBreakdownValues();
     } else {
-      // ✅ Only clear if there is no width error active
-      const doorWidth = document.getElementById('door-width').value;
-      if (doorWidth !== "more-than-900mm") {
-        resetErrorMessage()
-      }
+      resetErrorMessage();
     }
     return;
   } else {
@@ -17687,8 +17752,10 @@ function calculateDoorPrice() {
   doorGrandTotal += handlePrice; // include handle so Total = Door + Upgrades + Handle + Duties
 
   //Consider dealer discount
-  let doorCustomDuties = doorGrandTotal * 0.5 * 0.9 * 0.75 * 0.15 * dollarConversionRate; // duties on full invoice
-  let discountedDoorGrandTotal = (doorGrandTotal * (barausseDealerMultipliers[dealerType] ?? 1)) + doorCustomDuties;
+  let doorCustomDuties = doorGrandTotal * 0.5 * 0.9 * 0.75 * 0.15 * dollarConversionRate; // duties in dollars
+  // For Catalog Price (none) everything is in euros — add the euro-equivalent of duties
+  const dutiesForTotal = dealerType === "none" ? doorCustomDuties / dollarConversionRate : doorCustomDuties;
+  let discountedDoorGrandTotal = (doorGrandTotal * (barausseDealerMultipliers[dealerType] ?? 1)) + dutiesForTotal;
   let discountedBasePrice = basePrice * (barausseDealerMultipliers[dealerType] ?? 1);
   let discountedUpgradeSurcharge = upgradeTotal * (barausseDealerMultipliers[dealerType] ?? 1);
   let discountedHandlePrice = handlePrice * (barausseDealerMultipliers[dealerType] ?? 1);
@@ -17710,8 +17777,11 @@ function calculateDoorPrice() {
   document.getElementById('door-lock-sub').textContent     = fmt(lockAddonPrice);
   document.getElementById('door-handle-total').textContent =
     `${doorCurrencySymbol}${discountedHandlePrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  // For Catalog Price show duties in euros; all other sale groups show in dollars
+  const dutiesSymbol = dealerType === "none" ? "€" : "$";
+  const dutiesAmount = dealerType === "none" ? doorCustomDuties / dollarConversionRate : doorCustomDuties;
   document.getElementById('door-custom-duties-total').textContent =
-    `$${doorCustomDuties.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    `${dutiesSymbol}${dutiesAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 }
 
